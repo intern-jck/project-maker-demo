@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function Dashboard({ projects, clickHandler }: Props) {
-  console.log(projects)
   return (
     <div className={styles.Dashboard}>
       {

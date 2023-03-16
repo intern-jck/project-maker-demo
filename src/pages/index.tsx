@@ -1,22 +1,27 @@
+import { useState } from 'react';
 import useSWR from 'swr';
 import Image from 'next/image';
 import Menu from '@/common/components/Menu';
 import Dashboard from '@/common/components/Dashboard';
+import Form from '@/common/components/Form';
+import { fetcher } from '@/common/modules/utils';
+
 import type ProjectType from '@/common/types/ProjectType';
 
-async function fetcher(url: string) {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error('fetcher', error)
-    return error;
-  }
-}
+// async function fetcher(url: string) {
+//   try {
+//     const res = await fetch(url);
+//     const data = await res.json();
+//     return data;
+//   } catch (error) {
+//     console.error('fetcher', error)
+//     return error;
+//   }
+// }
 
 export default function Home() {
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
+  const [currentProjectId, setCurrentProjectId] = useState();
 
   function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -30,7 +35,10 @@ export default function Home() {
 
   function getProject(event: React.SyntheticEvent) {
     event.preventDefault();
-    console.log('getProject')
+    // const {target} = event;
+    const id = event.target.getAttribute('data-proj-id');
+    console.log(id)
+    setCurrentProjectId(id);
   };
 
   return (

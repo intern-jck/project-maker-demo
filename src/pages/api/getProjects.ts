@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '@/common/mongoAtlas/connectMongo';
-import ProjectModel from '@/common/mongoAtlas/ProjectModel';
+import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
+import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
 
 export default async function getProjects(req: NextApiRequest, res: NextApiResponse) {
   try {
