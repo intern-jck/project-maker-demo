@@ -1,0 +1,190 @@
+$form-label-font-size: 1rem;
+$form-input-padding: 0.2rem;
+
+label {
+  font-weight: bold;
+}
+
+svg {
+  pointer-events: none;
+}
+
+.TextInput {
+  border: 2px solid black;
+  padding: $form-input-padding;
+  display: flex;
+  flex-direction: column;
+  font-size: $form-label-font-size;
+
+  input {
+    font-size: $form-label-font-size;
+  }
+}
+
+.TextArea {
+  border: 2px solid black;
+  padding: $form-input-padding;
+  display: flex;
+  flex-direction: column;
+  font-size: $form-label-font-size;
+  height: 100%;
+
+  textarea {
+    border: 2px solid black;
+    font-size: $form-label-font-size;
+    height: 100%;
+  }
+}
+
+.DateInput {
+  border: 2px solid black;
+  padding: $form-input-padding;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  .date-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  span {
+    width: 8rem;
+    text-align: end;
+    font-size: $form-label-font-size;
+  }
+
+  label {
+    width: 6rem;
+  }
+
+  select {
+    width: 100%;
+  }
+}
+
+.TagInput {
+  border: 2px solid black;
+  padding: $form-input-padding;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  label {
+    border: 0px solid white;
+  }
+
+  .form-tag-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  button {
+    border: 0px solid white;
+  }
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .form-tag-list {
+    border: 2px solid black;
+    padding: 0.2rem;
+    height: 10rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1em;
+  }
+
+
+  .form-tag {
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    padding: 0.2rem;
+    text-decoration: none;
+    font-size: large;
+    text-align: center;
+  }
+
+  .form-tag-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+
+.PhotoInput {
+  border: 2px solid black;
+  padding: $form-input-padding;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  label {
+    border: 0px solid white;
+  }
+
+  .form-photo-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  button {
+    border: 2px solid white;
+  }
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .form-photo-list {
+    border: 2px solid black;
+    height: 10rem;
+    padding: 0.2rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1em;
+  }
+
+  .form-photo-thumb {
+    border: 2px solid black;
+    position: relative;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+
+  .form-photo-delete-btn {
+    border: 0px solid white;
+    // background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}

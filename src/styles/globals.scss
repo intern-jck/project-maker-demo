@@ -1,0 +1,36 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: $page-font;
+  font-size: 62.5%;
+}
+
+button {
+  vertical-align: center;
+  text-align: center;
+  background-color: white;
+}
+
+button:hover,
+.onclick:hover {
+  cursor: pointer;
+  color: green;
+}
+
+.container {
+  border: 4px solid black;
+  height: 60rem;
+}
+
+.project-panel {
+  display: flex;
+}

@@ -1,0 +1,11 @@
+.Dashboard {
+  border: 6px solid black;
+  padding: 0.2rem;
+  width: 16rem;
+  height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 1rem;
+  overflow-y: scroll;
+}
