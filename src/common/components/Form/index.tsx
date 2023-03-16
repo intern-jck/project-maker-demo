@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 // import UploadImage from './FormComponents/UploadImage.jsx';
 
 import './Form.scss';
-import './FormComponents/FormComponents.scss';
+import './Form/FormComponents.scss';
 
 
 // { project, submitHandler, deleteHandler }

@@ -1,6 +1,9 @@
 import axios from 'axios';
 // const SERVER_URL = 'https://upset-beret-moth.cyclic.app/';
-const SERVER_URL = 'http://127.0.0.1:3000';
+// const SERVER_URL = 'http://127.0.0.1:3000';
+
+
+// import connectMongo from '@/common/mongoAtlas';
 
 // CREATE
 async function createProject() {

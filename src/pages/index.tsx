@@ -15,14 +15,12 @@ export default function Home() {
   };
 
   return (
-    <div className='container'>
+    <>
 
-      <div className='menu'>
-        <Menu
-          createHandler={createProject}
-          downloadHandler={deleteProject}
-        />
-      </div>
+      <Menu
+        createHandler={createProject}
+        downloadHandler={deleteProject}
+      />
 
       <div className='project-panel'>
 
@@ -35,6 +33,6 @@ export default function Home() {
 
       </div>
 
-    </div>
+    </>
   )
 }

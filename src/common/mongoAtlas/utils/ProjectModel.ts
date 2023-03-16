@@ -1,8 +1,10 @@
-import mongoose from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
-const { Schema } = mongoose;
+// Type for a single document
+import type ProjectType from '@/common/types/ProjectType';
 
-const ProjectSchema = new Schema({
+// Mongo DB Schema for a document
+const ProjectSchema = new Schema<ProjectType>({
   category: { type: String, default: '' },
   name: { type: String, default: '' },
   github_url: { type: String, default: '' },
@@ -21,8 +23,7 @@ const ProjectSchema = new Schema({
   photos: [],
 });
 
-// We can use this schema to create
-// a Project document for the Projects collection.
-// The collection name will be lowercase when looking in mongosh.
-export const Project = mongoose.model('Projects', ProjectSchema);
-// export Project;
+// Create a model using document type and schema
+// Add a test to check if model has been created, else make a new one.
+const Project = models.Test || model<ProjectType>('Projects', ProjectSchema);
+export default Project;

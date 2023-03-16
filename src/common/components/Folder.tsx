@@ -4,21 +4,21 @@ import styles from '@/styles/Folder.module.scss';
 type Props = {
   id: number,
   name: string,
-  clickHandler: Function
+  clickHandler: React.MouseEventHandler<HTMLButtonElement>
 }
-
-export default function Folder({ clickHandler, id, name }: Props) {
+// { clickHandler, id, name }: Props
+export default function Folder() {
 
   return (
     <div className={styles.Folder}>
       <button
-        // onClick={clickHandler}
-        data-proj-id={id}
+      // onClick={clickHandler}
+      // data-proj-id={id}
       >
         <CgFolder
           className={styles.folderIcon}
         />
-        <span>{name}</span>
+        {/* <span>{name}</span> */}
       </button>
     </div>
   );
