@@ -12,7 +12,6 @@ export default function Home() {
   function deleteProject(event: React.SyntheticEvent) {
     event.preventDefault();
     console.log('delete')
-
   };
 
   return (

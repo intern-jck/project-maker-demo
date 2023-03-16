@@ -1,5 +1,5 @@
 import React from 'react';
-import Folder from './Folder.jsx';
+import Folder from './Folder';
 import styles from '@/styles/Dashboard.module.scss';
 
 type Props = {
