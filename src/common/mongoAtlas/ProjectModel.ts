@@ -25,5 +25,5 @@ const ProjectSchema = new Schema<ProjectType>({
 
 // Create a model using document type and schema
 // Add a test to check if model has been created, else make a new one.
-const Project = models.ProjectSchema || model<ProjectType>('Projects', ProjectSchema);
+const Project = models.Projects || model<ProjectType>('Projects', ProjectSchema);
 export default Project;

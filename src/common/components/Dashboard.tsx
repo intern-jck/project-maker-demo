@@ -1,27 +1,29 @@
 import React from 'react';
 import Folder from './Folder';
 import styles from '@/styles/Dashboard.module.scss';
+import type ProjectType from '@/common/types/ProjectType';
 
 type Props = {
-  projects: [],
+  projects: ProjectType[],
   clickHandler: React.MouseEventHandler<HTMLButtonElement>
 };
 
 export default function Dashboard({ projects, clickHandler }: Props) {
+  console.log(projects)
   return (
     <div className={styles.Dashboard}>
-      {/* {
-        projects.map((project, i) => {
+      {
+        projects?.map((project, i) => {
           return (
             <Folder
-            // key={project._id}
-            // clickHandler={clickHandler}
-            // id={project._id}
-            // name={project.name}
+              key={project._id}
+              id={project._id}
+              clickHandler={clickHandler}
+              name={project.name}
             />
           )
         })
-      } */}
+      }
     </div>
   );
 };
