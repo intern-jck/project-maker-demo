@@ -8,20 +8,9 @@ import { fetcher } from '@/common/modules/utils';
 
 import type ProjectType from '@/common/types/ProjectType';
 
-// async function fetcher(url: string) {
-//   try {
-//     const res = await fetch(url);
-//     const data = await res.json();
-//     return data;
-//   } catch (error) {
-//     console.error('fetcher', error)
-//     return error;
-//   }
-// }
-
 export default function Home() {
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
-  const [currentProjectId, setCurrentProjectId] = useState();
+  const [currentProjectId, setCurrentProjectId] = useState('');
 
   function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -54,6 +43,11 @@ export default function Home() {
           <Dashboard projects={data ? data : []} clickHandler={getProject} />
         </div>
         <div className='form'>
+          {
+            currentProjectId ?
+              <Form id={currentProjectId} />
+              : null
+          }
         </div>
       </div>
     </>

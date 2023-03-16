@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
 // import TextInput from './FormComponents/TextInput.jsx';
 // import TextArea from './FormComponents/TextArea.jsx';
@@ -222,12 +222,19 @@ import { useState, useEffect } from 'react';
 // };
 
 // export default Form;
+import useSWR from 'swr';
+import { fetcher } from '@/common/modules/utils';
+import type ProjectType from '@/common/types/ProjectType';
 
 type Props = {
   id: string
 }
 export default function Form({ id }: Props) {
-  console.log(id)
+  console.log('form', id)
+  const { data, error } = useSWR<ProjectType[]>(`/api/projects/${id}`, fetcher);
+
+  console.log(id, data)
+
   return (
     <form>
       FORM

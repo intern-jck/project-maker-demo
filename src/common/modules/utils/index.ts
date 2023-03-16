@@ -5,6 +5,6 @@ export async function fetcher(url: string) {
     return data;
   } catch (error) {
     console.error('fetcher', error)
-    return error;
+    return false;
   }
 }
