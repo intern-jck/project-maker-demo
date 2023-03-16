@@ -1,13 +1,8 @@
-
 import useSWR from 'swr';
 import Image from 'next/image';
 import Menu from '@/common/components/Menu';
 import Dashboard from '@/common/components/Dashboard';
 import type ProjectType from '@/common/types/ProjectType';
-
-type Props = {
-  projects: Array<ProjectType>
-}
 
 async function fetcher(url: string) {
   try {
@@ -19,10 +14,9 @@ async function fetcher(url: string) {
     return error;
   }
 }
-// { projects }: Props
+
 export default function Home() {
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
-  // console.log('projects:', data)
 
   function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -41,7 +35,6 @@ export default function Home() {
 
   return (
     <>
-
       <Menu
         createHandler={createProject}
         downloadHandler={deleteProject}
@@ -50,14 +43,11 @@ export default function Home() {
       <div className='project-panel'>
 
         <div className='dashboard'>
-          <Dashboard projects={data} clickHandler={getProject} />
+          <Dashboard projects={data ? data : []} clickHandler={getProject} />
         </div>
-
         <div className='form'>
         </div>
-
       </div>
-
     </>
   )
 }
