@@ -1,35 +1,30 @@
-import React from 'react';
+// import React from 'react';
 
 type TextInputType = {
   name: string,
   value: string,
   changeHandler: Function,
-}
+};
 
 type Props = {
-  inputProps: TextInputType;
-}
-// { inputProps }: Props
-export default function TextInput() {
+  name: string,
+  value: string,
+  changeHandler: Function,
+};
 
+export default function TextInput({ name, value, changeHandler }: Props) {
   return (
     <>
-      <div>
-        <h2>TEXT INPUT TEST</h2>
-        <label>
-          TEST LABEL
-          <input type='text' placeholder='text-input' />
-        </label>
-      </div>
-      {/* <label className='TextInput'>
-        {name}
+      <label>
+        Name
         <input
           type='text'
-        // name={name}
-        // value={value}
-        // onChange={changeHandler}
+          name={name}
+          value={value}
+          placeholder={name}
+          onChange={changeHandler}
         />
-      </label> */}
+      </label>
     </>
   );
 };
