@@ -2,6 +2,10 @@ import React from 'react';
 import TextInput from './TextInput.jsx';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 
+type Props = {
+
+};
+
 const TagInput = ({ name, value, tags, changeHandler, addHandler, deleteHandler }) => {
   return (
     <div className='TagInput'>

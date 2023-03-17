@@ -12,9 +12,22 @@ export default function Home() {
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
   const [currentProjectId, setCurrentProjectId] = useState('');
 
-  function createProject(event: React.SyntheticEvent) {
+  async function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
     console.log('create')
+    const response = await fetch.post('api/projects');
+  };
+
+  function getProject(event: React.SyntheticEvent) {
+    event.preventDefault();
+    const id = event.target.getAttribute('data-proj-id');
+    console.log(id)
+    setCurrentProjectId(id);
+  };
+
+
+  function updateProject() {
+
   };
 
   function deleteProject(event: React.SyntheticEvent) {
@@ -22,13 +35,6 @@ export default function Home() {
     console.log('delete')
   };
 
-  function getProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    // const {target} = event;
-    const id = event.target.getAttribute('data-proj-id');
-    console.log(id)
-    setCurrentProjectId(id);
-  };
 
   return (
     <>
@@ -38,17 +44,12 @@ export default function Home() {
       />
 
       <div className='project-panel'>
-
-        <div className='dashboard'>
-          <Dashboard projects={data ? data : []} clickHandler={getProject} />
-        </div>
-        <div className='form'>
-          {
-            currentProjectId ?
-              <Form id={currentProjectId} />
-              : null
-          }
-        </div>
+        <Dashboard projects={data ? data : []} clickHandler={getProject} />
+        {
+          currentProjectId ?
+            <Form id={currentProjectId} />
+            : null
+        }
       </div>
     </>
   )
