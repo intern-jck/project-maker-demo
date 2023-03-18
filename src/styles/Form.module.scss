@@ -10,38 +10,63 @@ $form-padding: 0.2rem;
   gap: 1rem;
   overflow-y: scroll;
 
-  .form-menu {
-    padding: $form-padding;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    h1 {
-      margin: 0;
-    }
-
-    button {
-      border: 4px solid black;
-      width: 6rem;
-    }
+  h2 {
+    text-align: center;
+    margin: .2rem;
   }
 
-  .form-row {
-    margin: $form-padding;
+  // .form-menu {
+  //   padding: $form-padding;
+  //   display: flex;
+  //   flex-direction: row;
+  //   justify-content: space-between;
+  //   align-items: center;
+
+  //   h1 {
+  //     margin: 0;
+  //   }
+
+  //   button {
+  //     border: 4px solid black;
+  //     width: 6rem;
+  //   }
+  // }
+
+  .formRow {
+    border: 2px solid black;
+    // margin: $form-padding;
     display: flex;
-    flex-direction: row;
+    // flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 1rem;
   }
 
   .form-col {
-    max-width: 24rem;
+    // max-width: 24rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: $form-padding;
+    // justify-content: space-between;
+    // gap: $form-padding;
+  }
+
+  label {
+    border: 2px solid black;
+    // width: 16rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  input {
+    border: 2px solid blue;
+  }
+
+  textarea {
+    width: 30rem;
+    height: 8rem;
   }
 
 }

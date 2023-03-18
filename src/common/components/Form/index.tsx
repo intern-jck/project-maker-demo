@@ -19,22 +19,26 @@ export default function Form({ id }: Props) {
 
   const formDefaults: ProjectType = {
     _id: data?._id,
-    category: data?.category,
-    name: data?.name,
-    github_url: data?.github_url,
     link: data?.link,
-    client: data?.client,
-    client_url: data?.client_url,
+
+    name: data?.name,
+    category: data?.category,
     date: {
       start_month: data?.date.start_month,
       start_year: data?.date.start_year,
       end_month: data?.date.end_month,
       end_year: data?.date.end_year,
     },
+
+    client: data?.client,
+    client_url: data?.client_url,
     short: data?.short,
     info: data?.info,
+
     tech: data?.tech,
     photos: data?.photos,
+    github_url: data?.github_url,
+
   }
 
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
@@ -54,16 +58,59 @@ export default function Form({ id }: Props) {
       {
         formData ?
           <form className={styles.form}>
-            <TextInput
-              name={'name'}
-              value={formData.name}
-              changeHandler={updateTextInput}
-            />
-            <TextArea
-              name={'info'}
-              value={formData.info}
-              changeHandler={updateTextInput}
-            />
+            <h2>PROJECT: {formData.name}</h2>
+            <div className={styles.formRow}>
+              <TextInput
+                name={'name'}
+                value={formData.name}
+                changeHandler={updateTextInput}
+              />
+              <TextInput
+                name={'category'}
+                value={formData.category}
+                changeHandler={updateTextInput}
+              />
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formCol}>
+                <TextInput
+                  name={'client'}
+                  value={formData.client}
+                  changeHandler={updateTextInput}
+                />
+                <TextInput
+                  name={'client_url'}
+                  value={formData.client_url}
+                  changeHandler={updateTextInput}
+                />
+                <TextInput
+                  name={'github_url'}
+                  value={formData.github_url}
+                  changeHandler={updateTextInput}
+                />
+              </div>
+
+              <div className={styles.formCol}>
+                <TextInput
+                  name={'short'}
+                  value={formData.short}
+                  changeHandler={updateTextInput}
+                />
+                <TextArea
+                  name={'info'}
+                  value={formData.info}
+                  changeHandler={updateTextInput}
+                />
+              </div>
+
+            </div>
+
+
+            <div className={styles.formRow}>
+              TECH AND PHOTOS
+            </div>
+
           </form>
           : null
       }

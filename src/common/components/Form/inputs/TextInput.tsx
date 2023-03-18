@@ -4,6 +4,9 @@
 //   changeHandler: React.ChangeEventHandler,
 // };
 
+// import styles from '@/styles/Inputs/TextInput.module.scss';
+// import styles from '@/styles/Inputs/Inputs.module.scss';
+
 type Props = {
   name: string,
   value: string,
@@ -13,7 +16,7 @@ type Props = {
 export default function TextInput({ name, value, changeHandler }: Props) {
   return (
     <>
-      <label>
+      <label className={'textInput'}>
         {name}
         <input
           type='text'
