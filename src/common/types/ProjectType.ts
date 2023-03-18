@@ -14,8 +14,8 @@ type ProjectType = {
   },
   short: string | '',
   info: string | '',
-  tech: string[] | '',
-  photos: string[] | '',
+  tech: string[] | [],
+  photos: string[] | [],
 };
 
 export default ProjectType;

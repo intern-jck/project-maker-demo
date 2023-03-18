@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import { TextInput } from './inputs';
+import { TextInput, TextArea } from './inputs';
 import type ProjectType from '@/common/types/ProjectType';
 import styles from '@/styles/Form.module.scss';
 
@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default function Form({ id }: Props) {
-
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
 
@@ -40,7 +39,6 @@ export default function Form({ id }: Props) {
 
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
 
-
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
@@ -56,10 +54,14 @@ export default function Form({ id }: Props) {
       {
         formData ?
           <form className={styles.form}>
-            FORM
             <TextInput
               name={'name'}
               value={formData.name}
+              changeHandler={updateTextInput}
+            />
+            <TextArea
+              name={'info'}
+              value={formData.info}
               changeHandler={updateTextInput}
             />
           </form>
@@ -67,5 +69,5 @@ export default function Form({ id }: Props) {
       }
     </>
   )
-}
 
+}

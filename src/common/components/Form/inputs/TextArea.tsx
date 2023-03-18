@@ -1,13 +1,16 @@
-import React from 'react';
 
-const TextArea = ({ name, rows, cols, value, changeHandler }) => {
+type Props = {
+  name: string,
+  value: string,
+  changeHandler: React.ChangeEventHandler,
+};
+
+const TextArea = ({ name, value, changeHandler }: Props) => {
   return (
     <label className='TextArea'>
       {name}
       <textarea
         name={name}
-        rows={rows}
-        cols={cols}
         value={value}
         onChange={changeHandler}
       />

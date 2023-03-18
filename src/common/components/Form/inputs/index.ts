@@ -6,4 +6,7 @@
 // export * from './TextInput';
 
 import TextInput from './TextInput'
-export { TextInput };
+import TextArea from './TextArea'
+
+
+export { TextInput, TextArea };

@@ -1,22 +1,20 @@
-// import React from 'react';
-
-type TextInputType = {
-  name: string,
-  value: string,
-  changeHandler: Function,
-};
+// type TextInputType = {
+//   name: string,
+//   value: string,
+//   changeHandler: React.ChangeEventHandler,
+// };
 
 type Props = {
   name: string,
   value: string,
-  changeHandler: Function,
+  changeHandler: React.ChangeEventHandler,
 };
 
 export default function TextInput({ name, value, changeHandler }: Props) {
   return (
     <>
       <label>
-        Name
+        {name}
         <input
           type='text'
           name={name}
