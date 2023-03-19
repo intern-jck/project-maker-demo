@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-const YEARS = [...Array(10)].map((item, i) => (2014 + i));
+import { useState } from 'react';
+import styles from './DateInput.module.scss';
 
-const DateInput = ({ date, dateHandler }) => {
-  // const [newDate, setNewDate] = useState({
-  //   start_month: '',
-  //   start_year: '',
-  //   end_month: '',
-  //   end_year: '',
-  // });
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const YEARS = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+
+type Props = {
+  date: {
+    start_month: string | '',
+    start_year: string | '',
+    end_month: string | '',
+    end_year: string | '',
+  },
+  dateHandler: Function,
+}
+
+export default function DateInput({ date, dateHandler }: Props) {
+
   const [newDate, setNewDate] = useState(date);
 
   const updateDate = (event) => {
@@ -21,13 +28,12 @@ const DateInput = ({ date, dateHandler }) => {
   };
 
   return (
-    <div className='DateInput'>
+    <div className={styles.dateInput}>
 
-      <div className='date-row'>
+      <div className={styles.dateRow}>
         <span>
           START DATE:
         </span>
-
         <label>
           <select
             name='start_month'
@@ -56,17 +62,12 @@ const DateInput = ({ date, dateHandler }) => {
             }
           </select>
         </label>
-
-        {/* <div className='dates'>
-        </div> */}
-
       </div>
 
-      <div className='date-row'>
+      <div className={styles.dateRow}>
         <span>
           END DATE:
         </span>
-
         <label>
           <select
             name='end_month'
@@ -97,13 +98,8 @@ const DateInput = ({ date, dateHandler }) => {
             }
           </select>
         </label>
-
-        {/* <div className='dates'>
-        </div> */}
-
       </div>
+
     </div>
   );
 };
-
-export default DateInput;

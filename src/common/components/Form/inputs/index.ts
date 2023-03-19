@@ -7,6 +7,6 @@
 
 import TextInput from './TextInput'
 import TextArea from './TextArea'
+import DateInput from './DateInput'
 
-
-export { TextInput, TextArea };
+export { TextInput, TextArea, DateInput };

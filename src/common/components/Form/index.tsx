@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import { TextInput, TextArea } from './inputs';
+import { TextInput, TextArea, DateInput } from './inputs';
 import type ProjectType from '@/common/types/ProjectType';
 import styles from '@/styles/Form.module.scss';
 
@@ -53,6 +53,17 @@ export default function Form({ id }: Props) {
     }));
   };
 
+
+
+  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
+    // TODO format date to create a single string?
+    // setFormData((formData) => ({
+    //   ...formData,
+    //   date: date,
+    // }));
+  };
+
+
   return (
     <>
       {
@@ -69,6 +80,10 @@ export default function Form({ id }: Props) {
                 name={'category'}
                 value={formData.category}
                 changeHandler={updateTextInput}
+              />
+              <DateInput
+                date={formData.date}
+                dateHandler={updateDate}
               />
             </div>
 
