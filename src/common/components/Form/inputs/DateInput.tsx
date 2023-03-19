@@ -17,6 +17,7 @@ type Props = {
 export default function DateInput({ date, dateHandler }: Props) {
 
   const [newDate, setNewDate] = useState(date);
+  console.log(newDate)
 
   const updateDate = (event) => {
     event.preventDefault();
