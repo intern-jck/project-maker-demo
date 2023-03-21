@@ -3,28 +3,35 @@ import { useState } from 'react';
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const YEARS = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 
+
+type DateType = {
+  start_month: string | '',
+  start_year: string | '',
+  end_month: string | '',
+  end_year: string | '',
+}
+
 type Props = {
-  date: {
-    start_month: string | '',
-    start_year: string | '',
-    end_month: string | '',
-    end_year: string | '',
-  },
+  date: DateType,
   dateHandler: Function,
 }
 
 export default function DateInput({ date, dateHandler }: Props) {
 
-  const [newDate, setNewDate] = useState(date);
-  console.log(newDate)
+  const [newDate, setNewDate] = useState<DateType>(date);
 
-  const updateDate = (event) => {
+  const updateDate: React.ChangeEventHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const { name, value } = event.target;
-    const updatedDate = newDate;
-    newDate[name] = value;
-    setNewDate(updatedDate);
-    dateHandler(updatedDate);
+    const { name, value } = event.currentTarget;
+    console.log(name, value)
+
+    const updatedDate: DateType = newDate;
+    updatedDate[name as keyof DateType] = value;
+    console.log(updatedDate)
+    setNewDate((updatedDate) => ({
+      ...updateDate
+    }));
+    // dateHandler(updatedDate);
   };
 
   return (

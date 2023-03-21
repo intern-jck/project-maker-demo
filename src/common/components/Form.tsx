@@ -11,6 +11,13 @@ type Props = {
   id: string
 };
 
+type DateType = {
+  start_month: string | '',
+  start_year: string | '',
+  end_month: string | '',
+  end_year: string | '',
+}
+
 export default function Form({ id }: Props) {
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);

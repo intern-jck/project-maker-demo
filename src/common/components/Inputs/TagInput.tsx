@@ -3,7 +3,9 @@ import TextInput from './TextInput.jsx';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 
 type Props = {
-
+  name: string,
+  value: string,
+  // tags: Array<>,
 };
 
 const TagInput = ({ name, value, tags, changeHandler, addHandler, deleteHandler }) => {
