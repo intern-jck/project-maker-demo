@@ -1,6 +1,6 @@
 import React from 'react';
 import Folder from './Folder';
-import styles from '@/styles/Dashboard.module.scss';
+import styles from '@/styles/components/Dashboard.module.scss';
 import type ProjectType from '@/common/types/ProjectType';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 export default function Dashboard({ projects, clickHandler }: Props) {
   return (
-    <div className={styles.Dashboard}>
+    <div className={styles.dashboard}>
       {
         projects?.map((project, i) => {
           return (

@@ -1,3 +1,5 @@
+@import 'components/Inputs/Inputs.module.scss';
+
 html {
   box-sizing: border-box;
 }
@@ -30,8 +32,19 @@ button:hover,
   border: 4px solid blue;
 }
 
-.project-panel {
+.menu-div {
   border: 4px solid black;
-  display: flex;
+  background: white;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.project-div {
+  border: 4px solid black;
+  width: 100%;
+  margin-top: 6rem;
+  display: flex;
 }

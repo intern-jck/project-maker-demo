@@ -1,5 +1,5 @@
 import { CgFolder } from 'react-icons/cg';
-import styles from '@/styles/Folder.module.scss';
+import styles from '@/styles/components/Folder.module.scss';
 
 type Props = {
   id: string,
@@ -10,14 +10,12 @@ type Props = {
 export default function Folder({ clickHandler, id, name }: Props) {
 
   return (
-    <div className={styles.Folder}>
+    <div className={styles.folder}>
       <button
         onClick={clickHandler}
         data-proj-id={id}
       >
-        <CgFolder
-          className={styles.folderIcon}
-        />
+        <CgFolder />
         <span>{name}</span>
       </button>
     </div>

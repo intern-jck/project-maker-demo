@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styles from './DateInput.module.scss';
 
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const YEARS = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
@@ -29,11 +28,11 @@ export default function DateInput({ date, dateHandler }: Props) {
   };
 
   return (
-    <div className={styles.dateInput}>
+    <div className={'dateInput'}>
 
-      <div className={styles.dateRow}>
+      <div className={'dateRow'}>
         <span>
-          START DATE:
+          START:
         </span>
         <label>
           <select
@@ -65,9 +64,9 @@ export default function DateInput({ date, dateHandler }: Props) {
         </label>
       </div>
 
-      <div className={styles.dateRow}>
+      <div className={'dateRow'}>
         <span>
-          END DATE:
+          END:
         </span>
         <label>
           <select

@@ -8,7 +8,7 @@ type Props = {
 const TextArea = ({ name, value, changeHandler }: Props) => {
   return (
     <label className='TextArea'>
-      {name}
+      {name.toUpperCase()}
       <textarea
         name={name}
         value={value}

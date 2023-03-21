@@ -1,4 +1,5 @@
-import styles from '@/styles/Menu.module.scss';
+import styles from '@/styles/components/Menu.module.scss';
+import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 type Props = {
   createHandler: React.MouseEventHandler<HTMLButtonElement>,
@@ -10,10 +11,12 @@ export default function Menu({ createHandler, downloadHandler }: Props) {
   return (
     <div className={styles.Menu}>
       <button onClick={createHandler} className='onclick'>
-        NEW
+        {/* NEW */}
+        <GoFileMedia size={30} />
       </button>
       <button onClick={downloadHandler} className='onclick'>
-        DOWNLOAD
+        {/* DOWNLOAD */}
+        <GoDesktopDownload size={30} />
       </button>
     </div>
   );

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import { TextInput, TextArea, DateInput } from './inputs';
+import { TextInput, TextArea, DateInput } from './Inputs';
+
 import type ProjectType from '@/common/types/ProjectType';
-import styles from '@/styles/Form.module.scss';
+
+import styles from '@/styles/components/Form.module.scss';
 
 type Props = {
   id: string
@@ -53,8 +55,6 @@ export default function Form({ id }: Props) {
     }));
   };
 
-
-
   function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
     // TODO format date to create a single string?
     // setFormData((formData) => ({
@@ -62,7 +62,6 @@ export default function Form({ id }: Props) {
     //   date: date,
     // }));
   };
-
 
   return (
     <>
@@ -120,7 +119,6 @@ export default function Form({ id }: Props) {
               </div>
 
             </div>
-
 
             <div className={styles.formRow}>
               TECH AND PHOTOS
