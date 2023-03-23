@@ -63,6 +63,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
 
+    case 'DELETE':
+      const { id } = req.query;
+      try {
+        console.log(id, query, method);
+        const connection = await connectMongo();
+        const project = await ProjectModel.deleteOne({ _id: id }).exec();
+        res.status(200).json(project);
+      } catch (error) {
+        console.error('Mongo findById', error)
+        res.json({ error })
+      }
+      break;
 
     default:
       res.send(200);
