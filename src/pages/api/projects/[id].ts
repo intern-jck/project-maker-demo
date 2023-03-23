@@ -6,7 +6,9 @@ import type ProjectType from '@/common/types/ProjectType';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query, method } = req;
   const id = query.id;
+
   try {
+    console.log(id, query, method);
     const connection = await connectMongo();
     const project = await ProjectModel.findById({ _id: id }).exec();
     res.status(200).json(project);
@@ -14,4 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error('Mongo findById', error)
     res.json({ error })
   }
+
+
 }

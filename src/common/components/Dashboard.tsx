@@ -9,19 +9,22 @@ type Props = {
 };
 
 export default function Dashboard({ projects, clickHandler }: Props) {
+  // console.log(projects)
   return (
     <div className={styles.dashboard}>
       {
-        projects?.map((project, i) => {
-          return (
-            <Folder
-              key={project._id}
-              id={project._id}
-              clickHandler={clickHandler}
-              name={project.name}
-            />
-          )
-        })
+        projects ?
+          projects.map((project, i) => {
+            return (
+              <Folder
+                key={project._id}
+                id={project._id}
+                clickHandler={clickHandler}
+                name={project.name}
+              />
+            )
+          })
+          : null
       }
     </div>
   );
