@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import { TextInput, TextArea, DateInput, PhotoInput } from './Inputs';
+import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
 
 import type ProjectType from '@/common/types/ProjectType';
 
@@ -49,6 +49,7 @@ export default function Form({ id }: Props) {
 
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
+  const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
     if (data) {
@@ -85,7 +86,6 @@ export default function Form({ id }: Props) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
     const { photos } = formData;
-    console.log(name, value, formData.photos)
     if (newPhoto) {
       photos.push(newPhoto);
       setNewPhoto('');
@@ -101,13 +101,49 @@ export default function Form({ id }: Props) {
     event.preventDefault();
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
-    console.log('delete photo', index)
-
     if (index) {
       photos.splice(index, 1);
       setFormData((formData) => ({
         ...formData,
         photos: photos,
+      }))
+    }
+
+  };
+
+  function updateTag(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+    setNewTag(value);
+  };
+
+  function addTag(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+    const { tech } = formData;
+    console.log(tech)
+    if (newTag) {
+      tech.push(newTag);
+      setNewPhoto('');
+      setFormData((formData) => ({
+        ...formData,
+        tech: tech,
+      }))
+    }
+
+  };
+
+  function deleteTag(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const index = event.currentTarget.getAttribute('data-tag-index');
+    const { tech } = formData;
+    console.log('delete tag', index)
+
+    if (index) {
+      tech.splice(index, 1);
+      setFormData((formData) => ({
+        ...formData,
+        tech: tech,
       }))
     }
 
@@ -121,7 +157,7 @@ export default function Form({ id }: Props) {
 
             <h2>PROJECT: {formData.name}</h2>
 
-            {/* <div className={styles.formRow}>
+            <div className={styles.formRow}>
               <TextInput
                 name={'name'}
                 value={formData.name}
@@ -170,7 +206,7 @@ export default function Form({ id }: Props) {
                 />
               </div>
 
-            </div> */}
+            </div>
 
             <div className={styles.formRow}>
               <PhotoInput
@@ -180,6 +216,14 @@ export default function Form({ id }: Props) {
                 changeHandler={updatePhoto}
                 addHandler={addPhoto}
                 deleteHandler={deletePhoto}
+              />
+              <TagInput
+                name='tags'
+                value={newTag}
+                tags={formData.tech}
+                changeHandler={updateTag}
+                addHandler={addTag}
+                deleteHandler={deleteTag}
               />
             </div>
 

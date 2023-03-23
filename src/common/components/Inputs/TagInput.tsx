@@ -1,18 +1,20 @@
-import React from 'react';
-import TextInput from './TextInput.jsx';
+import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 
 type Props = {
   name: string,
   value: string,
-  // tags: Array<>,
+  tags: Array<string>,
+  changeHandler: React.ChangeEventHandler,
+  addHandler: React.MouseEventHandler,
+  deleteHandler: React.MouseEventHandler,
 };
 
-const TagInput = ({ name, value, tags, changeHandler, addHandler, deleteHandler }) => {
+export default function TagInput({ name, value, tags, changeHandler, addHandler, deleteHandler }: Props) {
   return (
-    <div className='TagInput'>
+    <div className='tagInput'>
 
-      <div className='form-tag-input'>
+      <div className='tagName'>
         <TextInput
           name={name}
           value={value}
@@ -23,22 +25,23 @@ const TagInput = ({ name, value, tags, changeHandler, addHandler, deleteHandler 
         </button>
       </div>
 
-      <div className='form-tag-list'>
+      <div className='tagList'>
         {
-          tags.map((tag, i) => {
-            return (
-              <div key={i} className='form-tag'>
-                <a href={tag[1]} target='_blank'>{tag[0]}</a>
-                <button className='form-tag-delete-btn' onClick={deleteHandler} data-photo-index={i}>
-                  <CgCloseR />
-                </button>
-              </div>
-            )
-          })
+          tags ?
+            tags.map((tag, i) => {
+              return (
+                <div key={i} className='tag'>
+                  {/* <a href={tag[1]} target='_blank'>{tag[0]}</a> */}
+                  <span>{tag}</span>
+                  <button onClick={deleteHandler} data-tag-index={i}>
+                    <CgCloseR />
+                  </button>
+                </div>
+              )
+            })
+            : <></>
         }
       </div>
     </div>
   );
 };
-
-export default TagInput;
