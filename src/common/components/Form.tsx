@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import { TextInput, TextArea, DateInput } from './Inputs';
+import { TextInput, TextArea, DateInput, PhotoInput } from './Inputs';
 
 import type ProjectType from '@/common/types/ProjectType';
 
 import styles from '@/styles/components/Form.module.scss';
+
+const TEST_PHOTO_URL = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg';
 
 type Props = {
   id: string
@@ -18,39 +20,41 @@ type DateType = {
   end_year: string | '',
 }
 
+const formDefaults: ProjectType = {
+  _id: '',
+  link: '',
+
+  name: '',
+  category: '',
+  date: {
+    start_month: '',
+    start_year: '',
+    end_month: '',
+    end_year: '',
+  },
+
+  client: '',
+  client_url: '',
+  short: '',
+  info: '',
+
+  tech: [],
+  photos: [],
+  github_url: '',
+}
+
 export default function Form({ id }: Props) {
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
 
-  useEffect(() => {
-    setFormData(data);
-  }, [data]);
-
-  const formDefaults: ProjectType = {
-    _id: data?._id,
-    link: data?.link,
-
-    name: data?.name,
-    category: data?.category,
-    date: {
-      start_month: data?.date.start_month,
-      start_year: data?.date.start_year,
-      end_month: data?.date.end_month,
-      end_year: data?.date.end_year,
-    },
-
-    client: data?.client,
-    client_url: data?.client_url,
-    short: data?.short,
-    info: data?.info,
-
-    tech: data?.tech,
-    photos: data?.photos,
-    github_url: data?.github_url,
-
-  }
-
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
+  const [newPhoto, setNewPhoto] = useState<string>('');
+
+  useEffect(() => {
+    if (data) {
+      setFormData(data);
+    }
+  }, [data]);
 
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -70,13 +74,43 @@ export default function Form({ id }: Props) {
     // }));
   };
 
+  // Could probably be merged with updateTextInput?
+  function updatePhoto(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+    setNewPhoto(value);
+  };
+
+  function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+    const { photos } = formData;
+    console.log(name, value, formData.photos)
+    if (newPhoto) {
+      photos.push(newPhoto);
+      setNewPhoto('');
+      setFormData((formData) => ({
+        ...formData,
+        photos: photos,
+      }))
+    }
+
+  };
+
+  function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    console.log('delete photo')
+  }
+
   return (
     <>
       {
         formData ?
           <form className={styles.form}>
+
             <h2>PROJECT: {formData.name}</h2>
-            <div className={styles.formRow}>
+
+            {/* <div className={styles.formRow}>
               <TextInput
                 name={'name'}
                 value={formData.name}
@@ -125,10 +159,17 @@ export default function Form({ id }: Props) {
                 />
               </div>
 
-            </div>
+            </div> */}
 
             <div className={styles.formRow}>
-              TECH AND PHOTOS
+              <PhotoInput
+                name='photo-input'
+                value={newPhoto}
+                photos={formData.photos}
+                changeHandler={updatePhoto}
+                addHandler={addPhoto}
+                deleteHandler={deletePhoto}
+              />
             </div>
 
           </form>

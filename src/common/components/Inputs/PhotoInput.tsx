@@ -1,12 +1,20 @@
-import React from 'react';
-import TextInput from './TextInput.jsx';
+import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
+import Image from 'next/image';
 
-const PhotoInput = ({ name, value, photos, changeHandler, addHandler, deleteHandler }) => {
+type Props = {
+  name: string,
+  value: string,
+  photos: Array<string>,
+  changeHandler: React.ChangeEventHandler,
+  addHandler: React.MouseEventHandler,
+  deleteHandler: React.MouseEventHandler,
+}
+
+export default function PhotoInput({ name, value, photos, changeHandler, addHandler, deleteHandler }: Props) {
   return (
-    <div className='PhotoInput'>
-
-      <div className='form-photo-input'>
+    <div className='photoInput'>
+      <div className='photoUrlInput'>
         <TextInput
           name={name}
           value={value}
@@ -17,22 +25,25 @@ const PhotoInput = ({ name, value, photos, changeHandler, addHandler, deleteHand
         </button>
       </div>
 
-      <div className='form-photo-list'>
+      <div className='photoList'>
         {
           photos.map((photo, i) => {
             return (
-              <div key={i} className='form-photo-thumb'>
-                <button className='form-photo-delete-btn' onClick={deleteHandler} data-photo-index={i}>
+              <div key={i} className='photoThumb'>
+                <Image
+                  src={photo}
+                  alt='X'
+                  fill
+                />
+                <button onClick={deleteHandler} data-photo-index={i}>
                   <CgCloseR />
                 </button>
-                <img src={photo} />
               </div>
             )
           })
         }
       </div>
+
     </div>
   );
 };
-
-export default PhotoInput;
