@@ -21,21 +21,14 @@ export default function Home() {
 
   async function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
-    console.log('create')
-    // const response = await fetch.post('api/projects');
-    // axios
-    //   .post('/api/projects', { name: 'test' })
-    //   .then((data) => {
-    //     console.log(data)
-    //     // setProjects(data)
-    //     const newProjects = await getProjects();
-    //   })
-    //   .catch((error) => (console.log('create', error)));
-
-    const response = await axios.post('/api/projects', { name: 'test' });
-    const projects = await getProjects();
-    console.log('create', projects)
-    setProjects(projects);
+    try {
+      const response = await axios.post('/api/projects', { name: 'test' });
+      const projects = await getProjects();
+      setProjects(projects);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   async function getProjects() {
@@ -50,15 +43,41 @@ export default function Home() {
     }
   }
 
-  function getProject(event: React.SyntheticEvent) {
+  async function getProject(event: React.SyntheticEvent) {
     event.preventDefault();
     const id = event.currentTarget.getAttribute('data-proj-id');
-    console.log(id)
     setCurrentProjectId(id);
   };
 
-  function updateProject() {
+  async function saveProject(projectData) {
+    console.log('saving', projectData)
+    // const linkLowerCase = projectData.name ? projectData.name.toLowerCase().split(' ').join('-') : "";
+    const filter = { '_id': projectData._id };
 
+    // const update = {
+    //   category: projectData.category,
+    //   name: projectData.name,
+    //   link: `${linkLowerCase}`,
+    //   client: projectData.client,
+    //   client_url: projectData.client_url,
+    //   date: projectData.date,
+    //   short: projectData.short,
+    //   info: projectData.info,
+    //   tech: projectData.tech,
+    //   photos: projectData.photos,
+    // };
+
+    // const options = { 'upsert': false };
+
+    try {
+      const response = await axios.put('/api/projects', { doc: projectData });
+      const data = await response.data;
+      console.log('update', data);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   function deleteProject(event: React.SyntheticEvent) {
@@ -80,7 +99,7 @@ export default function Home() {
         <Dashboard projects={projects ? projects : []} clickHandler={getProject} />
         {
           currentProjectId ?
-            <Form id={currentProjectId} />
+            <Form id={currentProjectId} saveHandler={saveProject} />
             : null
         }
       </div>

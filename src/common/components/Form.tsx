@@ -10,7 +10,10 @@ import styles from '@/styles/components/Form.module.scss';
 const TEST_PHOTO_URL = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg';
 
 type Props = {
-  id: string
+  id: string,
+  saveHandler: Function,
+  deleteHandler: Function,
+
 };
 
 type DateType = {
@@ -43,7 +46,7 @@ const formDefaults: ProjectType = {
   github_url: '',
 }
 
-export default function Form({ id }: Props) {
+export default function Form({ id, saveHandler }: Props) {
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
 
@@ -149,11 +152,18 @@ export default function Form({ id }: Props) {
 
   };
 
+  function updateProject(event: React.FormEvent) {
+    event.preventDefault();
+    console.log(formData);
+    saveHandler(formData);
+  }
+
   return (
     <>
       {
         formData ?
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={updateProject}>
+            <button type='submit'>SAVE</button>
 
             <h2>PROJECT: {formData.name}</h2>
 
