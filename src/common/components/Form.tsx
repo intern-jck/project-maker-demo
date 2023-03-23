@@ -99,8 +99,19 @@ export default function Form({ id }: Props) {
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    console.log('delete photo')
-  }
+    const index = event.currentTarget.getAttribute('data-photo-index');
+    const { photos } = formData;
+    console.log('delete photo', index)
+
+    if (index) {
+      photos.splice(index, 1);
+      setFormData((formData) => ({
+        ...formData,
+        photos: photos,
+      }))
+    }
+
+  };
 
   return (
     <>
@@ -163,7 +174,7 @@ export default function Form({ id }: Props) {
 
             <div className={styles.formRow}>
               <PhotoInput
-                name='photo-input'
+                name='photos'
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
