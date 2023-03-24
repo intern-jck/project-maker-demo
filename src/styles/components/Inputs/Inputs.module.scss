@@ -1,15 +1,11 @@
 label {
-  // border: 2px solid black;
-  // padding: 1rem;
   display: flex;
   flex-direction: column;
   font-size: 1rem;
   font-weight: bold;
 }
 
-input {
-  // border: 2px solid black;
-}
+input {}
 
 textarea {
   width: 30rem;
@@ -80,8 +76,6 @@ textarea {
         position: absolute;
         right: 0;
         top: 0;
-        // width: fit-content;
-        // display: flex;
 
         svg {
           pointer-events: none;
@@ -141,8 +135,6 @@ textarea {
         position: absolute;
         right: 0;
         top: 0;
-        // width: fit-content;
-        // display: flex;
       }
     }
   }
