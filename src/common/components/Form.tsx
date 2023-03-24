@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
 import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
+import { MdSave, MdDelete } from "react-icons/md";
 
 import type ProjectType from '@/common/types/ProjectType';
 
@@ -13,7 +14,6 @@ type Props = {
   id: string,
   saveHandler: Function,
   deleteHandler: React.MouseEventHandler,
-
 };
 
 type DateType = {
@@ -49,7 +49,6 @@ const formDefaults: ProjectType = {
 export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
-
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
@@ -163,10 +162,18 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
       {
         formData ?
           <form className={styles.form} onSubmit={updateProject}>
-            <button type='submit'>SAVE</button>
-            <button onClick={deleteHandler} data-project-id={id}>delete</button>
 
-            <h2>PROJECT: {formData.name}</h2>
+            <div className={styles.formMenu}>
+              <h1>NAME: {formData.name}</h1>
+              <h2>ID: {formData._id}</h2>
+              <button type='submit'>
+                <MdSave />
+              </button>
+              <button onClick={deleteHandler} data-project-id={id}>
+                <MdDelete />
+              </button>
+            </div>
+
 
             <div className={styles.formRow}>
               <TextInput
