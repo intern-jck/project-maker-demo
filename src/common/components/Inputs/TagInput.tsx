@@ -21,7 +21,7 @@ export default function TagInput({ name, value, tags, changeHandler, addHandler,
           changeHandler={changeHandler}
         />
         <button onClick={addHandler}>
-          <CgAddR />
+          <CgAddR size={30} />
         </button>
       </div>
 
@@ -31,8 +31,7 @@ export default function TagInput({ name, value, tags, changeHandler, addHandler,
             tags.map((tag, i) => {
               return (
                 <div key={i} className='tag'>
-                  {/* <a href={tag[1]} target='_blank'>{tag[0]}</a> */}
-                  <span>{tag}</span>
+                  {tag}
                   <button onClick={deleteHandler} data-tag-index={i}>
                     <CgCloseR />
                   </button>

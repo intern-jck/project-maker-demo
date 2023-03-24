@@ -21,7 +21,7 @@ export default function PhotoInput({ name, value, photos, changeHandler, addHand
           changeHandler={changeHandler}
         />
         <button onClick={addHandler}>
-          <CgAddR />
+          <CgAddR size={30} />
         </button>
       </div>
 

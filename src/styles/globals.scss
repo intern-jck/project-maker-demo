@@ -17,9 +17,13 @@ body {
 }
 
 button {
-  vertical-align: center;
-  text-align: center;
   background-color: white;
+  border: none;
+  padding: 0;
+
+  svg {
+    pointer-events: none;
+  }
 }
 
 button:hover,
