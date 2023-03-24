@@ -32,7 +32,7 @@ export default function PhotoInput({ name, value, photos, changeHandler, addHand
               <div key={i} className='photoThumb'>
                 <Image
                   src={photo}
-                  alt='X'
+                  alt='not found'
                   fill
                 />
                 <button onClick={deleteHandler} data-photo-index={i}>

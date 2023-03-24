@@ -1,11 +1,10 @@
-
 type Props = {
   name: string,
   value: string,
   changeHandler: React.ChangeEventHandler,
 };
 
-const TextArea = ({ name, value, changeHandler }: Props) => {
+export default function TextArea({ name, value, changeHandler }: Props) {
   return (
     <label className='TextArea'>
       {name.toUpperCase()}
@@ -17,5 +16,3 @@ const TextArea = ({ name, value, changeHandler }: Props) => {
     </label>
   );
 };
-
-export default TextArea;

@@ -4,11 +4,10 @@ import styles from '@/styles/components/Folder.module.scss';
 type Props = {
   id: string,
   name: string,
-  clickHandler: React.MouseEventHandler<HTMLButtonElement>
+  clickHandler: React.MouseEventHandler
 }
 
 export default function Folder({ clickHandler, id, name }: Props) {
-
   return (
     <div className={styles.folder}>
       <button

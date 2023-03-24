@@ -21,6 +21,11 @@ type DateType = {
   end_year: string | '',
 }
 
+type UpdatedDateType = {
+  name: string,
+  value: string,
+}
+
 const formDefaults: ProjectType = {
   _id: '',
   link: '',
@@ -67,12 +72,11 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
     }));
   };
 
-  function updateDate(updatedDate) {
+
+  function updateDate(updatedDate: UpdatedDateType) {
     const { name, value } = updatedDate;
-    // console.log(name, value)
-    const currentDate = formData.date;
+    const currentDate: DateType = formData.date;
     currentDate[name] = value; // lookup error
-    // console.log(name, value)
     setFormData((formData) => ({
       ...formData,
       ...currentDate,
@@ -82,23 +86,21 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
   // Could probably be merged with updateTextInput?
   function updatePhoto(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    const { name, value } = event.currentTarget;
+    const { value } = event.currentTarget;
     setNewPhoto(value);
   };
 
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const { name, value } = event.currentTarget;
     const { photos } = formData;
     if (newPhoto) {
-      photos.push(newPhoto);
+      photos.push(newPhoto); // lookup error
       setNewPhoto('');
       setFormData((formData) => ({
         ...formData,
         photos: photos,
       }))
     }
-
   };
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
@@ -106,7 +108,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
     if (index) {
-      photos.splice(index, 1);
+      photos.splice(index, 1); // lookup error
       setFormData((formData) => ({
         ...formData,
         photos: photos,
@@ -118,15 +120,13 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
   // Could probably be merged with updateTextInput?
   function updateTag(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    const { name, value } = event.currentTarget;
+    const { value } = event.currentTarget;
     setNewTag(value);
   };
 
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const { name, value } = event.currentTarget;
     const { tech } = formData;
-    console.log(tech)
     if (newTag) {
       tech.push(newTag);
       setNewPhoto('');
@@ -142,8 +142,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
     event.preventDefault();
     const index = event.currentTarget.getAttribute('data-tag-index');
     const { tech } = formData;
-    console.log('delete tag', index)
-
     if (index) {
       tech.splice(index, 1);
       setFormData((formData) => ({
@@ -154,7 +152,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   };
 
-  function updateProject(event: React.FormEvent) {
+  function saveProject(event: React.FormEvent) {
     event.preventDefault();
     saveHandler(formData);
   }
@@ -163,7 +161,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
     <>
       {
         formData ?
-          <form className={styles.form} onSubmit={updateProject}>
+          <form className={styles.form} onSubmit={saveProject}>
 
             <div className={styles.formMenu}>
               <h1>NAME: {formData.name}</h1>

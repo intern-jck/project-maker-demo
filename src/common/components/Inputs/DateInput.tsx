@@ -1,8 +1,5 @@
-import { useState } from 'react';
-
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 const YEARS = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
-
 
 type DateType = {
   start_month: string | '',
@@ -17,18 +14,10 @@ type Props = {
 }
 
 export default function DateInput({ date, dateHandler }: Props) {
-  console.log(date)
-  // const [newDate, setNewDate] = useState<DateType>(date);
-
   function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
     const updatedDate = { name: name, value: value };
-    // setNewDate((newDate) => ({
-    //   ...newDate,
-    //   ...updatedDate
-    // }));
-
     dateHandler(updatedDate)
   };
 
@@ -43,7 +32,7 @@ export default function DateInput({ date, dateHandler }: Props) {
           <select
             name='start_month'
             value={date.start_month}
-            onChange={updateDate}
+            onChange={updateDate} // lookup error
           >
             <option key='0' value='default'>MONTH</option>
             {
