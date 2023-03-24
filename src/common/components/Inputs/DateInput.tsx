@@ -17,21 +17,19 @@ type Props = {
 }
 
 export default function DateInput({ date, dateHandler }: Props) {
+  console.log(date)
+  // const [newDate, setNewDate] = useState<DateType>(date);
 
-  const [newDate, setNewDate] = useState<DateType>(date);
-
-  const updateDate: React.ChangeEventHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    console.log(name, value)
+    const updatedDate = { name: name, value: value };
+    // setNewDate((newDate) => ({
+    //   ...newDate,
+    //   ...updatedDate
+    // }));
 
-    const updatedDate: DateType = newDate;
-    updatedDate[name as keyof DateType] = value;
-    console.log(updatedDate)
-    setNewDate((updatedDate) => ({
-      ...updateDate
-    }));
-    // dateHandler(updatedDate);
+    dateHandler(updatedDate)
   };
 
   return (
@@ -44,7 +42,7 @@ export default function DateInput({ date, dateHandler }: Props) {
         <label>
           <select
             name='start_month'
-            value={newDate.start_month}
+            value={date.start_month}
             onChange={updateDate}
           >
             <option key='0' value='default'>MONTH</option>
@@ -58,7 +56,7 @@ export default function DateInput({ date, dateHandler }: Props) {
         <label>
           <select
             name='start_year'
-            value={newDate.start_year}
+            value={date.start_year}
             onChange={updateDate}
           >
             <option key='0' value='default'>YEAR</option>
@@ -78,7 +76,7 @@ export default function DateInput({ date, dateHandler }: Props) {
         <label>
           <select
             name='end_month'
-            value={newDate.end_month}
+            value={date.end_month}
             onChange={updateDate}
           >
             <option key='0' value='default'>MONTH</option>
@@ -93,7 +91,7 @@ export default function DateInput({ date, dateHandler }: Props) {
         <label>
           <select
             name='end_year'
-            value={newDate.end_year}
+            value={date.end_year}
             onChange={updateDate}
           >
             <option key='0' value='default'>YEAR</option>

@@ -8,8 +8,6 @@ import type ProjectType from '@/common/types/ProjectType';
 
 import styles from '@/styles/components/Form.module.scss';
 
-const TEST_PHOTO_URL = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Test.svg';
-
 type Props = {
   id: string,
   saveHandler: Function,
@@ -69,12 +67,16 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
     }));
   };
 
-  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
-    // TODO format date to create a single string?
-    // setFormData((formData) => ({
-    //   ...formData,
-    //   date: date,
-    // }));
+  function updateDate(updatedDate) {
+    const { name, value } = updatedDate;
+    // console.log(name, value)
+    const currentDate = formData.date;
+    currentDate[name] = value; // lookup error
+    // console.log(name, value)
+    setFormData((formData) => ({
+      ...formData,
+      ...currentDate,
+    }));
   };
 
   // Could probably be merged with updateTextInput?
@@ -113,6 +115,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   };
 
+  // Could probably be merged with updateTextInput?
   function updateTag(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
@@ -153,7 +156,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   function updateProject(event: React.FormEvent) {
     event.preventDefault();
-    console.log(formData);
     saveHandler(formData);
   }
 
@@ -167,13 +169,12 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
               <h1>NAME: {formData.name}</h1>
               <h2>ID: {formData._id}</h2>
               <button type='submit'>
-                <MdSave />
+                <MdSave size={30} />
               </button>
               <button onClick={deleteHandler} data-project-id={id}>
-                <MdDelete />
+                <MdDelete size={30} />
               </button>
             </div>
-
 
             <div className={styles.formRow}>
               <TextInput

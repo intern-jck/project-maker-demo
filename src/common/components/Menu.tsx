@@ -1,4 +1,3 @@
-import styles from '@/styles/components/Menu.module.scss';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 type Props = {
@@ -9,13 +8,13 @@ type Props = {
 export default function Menu({ createHandler, downloadHandler }: Props) {
 
   return (
-    <div className={styles.Menu}>
+    <div className={'menu'}>
+      {/* New Project Button */}
       <button onClick={createHandler} className='onclick'>
-        {/* NEW */}
         <GoFileMedia size={30} />
       </button>
+      {/* Download Project Data Button */}
       <button onClick={downloadHandler} className='onclick'>
-        {/* DOWNLOAD */}
         <GoDesktopDownload size={30} />
       </button>
     </div>

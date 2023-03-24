@@ -29,22 +29,21 @@ $form-padding: 0.2rem;
     }
 
     button {
-      border: none;
-      margin-right: 1rem;
-      margin-left: 1rem;
-      padding: 0;
+      border: 4px solid black;
+      border-radius: 0.4rem;
+      width: 3rem;
+      height: 3rem;
       display: flex;
       align-items: center;
+      justify-content: center;
 
       svg {
-        border: 2px solid black;
-        width: 3rem;
-        height: 3rem;
-        margin: 0;
-        padding: 0;
         pointer-events: none;
       }
     }
+
+
+
   }
 
   .formRow {
