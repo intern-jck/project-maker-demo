@@ -11,6 +11,7 @@ export default function Home() {
 
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
   const [currentProjectId, setCurrentProjectId] = useState('');
+  const [currentCategory, setCurrentCategory] = useState('');
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -76,12 +77,40 @@ export default function Home() {
     }
   };
 
+  async function downloadProjects() {
+    try {
+      const projects = await getProjects();
+
+
+      const projectData = {
+        [currentCategory]: projects,
+      };
+
+      const filename = `${currentCategory}-proj-json`;
+      const json = JSON.stringify(projectData, null, 2);
+      const blob = new Blob([json], { type: 'application/json' })
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = filename + '.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObectURL(href);
+
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+
   return (
     <>
       <div className='menu-div'>
         <Menu
           createHandler={createProject}
-          downloadHandler={deleteProject}
+          downloadHandler={downloadProjects}
         />
 
       </div>

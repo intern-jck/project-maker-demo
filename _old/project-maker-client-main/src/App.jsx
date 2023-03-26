@@ -69,12 +69,16 @@ const App = () => {
   };
 
   function downloadProjects() {
+
     atlasApi.getProjectsJson()
       .then((data) => {
+
         console.log(data);
+
         const projectData = {
           [currentCategory]: data,
         };
+
         const filename = `${currentCategory}-proj-json`;
         const json = JSON.stringify(projectData, null, 2);
         const blob = new Blob([json], { type: 'application/json' })
@@ -86,6 +90,7 @@ const App = () => {
         link.click();
         document.body.removeChild(link);
         URL.revokeObectURL(href);
+
       })
       .catch((error) => (console.log('download error:', error)));
   };
