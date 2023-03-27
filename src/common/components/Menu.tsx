@@ -45,7 +45,7 @@ export default function Menu({
             changeHandler={changeHandler}
           />
           <button onClick={addHandler}>
-            <CgAddR size={30} />
+            <CgAddR size={40} />
           </button>
         </div>
       </div>
@@ -66,6 +66,7 @@ export default function Menu({
                 </button>
               </div>
             ))
+
             : <></>
         }
       </div>
