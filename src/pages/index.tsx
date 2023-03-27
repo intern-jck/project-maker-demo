@@ -16,9 +16,18 @@ export default function Home() {
   const [category, setCategory] = useState<string>('');
   const [categories, setCategories] = useState([]);
 
-
   useEffect(() => {
-    setProjects(data); // lookup error
+    if (data) {
+      // This data is category data
+      getCategories()
+        .then((data) => {
+          console.log('got cats', data)
+          setCategories(data);
+        })
+        .catch((error) => (console.log(error)));
+      // This data is from SWR
+      setProjects(data); // lookup error
+    }
   }, [data]);
 
   async function createProject(event: React.SyntheticEvent) {
@@ -103,14 +112,19 @@ export default function Home() {
     }
   }
 
-  function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
+  async function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const currentCategories = categories;
-    console.log(currentCategories)
-    if (category) {
-      currentCategories.push(category);
-      setCategories(currentCategories)
-      setCategory('');
+
+    console.log('add cat', category)
+    // return;
+    try {
+      const response = await axios.post('/api/categories', { category: category });
+      const categories = await getCategories();
+      setCategories(categories);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
@@ -121,25 +135,58 @@ export default function Home() {
     setCategory(value);
   };
 
+  async function getCategories() {
+    try {
+      const response = axios.get('api/categories');
+      const categories = await response;
+      return categories.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async function deleteCategory(event: React.SyntheticEvent) {
+    const { name, value } = event.currentTarget;
+    const id = event.currentTarget.getAttribute('data-project-id');
+    console.log('deleteing', name, id)
+    try {
+      const response = axios.delete(`api/categories?id=${id}`);
+      // const categories = await response;
+      const categories = await getCategories();
+      setCategories(categories);
+      setCategory('')
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
   return (
     <>
       <div className='menu-div'>
         <Menu
+          category={category}
+          categories={categories}
+          addHandler={addCategory}
+          changeHandler={updateCategory}
           createHandler={createProject}
           downloadHandler={downloadProjects}
+          deleteHandler={deleteCategory}
         />
-
       </div>
 
       <div className='project-div'>
-        <Dashboard
-          category={category}
-          categories={categories}
-          projects={projects ? projects : []}
-          clickHandler={getProject}
-          addHandler={addCategory}
-          changeHandler={updateCategory}
-        />
+        {
+          projects.length > 0 ?
+            <Dashboard
+              category={category}
+              projects={projects ? projects : []}
+              clickHandler={getProject}
+            />
+            : <></>
+        }
         {
           currentProjectId ?
             <Form

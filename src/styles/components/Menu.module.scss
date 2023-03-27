@@ -1,0 +1,49 @@
+.controls {
+  border: 4px solid black;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  button {
+    border: 4px solid black;
+    border-radius: 0.4rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      pointer-events: none;
+    }
+  }
+}
+
+.categories {
+  border: 4px solid black;
+  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+
+  .categoryInput {
+    display: flex;
+  }
+}
+
+.categoryList {
+  border: 4px solid black;
+  display: flex;
+  width: 20rem;
+
+  .category {
+    border: 4px solid black;
+    width: 8rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+  }
+}

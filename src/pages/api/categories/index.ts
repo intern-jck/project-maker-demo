@@ -1,16 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
+import CategoryModel from '@/common/modules/mongoAtlas/CategoryModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method, query } = req;
+  const { method, query, body } = req;
+  console.log('cat api', method, query, body)
+
   try {
     const connection = await connectMongo();
     switch (method) {
       case 'GET':
         try {
-          const projects = await ProjectModel.find().exec();
-          res.status(200).json(projects);
+          const categories = await CategoryModel.find().exec();
+          res.status(200).json(categories);
         } catch (error) {
           console.error('Mongo find', error)
           res.json({ error })
@@ -20,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'POST':
         try {
           const doc = req.body ? req.body : {};
-          const response = await ProjectModel.create(doc);
+          const response = await CategoryModel.create(doc);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo create', error)
@@ -30,14 +32,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'PUT':
         const doc = req.body ? req.body.doc : {};
-        const linkLowerCase = doc.name ? doc.name.toLowerCase().split(' ').join('-') : "";
         const filter = { '_id': doc._id };
         const update = {
           ...doc,
         };
         const options = { 'upsert': true };
         try {
-          const response = await ProjectModel.findOneAndUpdate(filter, update, options);
+          const response = await CategoryModel.findOneAndUpdate(filter, update, options);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo update', error)
@@ -47,8 +48,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'DELETE':
         const { id } = req.query;
+        console.log('deleting', id)
         try {
-          const project = await ProjectModel.deleteOne({ _id: id }).exec();
+          const project = await CategoryModel.deleteOne({ _id: id }).exec();
           res.status(200).json(project);
         } catch (error) {
           console.error('Mongo delete', error)
@@ -64,7 +66,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     console.log(method, error)
     res.status(500);
-    res.json(error);
+    res.json({ method: method, error: error });
   }
-
 }
