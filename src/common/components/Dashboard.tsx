@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function Dashboard({ category, categories, projects, clickHandler, addHandler, changeHandler }: Props) {
-  console.log(categories)
+  console.log('dash got', categories)
   return (
     <div className={styles.dashboard}>
 
@@ -31,14 +31,14 @@ export default function Dashboard({ category, categories, projects, clickHandler
           </button>
         </div>
 
-        <select>
+        {/* <select>
           <option key='0' value='default'>CATEGORIES</option>
           {
             categories.map((month, i) => (
               <option key={i + 1} value={month}>{month}</option>
             ))
           }
-        </select>
+        </select> */}
 
       </div>
 

@@ -16,9 +16,18 @@ export default function Home() {
   const [category, setCategory] = useState<string>('');
   const [categories, setCategories] = useState([]);
 
-
   useEffect(() => {
-    setProjects(data); // lookup error
+    if (data) {
+      // This data is category data
+      getCategories()
+        .then((data) => {
+          console.log('got cats', data)
+          setCategories(data);
+        })
+        .catch((error) => (console.log(error)));
+      // This data is from SWR
+      setProjects(data); // lookup error
+    }
   }, [data]);
 
   async function createProject(event: React.SyntheticEvent) {
@@ -103,14 +112,16 @@ export default function Home() {
     }
   }
 
-  function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
+  async function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const currentCategories = categories;
-    console.log(currentCategories)
-    if (category) {
-      currentCategories.push(category);
-      setCategories(currentCategories)
-      setCategory('');
+    try {
+      const response = await axios.post('/api/categories', { category: category });
+      const categories = await getCategories();
+      setCategories(categories);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   };
 
@@ -121,6 +132,17 @@ export default function Home() {
     setCategory(value);
   };
 
+  async function getCategories() {
+    try {
+      const response = axios.get('api/categories');
+      const categories = await response;
+      return categories.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
   return (
     <>
       <div className='menu-div'>
@@ -128,18 +150,21 @@ export default function Home() {
           createHandler={createProject}
           downloadHandler={downloadProjects}
         />
-
       </div>
 
       <div className='project-div'>
-        <Dashboard
-          category={category}
-          categories={categories}
-          projects={projects ? projects : []}
-          clickHandler={getProject}
-          addHandler={addCategory}
-          changeHandler={updateCategory}
-        />
+        {
+          categories && projects ?
+            <Dashboard
+              category={category}
+              categories={categories}
+              projects={projects ? projects : []}
+              clickHandler={getProject}
+              addHandler={addCategory}
+              changeHandler={updateCategory}
+            />
+            : <></>
+        }
         {
           currentProjectId ?
             <Form
