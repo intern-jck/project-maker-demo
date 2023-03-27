@@ -48,21 +48,11 @@ export default function Menu({
             <CgAddR size={30} />
           </button>
         </div>
-
-        {/* <select>
-          <option key='0' value='default'>CATEGORIES</option>
-          {
-            categories.map((category, i) => (
-              <option key={i + 1} value={category.category}>{category.category}</option>
-            ))
-          }
-        </select> */}
       </div>
 
       <div className={styles.categoryList}>
         {
           categories ?
-
             categories.map((category) => (
               <div key={category._id} className={styles.category}>
                 {category.category}

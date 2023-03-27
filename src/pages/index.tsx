@@ -146,7 +146,7 @@ export default function Home() {
     }
   }
 
-  async function deleteCategory(event: React.ChangeEvent<HTMLInputElement>) {
+  async function deleteCategory(event: React.SyntheticEvent) {
     const { name, value } = event.currentTarget;
     const id = event.currentTarget.getAttribute('data-project-id');
     console.log('deleteing', name, id)
@@ -181,6 +181,7 @@ export default function Home() {
         {
           projects.length > 0 ?
             <Dashboard
+              category={category}
               projects={projects ? projects : []}
               clickHandler={getProject}
             />
