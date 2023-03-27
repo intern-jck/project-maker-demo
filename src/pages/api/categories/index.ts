@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import CategoryModel from '@/common/modules/mongoAtlas/ProjectModel';
+import CategoryModel from '@/common/modules/mongoAtlas/CategoryModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
@@ -10,10 +10,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const connection = await connectMongo();
     switch (method) {
       case 'GET':
-        console.log('cat get', method, query)
         try {
           const categories = await CategoryModel.find().exec();
-          console.log(categories)
           res.status(200).json(categories);
         } catch (error) {
           console.error('Mongo find', error)
@@ -22,7 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'POST':
-        console.log(method, body)
         try {
           const doc = req.body ? req.body : {};
           const response = await CategoryModel.create(doc);
@@ -51,6 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'DELETE':
         const { id } = req.query;
+        console.log('deleting', id)
         try {
           const project = await CategoryModel.deleteOne({ _id: id }).exec();
           res.status(200).json(project);

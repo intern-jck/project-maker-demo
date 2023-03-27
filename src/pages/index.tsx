@@ -114,6 +114,9 @@ export default function Home() {
 
   async function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+
+    console.log('add cat', category)
+    // return;
     try {
       const response = await axios.post('/api/categories', { category: category });
       const categories = await getCategories();
@@ -143,25 +146,43 @@ export default function Home() {
     }
   }
 
+  async function deleteCategory(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
+    const id = event.currentTarget.getAttribute('data-project-id');
+    console.log('deleteing', name, id)
+    try {
+      const response = axios.delete(`api/categories?id=${id}`);
+      // const categories = await response;
+      const categories = await getCategories();
+      setCategories(categories);
+      setCategory('')
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
   return (
     <>
       <div className='menu-div'>
         <Menu
+          category={category}
+          categories={categories}
+          addHandler={addCategory}
+          changeHandler={updateCategory}
           createHandler={createProject}
           downloadHandler={downloadProjects}
+          deleteHandler={deleteCategory}
         />
       </div>
 
       <div className='project-div'>
         {
-          categories && projects ?
+          projects.length > 0 ?
             <Dashboard
-              category={category}
-              categories={categories}
               projects={projects ? projects : []}
               clickHandler={getProject}
-              addHandler={addCategory}
-              changeHandler={updateCategory}
             />
             : <></>
         }
