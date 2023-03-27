@@ -135,7 +135,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
         tech: tech,
       }))
     }
-
   };
 
   function deleteTag(event: React.MouseEvent<HTMLButtonElement>) {

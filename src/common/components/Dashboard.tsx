@@ -31,16 +31,14 @@ export default function Dashboard({ category, categories, projects, clickHandler
           </button>
         </div>
 
-        {/* <select>
-          <option value="grapefruit">Default</option>
+        <select>
+          <option key='0' value='default'>CATEGORIES</option>
           {
-            categories ?
-              categories.map((category, i) => {
-                <option value={category.toLowerCase()}>{category}</option>
-              })
-              : null
+            categories.map((month, i) => (
+              <option key={i + 1} value={month}>{month}</option>
+            ))
           }
-        </select> */}
+        </select>
 
       </div>
 

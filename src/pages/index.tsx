@@ -103,15 +103,15 @@ export default function Home() {
     }
   }
 
-  function updateCategories(event: React.MouseEvent<HTMLButtonElement>) {
+  function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const newCategories = categories;
-    console.log(newCategories)
-    // if (category) {
-    //   newCategories.push(category);
-    //   setCategory('');
-    //   setCategories(newCategories)
-    // }
+    const currentCategories = categories;
+    console.log(currentCategories)
+    if (category) {
+      currentCategories.push(category);
+      setCategories(currentCategories)
+      setCategory('');
+    }
   };
 
   // Could probably be merged with updateTextInput?
@@ -137,7 +137,7 @@ export default function Home() {
           categories={categories}
           projects={projects ? projects : []}
           clickHandler={getProject}
-          addHandler={updateCategories}
+          addHandler={addCategory}
           changeHandler={updateCategory}
         />
         {
