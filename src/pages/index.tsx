@@ -13,6 +13,9 @@ export default function Home() {
   const [currentProjectId, setCurrentProjectId] = useState('');
   const [currentCategory, setCurrentCategory] = useState('');
   const [projects, setProjects] = useState([]);
+  const [category, setCategory] = useState<string>('');
+  const [categories, setCategories] = useState([]);
+
 
   useEffect(() => {
     setProjects(data); // lookup error
@@ -80,12 +83,9 @@ export default function Home() {
   async function downloadProjects() {
     try {
       const projects = await getProjects();
-
-
       const projectData = {
         [currentCategory]: projects,
       };
-
       const filename = `${currentCategory}-proj-json`;
       const json = JSON.stringify(projectData, null, 2);
       const blob = new Blob([json], { type: 'application/json' })
@@ -97,13 +97,29 @@ export default function Home() {
       link.click();
       document.body.removeChild(link);
       URL.revokeObectURL(href);
-
     } catch (error) {
       console.log(error);
       return error;
     }
   }
 
+  function updateCategories(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const newCategories = categories;
+    console.log(newCategories)
+    // if (category) {
+    //   newCategories.push(category);
+    //   setCategory('');
+    //   setCategories(newCategories)
+    // }
+  };
+
+  // Could probably be merged with updateTextInput?
+  function updateCategory(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const { value } = event.currentTarget;
+    setCategory(value);
+  };
 
   return (
     <>
@@ -117,8 +133,12 @@ export default function Home() {
 
       <div className='project-div'>
         <Dashboard
+          category={category}
+          categories={categories}
           projects={projects ? projects : []}
           clickHandler={getProject}
+          addHandler={updateCategories}
+          changeHandler={updateCategory}
         />
         {
           currentProjectId ?
