@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import CategoryModel from '@/common/modules/mongoAtlas/CategoryModel';
+import CollectionModel from '@/common/modules/mongoAtlas/CollectionModel'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
@@ -11,8 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
-          const categories = await CategoryModel.find().exec();
-          res.status(200).json(categories);
+          const response = await CollectionModel.find().exec();
+          res.status(200).json(response);
         } catch (error) {
           console.error('Mongo find', error)
           res.json({ error })
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'POST':
         try {
           const doc = req.body ? req.body : {};
-          const response = await CategoryModel.create(doc);
+          const response = await CollectionModel.create(doc);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo create', error)
@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
         const options = { 'upsert': true };
         try {
-          const response = await CategoryModel.findOneAndUpdate(filter, update, options);
+          const response = await CollectionModel.findOneAndUpdate(filter, update, options);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo update', error)
@@ -50,8 +50,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { id } = req.query;
         console.log('deleting', id)
         try {
-          const project = await CategoryModel.deleteOne({ _id: id }).exec();
-          res.status(200).json(project);
+          const response = await CollectionModel.deleteOne({ _id: id }).exec();
+          res.status(200).json(response);
         } catch (error) {
           console.error('Mongo delete', error)
           res.json({ error })

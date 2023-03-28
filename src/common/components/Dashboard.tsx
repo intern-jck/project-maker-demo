@@ -4,7 +4,7 @@ import styles from '@/styles/components/Dashboard.module.scss';
 import type ProjectType from '@/common/types/ProjectType';
 
 type Props = {
-  category: string,
+  collection: string,
   projects: ProjectType[],
   clickHandler: React.MouseEventHandler,
   createHandler: React.MouseEventHandler,
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function Dashboard({
-  category,
+  collection,
   projects,
   clickHandler,
   createHandler,
@@ -22,6 +22,7 @@ export default function Dashboard({
     <div className={styles.dashboard}>
 
       <div className={styles.controls}>
+        {/* Project Name */}
         {/* New Project Button */}
         <button onClick={createHandler} className='onclick'>
           <GoFileMedia size={30} />
@@ -34,9 +35,9 @@ export default function Dashboard({
 
       {/* Project Folder List */}
       {
-        category && projects ?
+        collection && projects ?
           projects.map((project, i) => {
-            if (project.category === category) {
+            if (project.collection === collection) {
               return (
                 <Folder
                   key={project._id}

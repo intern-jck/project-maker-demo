@@ -6,26 +6,26 @@ import Dashboard from '@/common/components/Dashboard';
 import Form from '@/common/components/Form';
 import { fetcher } from '@/common/modules/utils';
 import type ProjectType from '@/common/types/ProjectType';
+import type CollectionType from '@/common/types/CollectionType';
 
 export default function Home() {
 
+  // Gets initial data
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
-  const [currentProjectId, setCurrentProjectId] = useState('');
-  const [currentCategory, setCurrentCategory] = useState('');
-  const [projects, setProjects] = useState([]);
-  const [category, setCategory] = useState<string>('');
-  const [categories, setCategories] = useState([]);
+  const [currentProjectId, setCurrentProjectId] = useState<string>();
+  const [projects, setProjects] = useState<ProjectType[]>();
+  const [collection, setCollection] = useState<string>('');
+  const [collections, setCollections] = useState<Array<CollectionType>>([]);
+  const [currentCollection, setCurrentCollection] = useState<string>();
 
   useEffect(() => {
     if (data) {
-      // This data is category data
-      getCategories()
-        .then((data) => {
-          setCategories(data);
+      getCollections()
+        .then((collectionData) => {
+          setCollections(collectionData);
         })
         .catch((error) => (console.log(error)));
-      // This data is from SWR
-      setProjects(data); // lookup error
+      setProjects(data);
     }
   }, [data]);
 
@@ -92,9 +92,9 @@ export default function Home() {
     try {
       const projects = await getProjects();
       const projectData = {
-        [currentCategory]: projects,
+        [currentCollection]: projects,
       };
-      const filename = `${currentCategory}-proj-json`;
+      const filename = `${currentCollection}-proj-json`;
       const json = JSON.stringify(projectData, null, 2);
       const blob = new Blob([json], { type: 'application/json' })
       const href = URL.createObjectURL(blob);
@@ -111,15 +111,15 @@ export default function Home() {
     }
   }
 
-  async function addCategory(event: React.MouseEvent<HTMLButtonElement>) {
+  async function addCollection(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
 
-    console.log('add cat', category)
+    console.log('add cat', collection)
     // return;
     try {
-      const response = await axios.post('/api/categories', { category: category });
-      const categories = await getCategories();
-      setCategories(categories);
+      const response = await axios.post('/api/collections', { name: collection });
+      const collections = await getCollections();
+      setCollections(collections);
       return true;
     } catch (error) {
       console.log(error);
@@ -128,33 +128,34 @@ export default function Home() {
   };
 
   // Could probably be merged with updateTextInput?
-  function updateCategory(event: React.ChangeEvent<HTMLInputElement>) {
+  function updateCollection(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-    setCategory(value);
+    console.log(value)
+    setCollection(value);
   };
 
-  async function getCategories() {
+  async function getCollections() {
     try {
-      const response = axios.get('api/categories');
-      const categories = await response;
-      return categories.data;
+      const response = axios.get('api/collections');
+      const collections = await response;
+      return collections.data;
     } catch (error) {
       console.log(error);
       return error;
     }
   }
 
-  async function deleteCategory(event: React.SyntheticEvent) {
+  async function deleteCollection(event: React.SyntheticEvent) {
     const { name, value } = event.currentTarget;
     const id = event.currentTarget.getAttribute('data-project-id');
     console.log('deleteing', name, id)
     try {
-      const response = axios.delete(`api/categories?id=${id}`);
-      // const categories = await response;
-      const categories = await getCategories();
-      setCategories(categories);
-      setCategory('')
+      const response = axios.delete(`api/collections?id=${id}`);
+      // const collections = await response;
+      const collections = await getCollections();
+      setCollections(collections);
+      setCollection('')
       return true;
     } catch (error) {
       console.log(error);
@@ -165,24 +166,28 @@ export default function Home() {
   return (
     <>
       <div className='menu-div'>
-        <Menu
-          category={category}
-          categories={categories}
-          addHandler={addCategory}
-          changeHandler={updateCategory}
-          createHandler={createProject}
-          downloadHandler={downloadProjects}
-          deleteHandler={deleteCategory}
-        />
+        {
+          // collections ?
+          <Menu
+            collection={collection}
+            collections={collections}
+            addHandler={addCollection}
+            changeHandler={updateCollection}
+            deleteHandler={deleteCollection}
+          />
+          // : <></>
+        }
       </div>
 
       <div className='project-div'>
         {
-          projects.length > 0 ?
+          projects ?
             <Dashboard
-              category={category}
+              collection={collection}
               projects={projects ? projects : []}
               clickHandler={getProject}
+              createHandler={createProject}
+              downloadHandler={downloadProjects}
             />
             : <></>
         }

@@ -1,50 +1,49 @@
 import { TextInput } from '@/common/components/Inputs';
 import styles from '@/styles/components/Menu.module.scss';
 import { CgAddR } from 'react-icons/cg';
+import CollectionType from '@/common/types/CollectionType';
 
 type Props = {
-  category: string,
-  categories: string[],
+  collection: string,
+  collections: Array<CollectionType>,
   addHandler: React.MouseEventHandler,
   changeHandler: React.ChangeEventHandler,
   deleteHandler: React.MouseEventHandler,
 };
 
 export default function Menu({
-  category,
-  categories,
+  collection,
+  collections,
   addHandler,
   changeHandler,
   deleteHandler,
 }: Props) {
-  console.log(categories)
+  console.log(collections)
   return (
     <>
       {/* Category Controls */}
-      <div className={styles.categories}>
-        <div className={styles.categoryInput}>
-          <TextInput
-            name={'Category'}
-            value={category}
-            changeHandler={changeHandler}
-          />
-          <button onClick={addHandler}>
-            <CgAddR size={30} />
-          </button>
-        </div>
+      <div className={styles.collectionInput}>
+        <TextInput
+          name={'Add New Collection'}
+          value={collection.name}
+          changeHandler={changeHandler}
+        />
+        <button onClick={addHandler}>
+          <CgAddR size={40} />
+        </button>
       </div>
 
-      <div className={styles.categoryList}>
+      <div className={styles.collectionList}>
         {
-          categories ?
-            categories.map((category) => (
-              <div key={category._id} className={styles.category}>
-                {category.category}
+          collections.length > 0 ?
+            collections.map((collection) => (
+              <div key={collection._id} className={styles.collectionTag}>
+                <span>{collection.name}</span>
                 <button
-                  name={category.category}
-                  value={category.category}
+                  name={collection.name}
+                  value={collection.name}
                   onClick={deleteHandler}
-                  data-project-id={category._id}
+                  data-project-id={collection._id}
                 >
                   <CgAddR size={20} />
                 </button>

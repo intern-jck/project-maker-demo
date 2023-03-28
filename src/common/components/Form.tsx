@@ -5,6 +5,7 @@ import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
 
 import type ProjectType from '@/common/types/ProjectType';
+import type DateType from '@/common/types/ProjectType';
 
 import styles from '@/styles/components/Form.module.scss';
 
@@ -14,12 +15,12 @@ type Props = {
   deleteHandler: React.MouseEventHandler,
 };
 
-type DateType = {
-  start_month: string | '',
-  start_year: string | '',
-  end_month: string | '',
-  end_year: string | '',
-}
+// type DateType = {
+//   start_month: string,
+//   start_year: string,
+//   end_month: string,
+//   end_year: string,
+// }
 
 type UpdatedDateType = {
   name: string,
@@ -31,7 +32,7 @@ const formDefaults: ProjectType = {
   link: '',
 
   name: '',
-  category: '',
+  collection: '',
   date: {
     start_month: '',
     start_year: '',
@@ -71,7 +72,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
       ...updatedInput
     }));
   };
-
 
   function updateDate(updatedDate: UpdatedDateType) {
     const { name, value } = updatedDate;
@@ -181,7 +181,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
               />
               <TextInput
                 name={'category'}
-                value={formData.category}
+                value={formData.collection}
                 changeHandler={updateTextInput}
               />
               <DateInput
@@ -208,7 +208,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
                   changeHandler={updateTextInput}
                 />
               </div>
-
               <div className={styles.formCol}>
                 <TextInput
                   name={'short'}
@@ -221,7 +220,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
                   changeHandler={updateTextInput}
                 />
               </div>
-
             </div>
 
             <div className={styles.formRow}>
@@ -242,11 +240,9 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
                 deleteHandler={deleteTag}
               />
             </div>
-
           </form>
           : null
       }
     </>
   )
-
 }
