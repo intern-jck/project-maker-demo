@@ -21,7 +21,6 @@ export default function Home() {
       // This data is category data
       getCategories()
         .then((data) => {
-          console.log('got cats', data)
           setCategories(data);
         })
         .catch((error) => (console.log(error)));
