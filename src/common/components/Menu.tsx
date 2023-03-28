@@ -4,11 +4,12 @@ import { CgAddR } from 'react-icons/cg';
 import CollectionType from '@/common/types/CollectionType';
 
 type Props = {
-  collection: string,
+  collection: CollectionType,
   collections: Array<CollectionType>,
   addHandler: React.MouseEventHandler,
   changeHandler: React.ChangeEventHandler,
   deleteHandler: React.MouseEventHandler,
+  updateHandler: React.MouseEventHandler,
 };
 
 export default function Menu({
@@ -17,6 +18,7 @@ export default function Menu({
   addHandler,
   changeHandler,
   deleteHandler,
+  updateHandler,
 }: Props) {
   console.log(collections)
   return (
@@ -38,7 +40,13 @@ export default function Menu({
           collections.length > 0 ?
             collections.map((collection) => (
               <div key={collection._id} className={styles.collectionTag}>
-                <span>{collection.name}</span>
+                <button
+                  onClick={updateHandler}
+                  date-collection-id={collection._id}
+                >
+
+                  {collection.name}
+                </button>
                 <button
                   name={collection.name}
                   value={collection.name}

@@ -8,13 +8,19 @@ import { fetcher } from '@/common/modules/utils';
 import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
 
+
+const defaultCollection: CollectionType = {
+  name: 
+}
+
+
 export default function Home() {
 
   // Gets initial data
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
   const [currentProjectId, setCurrentProjectId] = useState<string>();
   const [projects, setProjects] = useState<ProjectType[]>();
-  const [collection, setCollection] = useState<string>('');
+  const [collection, setCollection] = useState<CollectionType>();
   const [collections, setCollections] = useState<Array<CollectionType>>([]);
   const [currentCollection, setCurrentCollection] = useState<string>();
 
@@ -117,7 +123,7 @@ export default function Home() {
     console.log('add cat', collection)
     // return;
     try {
-      const response = await axios.post('/api/collections', { name: collection });
+      const response = await axios.post('/api/collections', { name: currentCollection });
       const collections = await getCollections();
       setCollections(collections);
       return true;
@@ -132,7 +138,7 @@ export default function Home() {
     event.preventDefault();
     const { value } = event.currentTarget;
     console.log(value)
-    setCollection(value);
+    setCurrentCollection(value);
   };
 
   async function getCollections() {
