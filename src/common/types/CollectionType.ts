@@ -1,7 +1,7 @@
 type CollectionType = {
-  _id: string,
   name: string,
-  count: number,
+  _id?: string,
+  count?: number,
 };
 
 export default CollectionType;

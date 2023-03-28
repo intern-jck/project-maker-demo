@@ -2,9 +2,10 @@ import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
 import styles from '@/styles/components/Dashboard.module.scss';
 import type ProjectType from '@/common/types/ProjectType';
+import type CollectionType from '@/common/types/CollectionType';
 
 type Props = {
-  collection: string,
+  currentCollection: CollectionType,
   projects: ProjectType[],
   clickHandler: React.MouseEventHandler,
   createHandler: React.MouseEventHandler,
@@ -12,17 +13,19 @@ type Props = {
 };
 
 export default function Dashboard({
-  collection,
+  currentCollection,
   projects,
   clickHandler,
   createHandler,
   downloadHandler,
 }: Props) {
+  console.log('dash', currentCollection)
   return (
     <div className={styles.dashboard}>
 
       <div className={styles.controls}>
         {/* Project Name */}
+        <h2>{currentCollection.name}</h2>
         {/* New Project Button */}
         <button onClick={createHandler} className='onclick'>
           <GoFileMedia size={30} />
@@ -35,18 +38,16 @@ export default function Dashboard({
 
       {/* Project Folder List */}
       {
-        collection && projects ?
+        currentCollection && projects ?
           projects.map((project, i) => {
-            if (project.collection === collection) {
-              return (
-                <Folder
-                  key={project._id}
-                  id={project._id}
-                  clickHandler={clickHandler}
-                  name={project.name}
-                />
-              )
-            }
+            return (
+              <Folder
+                key={project._id}
+                id={project._id}
+                clickHandler={clickHandler}
+                name={project.name}
+              />
+            )
           })
           : null
       }

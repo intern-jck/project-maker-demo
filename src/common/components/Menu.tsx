@@ -4,47 +4,44 @@ import { CgAddR } from 'react-icons/cg';
 import CollectionType from '@/common/types/CollectionType';
 
 type Props = {
-  collection: CollectionType,
+  newCollection: string,
   collections: Array<CollectionType>,
-  addHandler: React.MouseEventHandler,
-  changeHandler: React.ChangeEventHandler,
+  addCollectionHandler: React.MouseEventHandler,
+  updateNewCollectionHandler: React.ChangeEventHandler,
   deleteHandler: React.MouseEventHandler,
-  updateHandler: React.MouseEventHandler,
+  selectCollectionHandler: React.MouseEventHandler,
 };
 
 export default function Menu({
-  collection,
+  newCollection,
   collections,
-  addHandler,
-  changeHandler,
+  addCollectionHandler,
+  updateNewCollectionHandler,
   deleteHandler,
-  updateHandler,
+  selectCollectionHandler,
 }: Props) {
-  console.log(collections)
   return (
     <>
       {/* Category Controls */}
       <div className={styles.collectionInput}>
         <TextInput
           name={'Add New Collection'}
-          value={collection.name}
-          changeHandler={changeHandler}
+          value={newCollection}
+          changeHandler={updateNewCollectionHandler}
         />
-        <button onClick={addHandler}>
+        <button onClick={addCollectionHandler}>
           <CgAddR size={40} />
         </button>
       </div>
-
       <div className={styles.collectionList}>
         {
           collections.length > 0 ?
             collections.map((collection) => (
               <div key={collection._id} className={styles.collectionTag}>
                 <button
-                  onClick={updateHandler}
-                  date-collection-id={collection._id}
+                  onClick={selectCollectionHandler}
+                  data-collection-id={collection._id}
                 >
-
                   {collection.name}
                 </button>
                 <button
@@ -57,7 +54,6 @@ export default function Menu({
                 </button>
               </div>
             ))
-
             : <></>
         }
       </div>

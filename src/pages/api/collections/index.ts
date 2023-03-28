@@ -4,7 +4,6 @@ import CollectionModel from '@/common/modules/mongoAtlas/CollectionModel'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
-  console.log('cat api', method, query, body)
 
   try {
     const connection = await connectMongo();
