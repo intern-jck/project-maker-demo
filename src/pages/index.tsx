@@ -19,7 +19,7 @@ export default function Home() {
 
   const [collections, setCollections] = useState<Array<CollectionType>>([]);
   const [newCollection, setNewCollection] = useState<string>('');
-  const [currentCollection, setCurrentCollection] = useState<CollectionType>();
+  const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [currentProjectId, setCurrentProjectId] = useState<string>();
   const [projects, setProjects] = useState<ProjectType[]>();
 
@@ -51,8 +51,9 @@ export default function Home() {
 
   async function getProjects() {
     try {
-      const response = axios.get('/api/projects');
+      const response = axios.get(`/api/projects?collection=${currentCollection.name}`);
       const projects = await response;
+      console.log('got projects', projects.data)
       return projects.data;
     } catch (error) {
       console.log(error)
@@ -95,16 +96,17 @@ export default function Home() {
     }
   };
 
-  async function downloadProjects() {
+  async function downloadCollection() {
     try {
       const projects = await getProjects();
+      const collectionName = currentCollection.name;
       const projectData = {
-        [currentCategory]: projects,
+        [collectionName]: projects,
       };
-      const filename = `${currentCategory}-proj-json`;
+      const filename = `${collectionName}`;
       const json = JSON.stringify(projectData, null, 2);
       const blob = new Blob([json], { type: 'application/json' })
-      const href = URL.createObjectURL(blob);
+      const href: string = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = href;
       link.download = filename + '.json';
@@ -180,6 +182,9 @@ export default function Home() {
       const collection = await response.data;
       console.log('selected', collection)
       setCurrentCollection(collection);
+      const projects = await getProjects();
+      setProjects(projects);
+      setCurrentProjectId('');
       return true;
     } catch (error) {
       console.log(error);
@@ -210,7 +215,7 @@ export default function Home() {
               projects={projects ? projects : []}
               clickHandler={getProject}
               createHandler={createProject}
-              downloadHandler={downloadProjects}
+              downloadHandler={downloadCollection}
             />
             : <></>
         }

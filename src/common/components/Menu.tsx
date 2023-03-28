@@ -1,6 +1,6 @@
 import { TextInput } from '@/common/components/Inputs';
 import styles from '@/styles/components/Menu.module.scss';
-import { CgAddR } from 'react-icons/cg';
+import { CgAddR, CgCloseR } from 'react-icons/cg';
 import CollectionType from '@/common/types/CollectionType';
 
 type Props = {
@@ -49,7 +49,7 @@ export default function Menu({
                   onClick={deleteHandler}
                   data-project-id={collection._id}
                 >
-                  <CgAddR size={20} />
+                  <CgCloseR size={20} />
                 </button>
               </div>
             ))

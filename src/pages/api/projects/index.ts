@@ -9,7 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
-          const projects = await ProjectModel.find().exec();
+          console.log(method, query)
+          const projects = await ProjectModel.find({ collection_name: query.collection }).exec();
           res.status(200).json(projects);
         } catch (error) {
           console.error('Mongo find', error)

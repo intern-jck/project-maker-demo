@@ -32,6 +32,10 @@ button:hover,
   color: green;
 }
 
+button.active {
+  color: green;
+}
+
 .main {
   border: 4px solid blue;
   height: 100%;
