@@ -37,8 +37,9 @@ export default function Home() {
   // Functions to handle Projects
   async function createProject(event: React.SyntheticEvent) {
     event.preventDefault();
+    console.log(currentCollection.name)
     try {
-      const response = await axios.post('/api/projects', { name: 'test', collection: currentCollection });
+      const response = await axios.post('/api/projects', { name: 'default name', collection_name: currentCollection.name });
       const projects = await getProjects();
       setProjects(projects);
       return response;

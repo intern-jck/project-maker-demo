@@ -6,7 +6,6 @@ import { MdSave, MdDelete } from "react-icons/md";
 
 import type ProjectType from '@/common/types/ProjectType';
 import type DateType from '@/common/types/ProjectType';
-
 import styles from '@/styles/components/Form.module.scss';
 
 type Props = {
@@ -14,13 +13,6 @@ type Props = {
   saveHandler: Function,
   deleteHandler: React.MouseEventHandler,
 };
-
-// type DateType = {
-//   start_month: string,
-//   start_year: string,
-//   end_month: string,
-//   end_year: string,
-// }
 
 type UpdatedDateType = {
   name: string,
@@ -32,7 +24,7 @@ const formDefaults: ProjectType = {
   link: '',
 
   name: '',
-  collection: '',
+  collection_name: '',
   date: {
     start_month: '',
     start_year: '',
@@ -59,6 +51,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   useEffect(() => {
     if (data) {
+      console.log('dash got', data)
       setFormData(data);
     }
   }, [data]);
@@ -180,8 +173,8 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
                 changeHandler={updateTextInput}
               />
               <TextInput
-                name={'category'}
-                value={formData.collection}
+                name={'collection'}
+                value={formData.collection_name}
                 changeHandler={updateTextInput}
               />
               <DateInput

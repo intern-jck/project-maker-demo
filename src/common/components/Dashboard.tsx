@@ -19,7 +19,6 @@ export default function Dashboard({
   createHandler,
   downloadHandler,
 }: Props) {
-  console.log('dash', currentCollection)
   return (
     <div className={styles.dashboard}>
 

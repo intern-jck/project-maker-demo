@@ -22,7 +22,6 @@ export default function Menu({
 }: Props) {
   return (
     <>
-      {/* Category Controls */}
       <div className={styles.collectionInput}>
         <TextInput
           name={'Add New Collection'}
