@@ -5,6 +5,15 @@ import Menu from '@/common/components/Menu';
 import Dashboard from '@/common/components/Dashboard';
 import Form from '@/common/components/Form';
 import { fetcher } from '@/common/modules/utils';
+import {
+  createProject,
+  getProjects,
+  getProject,
+  saveProject,
+  deleteProject,
+  downloadProjects
+} from '@/common/modules/utils/projects';
+
 import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
 
@@ -16,7 +25,7 @@ const defaultCollection: CollectionType = {
 
 export default function Home() {
 
-  // Gets initial data
+  // Need to add types...
   const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
   const [currentProjectId, setCurrentProjectId] = useState<string>();
   const [projects, setProjects] = useState<ProjectType[]>();
@@ -35,139 +44,7 @@ export default function Home() {
     }
   }, [data]);
 
-  async function createProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    try {
-      const response = await axios.post('/api/projects', { name: 'test' });
-      const projects = await getProjects();
-      setProjects(projects);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
 
-  async function getProjects() {
-    try {
-      const response = axios.get('/api/projects');
-      const projects = await response;
-      return projects.data;
-    } catch (error) {
-      console.log(error)
-      return error;
-    }
-  }
-
-  async function getProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    const id = event.currentTarget.getAttribute('data-proj-id');
-    setCurrentProjectId(id); // lookup error
-  };
-
-  async function saveProject(projectData: ProjectType) {
-    try {
-      const response = await axios.put('/api/projects', { doc: projectData });
-      const data = await response.data;
-      const projects = await getProjects();
-      setProjects(projects);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
-  async function deleteProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    const id = event.currentTarget.getAttribute('data-project-id');
-    try {
-      const response = await axios.delete(`/api/projects?id=${id}`);
-      const data = await response.data;
-      const projects = await getProjects();
-      setProjects(projects);
-      setCurrentProjectId('')
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
-  async function downloadProjects() {
-    try {
-      const projects = await getProjects();
-      const projectData = {
-        [currentCollection]: projects,
-      };
-      const filename = `${currentCollection}-proj-json`;
-      const json = JSON.stringify(projectData, null, 2);
-      const blob = new Blob([json], { type: 'application/json' })
-      const href = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = href;
-      link.download = filename + '.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObectURL(href);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-
-  async function addCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-
-    console.log('add cat', collection)
-    // return;
-    try {
-      const response = await axios.post('/api/collections', { name: currentCollection });
-      const collections = await getCollections();
-      setCollections(collections);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
-  // Could probably be merged with updateTextInput?
-  function updateCollection(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const { value } = event.currentTarget;
-    console.log(value)
-    setCurrentCollection(value);
-  };
-
-  async function getCollections() {
-    try {
-      const response = axios.get('api/collections');
-      const collections = await response;
-      return collections.data;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-
-  async function deleteCollection(event: React.SyntheticEvent) {
-    const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-project-id');
-    console.log('deleteing', name, id)
-    try {
-      const response = axios.delete(`api/collections?id=${id}`);
-      // const collections = await response;
-      const collections = await getCollections();
-      setCollections(collections);
-      setCollection('')
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
 
   return (
     <>

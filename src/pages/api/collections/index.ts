@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const connection = await connectMongo();
     switch (method) {
       case 'GET':
+        console.log(method)
         try {
           const response = await CollectionModel.find().exec();
           res.status(200).json(response);
