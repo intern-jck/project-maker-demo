@@ -1,5 +1,5 @@
 .collectionInput {
-  border: 4px solid black;
+  border: 4px solid $border-color;
   padding: 0.2rem;
   width: 20rem;
   display: flex;
@@ -21,7 +21,7 @@
 }
 
 .collectionList {
-  border: 4px solid black;
+  border: 4px solid $border-color;
   padding: 0.4rem;
   width: 40rem;
   height: 6rem;
@@ -32,7 +32,7 @@
   overflow-y: scroll;
 
   .collectionTag {
-    border: 2px solid black;
+    border: 2px solid $border-color;
     padding: 0.2rem;
     min-width: 4rem;
     height: 2rem;
@@ -40,6 +40,5 @@
     align-items: center;
     justify-content: space-between;
     font-size: 1rem;
-
   }
 }

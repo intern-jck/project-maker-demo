@@ -21,17 +21,15 @@ export default function Dashboard({
 }: Props) {
   return (
     <div className={styles.dashboard}>
-
       <div className={styles.controls}>
-        {/* Project Name */}
         <h2>{currentCollection.name}</h2>
         {/* New Project Button */}
         <button onClick={createHandler} className='onclick'>
-          <GoFileMedia size={30} />
+          <GoFileMedia size={40} />
         </button>
-        {/* Download Project Data Button */}
+        {/* Download Collection JSON */}
         <button onClick={downloadHandler} className='onclick'>
-          <GoDesktopDownload size={30} />
+          <GoDesktopDownload size={40} />
         </button>
       </div>
 

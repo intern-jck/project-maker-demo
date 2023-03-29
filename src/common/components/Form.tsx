@@ -159,10 +159,10 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
               <h1>NAME: {formData.name}</h1>
               <h2>ID: {formData._id}</h2>
               <button type='submit'>
-                <MdSave size={30} />
+                <MdSave size={40} />
               </button>
               <button onClick={deleteHandler} data-project-id={id}>
-                <MdDelete size={30} />
+                <MdDelete size={40} />
               </button>
             </div>
 
