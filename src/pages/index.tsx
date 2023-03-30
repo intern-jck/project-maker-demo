@@ -25,6 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
+      console.log('app load', data)
       getCollections()
         .then((collectionData) => {
           setCollections(collectionData);
