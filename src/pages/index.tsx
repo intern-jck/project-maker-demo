@@ -51,8 +51,20 @@ export default function Home() {
   };
 
   async function getProjects() {
+
+    if (currentCollection) {
+      try {
+        const response = axios.get(`/api/projects?collection=${currentCollection.name}`);
+        const projects = await response;
+        console.log('got projects', projects.data)
+        return projects.data;
+      } catch (error) {
+        console.log(error)
+        return error;
+      }
+    }
     try {
-      const response = axios.get(`/api/projects?collection=${currentCollection.name}`);
+      const response = axios.get(`/api/projects`);
       const projects = await response;
       console.log('got projects', projects.data)
       return projects.data;
@@ -60,6 +72,7 @@ export default function Home() {
       console.log(error)
       return error;
     }
+
   };
 
   async function getProject(event: React.SyntheticEvent) {
@@ -176,12 +189,11 @@ export default function Home() {
 
   async function selectCollection(event: React.MouseEvent<HTMLButtonElement>) {
     // const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-collection-id');
+    const id = event.currentTarget.getAttribute('data-folder-id');
     console.log('selecting', id)
     try {
       const response = await axios.get(`api/collections/${id}`);
       const collection = await response.data;
-      console.log('selected', collection)
       setCurrentCollection(collection);
       const projects = await getProjects();
       setProjects(projects);

@@ -12,7 +12,7 @@ export default function Folder({ id, name, clickHandler }: Props) {
     <div className={styles.folder}>
       <button
         onClick={clickHandler}
-        data-proj-id={id}
+        data-folder-id={id}
       >
         <CgFolder />
         <span>{name}</span>

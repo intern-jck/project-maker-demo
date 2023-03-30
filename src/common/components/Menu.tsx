@@ -37,16 +37,6 @@ export default function Menu({
         {
           collections.length > 0 ?
             collections.map((collection) => (
-
-              // <div key={collection._id} className={styles.collectionTag}>
-              //   <button
-              //     onClick={selectCollectionHandler}
-              //     data-collection-id={collection._id}
-              //   >
-              //     {collection.name}
-              //   </button>
-
-              // </div>
               <div
                 className={styles.collection}
                 key={collection._id}>
@@ -65,8 +55,6 @@ export default function Menu({
                   clickHandler={selectCollectionHandler}
                 />
               </div>
-
-
             ))
             : <></>
         }
