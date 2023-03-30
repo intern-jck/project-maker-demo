@@ -35,7 +35,7 @@ export default function Dashboard({
 
       {/* Project Folder List */}
       {
-        currentCollection && projects ?
+        projects ?
           projects.map((project, i) => {
             return (
               <Folder

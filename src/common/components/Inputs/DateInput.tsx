@@ -6,33 +6,32 @@ type DateType = {
   start_year: string | '',
   end_month: string | '',
   end_year: string | '',
-}
+};
 
 type Props = {
   date: DateType,
   dateHandler: Function,
-}
+};
 
 export default function DateInput({ date, dateHandler }: Props) {
-  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
+
+  function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    const updatedDate = { name: name, value: value };
-    dateHandler(updatedDate)
+    const newDate = { name: name, value: value };
+    dateHandler(newDate);
   };
 
   return (
     <div className={'dateInput'}>
 
       <div className={'dateRow'}>
-        <span>
-          START:
-        </span>
+        <span>START:</span>
         <label>
           <select
             name='start_month'
             value={date.start_month}
-            onChange={updateDate} // lookup error
+            onChange={updateDate}
           >
             <option key='0' value='default'>MONTH</option>
             {
@@ -59,9 +58,7 @@ export default function DateInput({ date, dateHandler }: Props) {
       </div>
 
       <div className={'dateRow'}>
-        <span>
-          END:
-        </span>
+        <span>END:</span>
         <label>
           <select
             name='end_month'
