@@ -12,6 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(response);
   } catch (error) {
     console.error('Mongo findById', error);
-    res.json(error);
+    res.status(500).json(error);
   }
 }

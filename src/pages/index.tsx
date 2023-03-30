@@ -223,7 +223,7 @@ export default function Home() {
           currentProjectId ?
             <Form
               id={currentProjectId}
-              saveHandler={saveProject}
+              saveProjectHandler={saveProject}
               deleteProjectHandler={deleteProject}
             />
             : <></>

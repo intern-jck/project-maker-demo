@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(200).json(response);
         } catch (error) {
           console.error('Mongo find', error)
-          res.json({ error })
+          res.status(500).json({ error })
         }
         break;
 
@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo create', error)
-          res.json({ error })
+          res.status(500).json({ error })
         }
         break;
 
@@ -41,30 +41,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo update', error)
-          res.json({ error })
+          res.status(500).json({ error })
         }
         break;
 
       case 'DELETE':
         const { id } = req.query;
-        console.log('deleting', id)
         try {
           const response = await CollectionModel.deleteOne({ _id: id }).exec();
           res.status(200).json(response);
         } catch (error) {
           console.error('Mongo delete', error)
-          res.json({ error })
+          res.status(500).json({ error })
         }
         break;
 
       default:
-        res.status(405);
-        res.json(`${method} request not found`)
+        res.status(405).json(`${method} request not found`)
         break;
     }
   } catch (error) {
-    console.log(method, error)
-    res.status(500);
-    res.json({ method: method, error: error });
+    console.error(method, error)
+    res.status(500).json({ method: method, error: error });
   }
 }
