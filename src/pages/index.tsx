@@ -64,7 +64,7 @@ export default function Home() {
 
   async function getProject(event: React.SyntheticEvent) {
     event.preventDefault();
-    const id: string = event.currentTarget.getAttribute('data-proj-id');
+    const id = event.currentTarget.getAttribute('data-proj-id');
     setCurrentProjectId(id); // lookup error
   };
 
