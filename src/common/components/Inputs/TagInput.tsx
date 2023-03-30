@@ -4,7 +4,7 @@ import { CgAddR, CgCloseR } from 'react-icons/cg';
 type Props = {
   name: string,
   value: string,
-  tags: Array<string>,
+  tags: string[],
   changeHandler: React.ChangeEventHandler,
   addHandler: React.MouseEventHandler,
   deleteHandler: React.MouseEventHandler,

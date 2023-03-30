@@ -5,7 +5,7 @@ import Image from 'next/image';
 type Props = {
   name: string,
   value: string,
-  photos: Array<string>,
+  photos: string[],
   changeHandler: React.ChangeEventHandler,
   addHandler: React.MouseEventHandler,
   deleteHandler: React.MouseEventHandler,
@@ -14,7 +14,7 @@ type Props = {
 export default function PhotoInput({ name, value, photos, changeHandler, addHandler, deleteHandler }: Props) {
   return (
     <div className='photoInput'>
-      <div className='photoUrlInput'>
+      <div className='photoURLInput'>
         <TextInput
           name={name}
           value={value}

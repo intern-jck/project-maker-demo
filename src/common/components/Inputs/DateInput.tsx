@@ -2,10 +2,10 @@ const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', '
 const YEARS = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
 
 type DateType = {
-  start_month: string | '',
-  start_year: string | '',
-  end_month: string | '',
-  end_year: string | '',
+  start_month: string,
+  start_year: string,
+  end_month: string,
+  end_year: string,
 };
 
 type Props = {
