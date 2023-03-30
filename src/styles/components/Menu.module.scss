@@ -30,14 +30,24 @@
   align-content: flex-start;
   gap: 1rem;
 
-  .collectionTag {
-    border: $border-thin;
+  .collection {
+    // border: $border-thin;
     padding: 0.2rem;
-    min-width: 4rem;
-    height: 2rem;
     font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
+
+    .deleteButton {
+      background: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      svg {
+        background: white;
+      }
+    }
+
+
+
   }
 }

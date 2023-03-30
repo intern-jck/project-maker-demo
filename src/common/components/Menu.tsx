@@ -1,4 +1,5 @@
 import { TextInput } from '@/common/components/Inputs';
+import Folder from '@/common/components/Folder';
 import styles from '@/styles/components/Menu.module.scss';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 import CollectionType from '@/common/types/CollectionType';
@@ -36,14 +37,21 @@ export default function Menu({
         {
           collections.length > 0 ?
             collections.map((collection) => (
-              <div key={collection._id} className={styles.collectionTag}>
+
+              // <div key={collection._id} className={styles.collectionTag}>
+              //   <button
+              //     onClick={selectCollectionHandler}
+              //     data-collection-id={collection._id}
+              //   >
+              //     {collection.name}
+              //   </button>
+
+              // </div>
+              <div
+                className={styles.collection}
+                key={collection._id}>
                 <button
-                  onClick={selectCollectionHandler}
-                  data-collection-id={collection._id}
-                >
-                  {collection.name}
-                </button>
-                <button
+                  className={styles.deleteButton}
                   name={collection.name}
                   value={collection.name}
                   onClick={deleteCollectionHandler}
@@ -51,7 +59,14 @@ export default function Menu({
                 >
                   <CgCloseR size={20} />
                 </button>
+                <Folder
+                  id={collection._id}
+                  name={collection.name}
+                  clickHandler={selectCollectionHandler}
+                />
               </div>
+
+
             ))
             : <></>
         }
