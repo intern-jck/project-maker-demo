@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
+import { TextInput, TextArea, DateInput, PhotoInput, TagInput, SelectInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
 import { fetcher } from '@/common/modules/utils';
 import type ProjectType from '@/common/types/ProjectType';
 import styles from '@/styles/components/Form.module.scss';
+
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
 type Props = {
   id: string,
@@ -38,7 +40,7 @@ const formDefaults: ProjectType = {
   tech: [],
   photos: [],
   github_url: '',
-}
+};
 
 export default function Form({ id, saveProjectHandler, deleteProjectHandler }: Props) {
 
@@ -46,6 +48,8 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
+
+  // const [date, setDate] = useState<DateType>();
 
   useEffect(() => {
     if (data) {
@@ -63,14 +67,14 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     }));
   };
 
-  function updateDate(updatedDate: UpdatedDateType) {
-    const { name, value } = updatedDate;
-    const currentDate = formData.date;
-    currentDate[name] = value; // lookup error
-    setFormData((formData) => ({
-      ...formData,
-      ...currentDate,
-    }));
+  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
+    // const currentDate = formData.date;
+    // currentDate[name] = value; // lookup error
+    // setFormData((formData) => ({
+    //   ...formData,
+    //   ...currentDate,
+    // }));
   };
 
   // Could probably be merged with updateTextInput?
