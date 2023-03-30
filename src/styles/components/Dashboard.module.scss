@@ -1,7 +1,18 @@
+.dashboard {
+  border: $border-stock;
+  padding: $padding-stock;
+  width: 25%;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 1rem;
+}
+
 .controls {
-  border: 4px solid $border-color;
+  border: $border-thin;
   width: 100%;
-  padding: 0.25rem;
+  padding: $padding-stock;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -11,15 +22,4 @@
     font-size: 1.2rem;
     margin: 0;
   }
-}
-
-.dashboard {
-  border: 4px solid $border-color;
-  padding: 0.25rem;
-  width: 25%;
-  overflow-y: scroll;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 1rem;
 }
