@@ -8,7 +8,7 @@ type Props = {
   collections: Array<CollectionType>,
   addCollectionHandler: React.MouseEventHandler,
   updateNewCollectionHandler: React.ChangeEventHandler,
-  deleteHandler: React.MouseEventHandler,
+  deleteCollectionHandler: React.MouseEventHandler,
   selectCollectionHandler: React.MouseEventHandler,
 };
 
@@ -17,8 +17,8 @@ export default function Menu({
   collections,
   addCollectionHandler,
   updateNewCollectionHandler,
-  deleteHandler,
   selectCollectionHandler,
+  deleteCollectionHandler,
 }: Props) {
   return (
     <>
@@ -46,7 +46,7 @@ export default function Menu({
                 <button
                   name={collection.name}
                   value={collection.name}
-                  onClick={deleteHandler}
+                  onClick={deleteCollectionHandler}
                   data-project-id={collection._id}
                 >
                   <CgCloseR size={20} />

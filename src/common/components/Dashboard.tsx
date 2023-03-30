@@ -1,5 +1,5 @@
-import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
+import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import styles from '@/styles/components/Dashboard.module.scss';
 import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';

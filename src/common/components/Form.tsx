@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import { fetcher } from '@/common/modules/utils';
 import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
-
+import { fetcher } from '@/common/modules/utils';
 import type ProjectType from '@/common/types/ProjectType';
-import type DateType from '@/common/types/ProjectType';
 import styles from '@/styles/components/Form.module.scss';
 
 type Props = {
   id: string,
-  saveHandler: Function,
-  deleteHandler: React.MouseEventHandler,
+  saveProjectHandler: Function,
+  deleteProjectHandler: React.MouseEventHandler,
 };
 
 type UpdatedDateType = {
@@ -42,7 +40,7 @@ const formDefaults: ProjectType = {
   github_url: '',
 }
 
-export default function Form({ id, saveHandler, deleteHandler }: Props) {
+export default function Form({ id, saveProjectHandler, deleteProjectHandler }: Props) {
 
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
@@ -51,7 +49,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   useEffect(() => {
     if (data) {
-      console.log('dash got', data)
       setFormData(data);
     }
   }, [data]);
@@ -68,7 +65,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   function updateDate(updatedDate: UpdatedDateType) {
     const { name, value } = updatedDate;
-    const currentDate: DateType = formData.date;
+    const currentDate = formData.date;
     currentDate[name] = value; // lookup error
     setFormData((formData) => ({
       ...formData,
@@ -78,16 +75,14 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
 
   // Could probably be merged with updateTextInput?
   function updatePhoto(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
     const { value } = event.currentTarget;
     setNewPhoto(value);
   };
 
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
     const { photos } = formData;
     if (newPhoto) {
-      photos.push(newPhoto); // lookup error
+      photos.push(newPhoto);
       setNewPhoto('');
       setFormData((formData) => ({
         ...formData,
@@ -97,7 +92,6 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
   };
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
     if (index) {
@@ -107,18 +101,15 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
         photos: photos,
       }))
     }
-
   };
 
   // Could probably be merged with updateTextInput?
   function updateTag(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
     const { value } = event.currentTarget;
     setNewTag(value);
   };
 
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
     const { tech } = formData;
     if (newTag) {
       tech.push(newTag);
@@ -131,22 +122,20 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
   };
 
   function deleteTag(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
     const index = event.currentTarget.getAttribute('data-tag-index');
     const { tech } = formData;
     if (index) {
-      tech.splice(index, 1);
+      tech.splice(index, 1); // lookup error
       setFormData((formData) => ({
         ...formData,
         tech: tech,
       }))
-    }
+    };
 
   };
 
   function saveProject(event: React.FormEvent) {
-    event.preventDefault();
-    saveHandler(formData);
+    saveProjectHandler(formData);
   }
 
   return (
@@ -161,7 +150,7 @@ export default function Form({ id, saveHandler, deleteHandler }: Props) {
               <button type='submit'>
                 <MdSave size={40} />
               </button>
-              <button onClick={deleteHandler} data-project-id={id}>
+              <button onClick={deleteProjectHandler} data-project-id={id}>
                 <MdDelete size={40} />
               </button>
             </div>

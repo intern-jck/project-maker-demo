@@ -201,7 +201,7 @@ export default function Home() {
             collections={collections}
             addCollectionHandler={addCollection}
             updateNewCollectionHandler={updateNewCollection}
-            deleteHandler={deleteCollection}
+            deleteCollectionHandler={deleteCollection}
             selectCollectionHandler={selectCollection}
           />
         }
@@ -224,7 +224,7 @@ export default function Home() {
             <Form
               id={currentProjectId}
               saveHandler={saveProject}
-              deleteHandler={deleteProject}
+              deleteProjectHandler={deleteProject}
             />
             : <></>
         }

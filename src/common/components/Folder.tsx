@@ -7,7 +7,7 @@ type Props = {
   clickHandler: React.MouseEventHandler
 }
 
-export default function Folder({ clickHandler, id, name }: Props) {
+export default function Folder({ id, name, clickHandler }: Props) {
   return (
     <div className={styles.folder}>
       <button
@@ -19,5 +19,4 @@ export default function Folder({ clickHandler, id, name }: Props) {
       </button>
     </div>
   );
-
 };
