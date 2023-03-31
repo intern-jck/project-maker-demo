@@ -7,7 +7,10 @@ type Props = {
 
 export default function Select({ name, value, options, changeHandler }: Props) {
   return (
-    <label>
+    <>
+      <label htmlFor={name}>
+        {name.toUpperCase()}
+      </label>
       <select
         name={name}
         value={value}
@@ -20,6 +23,6 @@ export default function Select({ name, value, options, changeHandler }: Props) {
           ))
         }
       </select>
-    </label>
+    </>
   );
 };

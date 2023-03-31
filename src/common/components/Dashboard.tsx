@@ -1,6 +1,6 @@
 import Folder from './Folder';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-import { CgAddR, CgCloseR, CgTrash } from 'react-icons/cg';
+import { CgAddR, CgTrash } from 'react-icons/cg';
 
 import styles from '@/styles/components/Dashboard.module.scss';
 import { TextInput, SelectInput } from '@/common/components/Inputs';
@@ -15,11 +15,17 @@ type Props = {
   downloadHandler: React.MouseEventHandler,
 };
 
-
 function changeHandlerTest(event: React.ChangeEvent<HTMLSelectElement>) {
   const { name, value } = event.currentTarget;
   console.log(name, value);
 }
+
+
+function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
+  const { name, value } = event.currentTarget;
+  console.log(name, value);
+}
+
 
 export default function Dashboard({
   currentCollection,
@@ -33,26 +39,28 @@ export default function Dashboard({
 
       {/* Create/Delete Collections */}
       <div className={styles.collections}>
-
         <div className={styles.collectionInput}>
           <TextInput
-            name={'New Collection'}
-            value={'test'}
+            name={'new_collection'}
+            value={''}
             changeHandler={changeHandlerTest}
           />
-          <button onClick={changeHandlerTest}>
+          <button
+            name={'add'}
+            onClick={clickHandlerTest}>
             <CgAddR size={30} />
           </button>
         </div>
-
         <div className={styles.collectionSelect}>
           <SelectInput
-            name={'COLLECTIONS'}
-            value={'default'}
-            options={[]}
+            name={'collections'}
+            value={''}
+            options={['TEST']}
             changeHandler={changeHandlerTest}
           />
-          <button onClick={() => (console.log('delete'))}>
+          <button
+            name={'delete'}
+            onClick={clickHandlerTest}>
             <CgTrash size={30} />
           </button>
         </div>
@@ -61,11 +69,16 @@ export default function Dashboard({
 
       {/* Create/Download Projects */}
       <div className={styles.projectControls}>
-        <h2>{currentCollection.name}COLLECTION NAME</h2>
-        <button onClick={createHandler}>
+        {/* <h2>{currentCollection.name}COLLECTION NAME</h2> */}
+        <h2>COLLECTION NAME</h2>
+        <button
+          name={'create'}
+          onClick={clickHandlerTest}>
           <GoFileMedia size={30} />
         </button>
-        <button onClick={downloadHandler}>
+        <button
+          name={'download'}
+          onClick={clickHandlerTest}>
           <GoDesktopDownload size={30} />
         </button>
       </div>

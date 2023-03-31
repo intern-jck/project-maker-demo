@@ -3,72 +3,84 @@
   padding: $padding-stock;
   width: 30rem;
   overflow-y: scroll;
-  // cant decide between grid and flex...
-  // display: grid;
-  // grid-template-rows: repeat(10, 4rem);
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 .collections {
-  border: $border-stock;
+  border: $border-thin;
   padding: 0.1rem;
-  // grid-column: 1;
-  // grid-row: 1/3;
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
-
-  label {
-    width: 75%;
-  }
 
   button {
     // width: 3rem;
     // height: 3rem;
+    margin-right: 1rem;
   }
 
   .collectionInput {
-    border: 2px solid blue;
     padding: 0.1rem;
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    label {
+      display: none;
+      width: 100%;
+    }
+
+    input {
+      border: $border-thin;
+      width: 20rem;
+      font-size: 1.2rem;
+      font-family: $page-font;
+    }
+
   }
 
   .collectionSelect {
-    border: 2px solid blue;
     padding: 0.1rem;
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    label {
+      display: none;
+      width: 100%;
+    }
+
+    select {
+      border: $border-thin;
+      width: 20rem;
+      font-size: 1.2rem;
+      font-family: $page-font;
+    }
   }
 }
 
 .projectControls {
-  border: $border-stock;
+  border: $border-thin;
   padding: 0.1rem;
-  // grid-column: 1;
-  // grid-row: 3;
   display: flex;
   align-items: center;
   gap: 1rem;
 
   h2 {
-    border: $border-stock;
     width: 75%;
+    margin: 0;
+    padding-left: 0.25rem;
+    font-size: 1.2rem;
   }
 }
 
 .projects {
-  border: $border-stock;
+  border: $border-thin;
   grid-column: 1;
-  // grid-row: 4/11;
+  padding: 0.1rem;
   height: 100%;
   overflow-y: scroll;
 }
