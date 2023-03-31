@@ -1,7 +1,8 @@
+import { Types } from 'mongoose';
+
 type CollectionType = {
+  _id: Types.ObjectId,
   name: string,
-  _id?: string,
-  count?: number,
   projects: string[],
 };
 

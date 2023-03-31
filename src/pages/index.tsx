@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import { fetcher } from '@/common/modules/utils';
-import Menu from '@/common/components/Menu';
 import Dashboard from '@/common/components/Dashboard';
 import Form from '@/common/components/Form';
 import type ProjectType from '@/common/types/ProjectType';
@@ -11,40 +10,40 @@ import type CollectionType from '@/common/types/CollectionType';
 export default function Home() {
 
   // Get initial project data
-  const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
+  const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
 
-  const [collections, setCollections] = useState<Array<CollectionType>>([]);
   const [newCollection, setNewCollection] = useState<string>('');
+  const [collectionNames, setCollectionNames] = useState<string[]>([]);
   const [currentCollection, setCurrentCollection] = useState<CollectionType>({});
-  const [currentProjectId, setCurrentProjectId] = useState<string>();
-  const [project, setProject] = useState({});
+  const [collections, setCollections] = useState<CollectionType[]>([]);
 
-  const [projects, setProjects] = useState<ProjectType[]>();
+  // const [currentProjectId, setCurrentProjectId] = useState<string>();
+  // const [project, setProject] = useState({ });
+  // const [projects, setProjects] = useState<ProjectType[]>();
 
   useEffect(() => {
     if (data) {
-      console.log('app load', data)
-      // getCollections()
-      //   .then((collectionData) => {
-      //     setCollections(collectionData);
-      //   })
-      //   .catch((error) => (console.log(error)));
-      setProjects(data);
+      // console.log('app load', data)
+      const names = getCollectionNames(collections);
+      setCollectionNames(names);
+      setCollections(data);
     }
   }, [data]);
 
   // Functions to handle Collections
   async function createCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    try {
-      const response = await axios.post('/api/collections', { name: newCollection });
-      const collections = await getCollections();
-      setCollections(collections);
-      setNewCollection('');
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (newCollection) {
+      try {
+        const response = await axios.post('/api/collections', { name: newCollection });
+        const collections = await getCollections();
+        const names = getCollectionNames(collections);
+        setCollectionNames(names);
+        setNewCollection('');
+        return true;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
     }
   };
 
@@ -59,109 +58,73 @@ export default function Home() {
     }
   };
 
-  // Could probably be merged with updateTextInput?
-  function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const { value } = event.currentTarget;
+  function getCollectionNames(collections: Array<CollectionType>) {
+    const names = collections.map((collection: CollectionType) => (collection.name))
+    console.log(names);
+    setCollectionNames(names);
+    return names;
+  }
+
+
+  async function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
     setNewCollection(value);
+  }
+
+  async function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.currentTarget;
+    console.log('selecting', value, collections)
+
+    for (let i = 0; i < collections.length; i++) {
+      if (collections[i].name === value) {
+        setCurrentCollection(collections[i]);
+      }
+    }
   };
 
   async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    // const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-project-id');
+    const id = currentCollection._id;
     console.log('deleteing', id)
-    try {
-      const response = axios.delete(`api/collections?id=${id}`);
-      const collections = await getCollections();
-      setCollections(collections);
-      setNewCollection('');
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
+    if (currentCollection._id) {
+      try {
+        const response = await axios.delete(`api/collections?id=${id}`);
+        const collections = await getCollections();
+        const names = getCollectionNames(collections);
+        setCollectionNames(names);
+        setCollections(collections);
+        setCurrentCollection({});
+        return true;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
     }
-  };
-
-  async function selectCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    // const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-folder-id');
-    console.log('selecting', id)
-    try {
-      const response = await axios.get(`api/collections/${id}`);
-      const collection = await response.data;
-      setCurrentCollection(collection);
-      const projects = await getProjects();
-      setProjects(projects);
-      setCurrentProjectId('');
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
-  async function downloadCollection() {
-    try {
-      const projects = await getProjects();
-      const collectionName = currentCollection.name;
-      const projectData = {
-        [collectionName]: projects,
-      };
-      const filename = `${collectionName}`;
-      const json = JSON.stringify(projectData, null, 2);
-      const blob = new Blob([json], { type: 'application/json' })
-      const href: string = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = href;
-      link.download = filename + '.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObectURL(href);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
+  }
 
   return (
-    <>
-      {/* <div className='menu-div'>
-        {
-          <Menu
-            newCollection={newCollection}
-            collections={collections}
-            createCollectionHandler={createCollection}
-            updateNewCollectionHandler={updateNewCollection}
-            deleteCollectionHandler={deleteCollection}
-            selectCollectionHandler={selectCollection}
-          />
-        }
-      </div> */}
+    <div className='project-div'>
+      {
+        <Dashboard
+          newCollection={newCollection}
+          collectionNames={collectionNames}
+          currentCollection={currentCollection}
+          createCollectionHandler={createCollection}
+          updateNewCollectionHandler={updateNewCollection}
+          updateCurrentCollectionHandler={updateCurrentCollection}
+          deleteCollectionHandler={deleteCollection}
 
-      <div className='project-div'>
-        {
-          currentCollection ?
-            <Dashboard
-              currentCollection={currentCollection}
-              projects={projects ? projects : []}
-            // clickHandler={getProject}
-            // createHandler={createProject}
-            // downloadHandler={downloadCollection}
-            />
-            : <></>
-        }
-        {
-          currentProjectId ?
-            <Form
-              id={currentProjectId}
-            // saveProjectHandler={saveProject}
-            // deleteProjectHandler={deleteProject}
-            />
-            : <></>
-        }
-      </div>
-
-    </>
+        // projects={projects ? projects : []}
+        />
+      }
+      {
+        // currentProjectId ?
+        // <Form
+        // id={currentProjectId}
+        // saveProjectHandler={saveProject}
+        // deleteProjectHandler={deleteProject}
+        // />
+        // : <></>
+      }
+    </div>
   )
 }

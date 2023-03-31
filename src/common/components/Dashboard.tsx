@@ -8,11 +8,17 @@ import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
 
 type Props = {
+  newCollection: string,
+  collectionNames: string[],
   currentCollection: CollectionType,
-  projects: ProjectType[],
-  clickHandler: React.MouseEventHandler,
-  createHandler: React.MouseEventHandler,
-  downloadHandler: React.MouseEventHandler,
+  createCollectionHandler: React.MouseEventHandler,
+  updateNewCollectionHandler: React.ChangeEventHandler,
+  updateCurrentCollectionHandler: React.ChangeEventHandler
+  deleteCollectionHandler: React.MouseEventHandler,
+  // projects: ProjectType[],
+  // createProjectHandler: React.MouseEventHandler,
+  // downloadHandler: React.MouseEventHandler,
+  // onChangeHandler: React.ChangeEventHandler,
 };
 
 function changeHandlerTest(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -20,20 +26,25 @@ function changeHandlerTest(event: React.ChangeEvent<HTMLSelectElement>) {
   console.log(name, value);
 }
 
-
 function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
   const { name, value } = event.currentTarget;
   console.log(name, value);
 }
 
-
 export default function Dashboard({
+  newCollection,
+  collectionNames,
   currentCollection,
-  projects,
-  clickHandler,
-  createHandler,
-  downloadHandler,
+  createCollectionHandler,
+  updateNewCollectionHandler,
+  updateCurrentCollectionHandler,
+  deleteCollectionHandler,
+  // projects,
+  // clickHandler,
+  // downloadHandler,
 }: Props) {
+
+
   return (
     <div className={styles.dashboard}>
 
@@ -42,25 +53,25 @@ export default function Dashboard({
         <div className={styles.collectionInput}>
           <TextInput
             name={'new_collection'}
-            value={''}
-            changeHandler={changeHandlerTest}
+            value={newCollection}
+            changeHandler={updateNewCollectionHandler}
           />
           <button
             name={'add'}
-            onClick={clickHandlerTest}>
+            onClick={createCollectionHandler}>
             <CgAddR size={30} />
           </button>
         </div>
         <div className={styles.collectionSelect}>
           <SelectInput
             name={'collections'}
-            value={''}
-            options={['TEST']}
-            changeHandler={changeHandlerTest}
+            value={currentCollection.name}
+            options={collectionNames}
+            changeHandler={updateCurrentCollectionHandler}
           />
           <button
             name={'delete'}
-            onClick={clickHandlerTest}>
+            onClick={deleteCollectionHandler}>
             <CgTrash size={30} />
           </button>
         </div>

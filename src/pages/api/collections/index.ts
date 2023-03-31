@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'POST':
         try {
-          const doc = req.body ? req.body : {};
+          const doc = body ? body : {};
           const response = await CollectionModel.create(doc);
           res.status(200).send(response);
         } catch (error) {
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'PUT':
-        const doc = req.body ? req.body.doc : {};
+        const doc = body ? body.doc : {};
         const filter = { '_id': doc._id };
         const update = {
           ...doc,
@@ -46,7 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'DELETE':
-        const { id } = req.query;
+        const { id } = query;
+        console.log('deleteing', id)
         try {
           const response = await CollectionModel.deleteOne({ _id: id }).exec();
           res.status(200).json(response);
