@@ -1,25 +1,71 @@
 .dashboard {
-  border: $border-stock;
+  // border: $border-stock;
+  border: 4px solid green;
   padding: $padding-stock;
-  width: 25%;
+  width: 30rem;
   overflow-y: scroll;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 1rem;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  // display: flex;
+  // flex-wrap: wrap;
+  // align-content: flex-start;
+  // gap: 1rem;
 }
 
-.controls {
-  border: $border-thin;
-  width: 100%;
-  padding: $padding-stock;
+
+.collections {
+  border: $border-stock;
+  padding: 0.1rem;
+  grid-column: 1;
+  grid-row: 1/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    width: 75%;
+  }
+
+  button {
+    // width: 3rem;
+    // height: 3rem;
+  }
+
+  .collectionInput {
+    border: 2px solid blue;
+    padding: 0.1rem;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .collectionSelect {
+    border: 2px solid blue;
+    padding: 0.1rem;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.projectControls {
+  border: $border-stock;
+  padding: 0.1rem;
+  grid-column: 1;
+  grid-row: 3;
   display: flex;
   align-items: center;
   gap: 1rem;
 
   h2 {
-    width: 100%;
-    font-size: 1.2rem;
-    margin: 0;
+    border: $border-stock;
+    width: 75%;
   }
+}
+
+.projects {
+  border: $border-stock;
+  grid-column: 1;
+  grid-row: 4/11;
 }

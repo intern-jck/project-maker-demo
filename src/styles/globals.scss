@@ -19,7 +19,7 @@ body {
 
 button {
   background-color: $background-color;
-  border: none;
+  // border: none;
   padding: 0;
 
   svg {
@@ -55,7 +55,7 @@ main {
 .project-div {
   border: $border-stock;
   padding: $padding-stock;
-  height: 70%;
+  height: 100%;
   display: flex;
   gap: 1rem;
 }
