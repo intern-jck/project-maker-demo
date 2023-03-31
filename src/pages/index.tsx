@@ -56,17 +56,16 @@ export default function Home() {
       try {
         const response = axios.get(`/api/projects?collection=${currentCollection.name}`);
         const projects = await response;
-        console.log('got projects', projects.data)
         return projects.data;
       } catch (error) {
         console.log(error)
         return error;
       }
     }
+
     try {
       const response = axios.get(`/api/projects`);
       const projects = await response;
-      console.log('got projects', projects.data)
       return projects.data;
     } catch (error) {
       console.log(error)
@@ -137,9 +136,6 @@ export default function Home() {
   // Functions to handle Collections
   async function addCollection(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-
-    console.log('add cat', newCollection)
-    // return;
     try {
       const response = await axios.post('/api/collections', { name: newCollection });
       const collections = await getCollections();

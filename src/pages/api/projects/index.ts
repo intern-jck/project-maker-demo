@@ -9,12 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
-          if (query.collection) {
-            console.log('getting projects for:', query.collection)
-            const projects = await ProjectModel.find({ collection_name: query.collection }).exec();
-            res.status(200).json(projects);
-          }
-          console.log('getting all projects')
           const projects = await ProjectModel.find().exec();
           console.log(projects)
           res.status(200).json(projects);
