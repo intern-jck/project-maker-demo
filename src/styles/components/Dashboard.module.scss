@@ -1,27 +1,24 @@
 .dashboard {
-  // border: $border-stock;
-  border: 4px solid green;
+  border: $border-stock;
   padding: $padding-stock;
   width: 30rem;
   overflow-y: scroll;
-  display: grid;
-  grid-template-rows: repeat(10, 1fr);
-  // display: flex;
-  // flex-wrap: wrap;
-  // align-content: flex-start;
-  // gap: 1rem;
+  // cant decide between grid and flex...
+  // display: grid;
+  // grid-template-rows: repeat(10, 4rem);
+  display: flex;
+  flex-direction: column;
 }
-
 
 .collections {
   border: $border-stock;
   padding: 0.1rem;
-  grid-column: 1;
-  grid-row: 1/3;
+  // grid-column: 1;
+  // grid-row: 1/3;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // align-items: center;
+  // justify-content: center;
 
   label {
     width: 75%;
@@ -35,25 +32,29 @@
   .collectionInput {
     border: 2px solid blue;
     padding: 0.1rem;
-    display: flex;
     width: 100%;
-    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .collectionSelect {
     border: 2px solid blue;
     padding: 0.1rem;
-    display: flex;
     width: 100%;
-    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
 .projectControls {
   border: $border-stock;
   padding: 0.1rem;
-  grid-column: 1;
-  grid-row: 3;
+  // grid-column: 1;
+  // grid-row: 3;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -67,5 +68,7 @@
 .projects {
   border: $border-stock;
   grid-column: 1;
-  grid-row: 4/11;
+  // grid-row: 4/11;
+  height: 100%;
+  overflow-y: scroll;
 }
