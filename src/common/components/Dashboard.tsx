@@ -44,7 +44,6 @@ export default function Dashboard({
   // downloadHandler,
 }: Props) {
 
-
   return (
     <div className={styles.dashboard}>
 
@@ -81,7 +80,7 @@ export default function Dashboard({
       {/* Create/Download Projects */}
       <div className={styles.projectControls}>
         {/* <h2>{currentCollection.name}COLLECTION NAME</h2> */}
-        <h2>COLLECTION NAME</h2>
+        <h2>{currentCollection.name}</h2>
         <button
           name={'create'}
           onClick={clickHandlerTest}>

@@ -7,14 +7,19 @@ import Form from '@/common/components/Form';
 import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
 
+const defaultCollection: CollectionType = {
+  _id: 0,
+  name: '',
+  projects: []
+}
+
 export default function Home() {
 
   // Get initial project data
   const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
-
   const [newCollection, setNewCollection] = useState<string>('');
   const [collectionNames, setCollectionNames] = useState<string[]>([]);
-  const [currentCollection, setCurrentCollection] = useState<CollectionType>({});
+  const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>([]);
 
   // const [currentProjectId, setCurrentProjectId] = useState<string>();
@@ -23,22 +28,27 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      // console.log('app load', data)
-      const names = getCollectionNames(collections);
+      const names = getCollectionNames(data);
       setCollectionNames(names);
       setCollections(data);
     }
   }, [data]);
 
-  // Functions to handle Collections
+
+  // CRUD Functions to handle Collections
   async function createCollection(event: React.MouseEvent<HTMLButtonElement>) {
     if (newCollection) {
       try {
         const response = await axios.post('/api/collections', { name: newCollection });
         const collections = await getCollections();
+        console.log('created', newCollection)
+
         const names = getCollectionNames(collections);
         setCollectionNames(names);
+
         setNewCollection('');
+        setCollections(collections);
+        // console.log('created', newCollection, names, collections)
         return true;
       } catch (error) {
         console.error(error);
@@ -51,6 +61,7 @@ export default function Home() {
     try {
       const response = axios.get('api/collections');
       const collections = await response;
+      console.log('got', collections.data)
       return collections.data;
     } catch (error) {
       console.log(error);
@@ -58,48 +69,62 @@ export default function Home() {
     }
   };
 
-  function getCollectionNames(collections: Array<CollectionType>) {
-    const names = collections.map((collection: CollectionType) => (collection.name))
-    console.log(names);
-    setCollectionNames(names);
-    return names;
-  }
-
-
-  async function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.currentTarget;
-    setNewCollection(value);
-  }
-
-  async function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
-    const { name, value } = event.currentTarget;
-    console.log('selecting', value, collections)
-
-    for (let i = 0; i < collections.length; i++) {
-      if (collections[i].name === value) {
-        setCurrentCollection(collections[i]);
-      }
-    }
-  };
-
   async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
     const id = currentCollection._id;
     console.log('deleteing', id)
+
     if (currentCollection._id) {
       try {
         const response = await axios.delete(`api/collections?id=${id}`);
+        console.log(response)
         const collections = await getCollections();
+        console.log('deleted', id, collections)
+        setCurrentCollection(defaultCollection);
         const names = getCollectionNames(collections);
+        console.log(names)
         setCollectionNames(names);
-        setCollections(collections);
-        setCurrentCollection({});
+        // setCollections(collections);
         return true;
       } catch (error) {
         console.log(error);
         return error;
       }
     }
-  }
+  };
+
+  // Helpers, State Update Handlers, Etc...
+
+  function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
+    setNewCollection(value);
+  };
+
+  function getCollectionNames(collections: Array<CollectionType>) {
+    const names = collections.map((collection: CollectionType) => (collection.name))
+    return names;
+  };
+
+  function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.currentTarget;
+
+    console.log('updating', value, collectionNames)
+
+    if (value) {
+      for (let i = 0; i < collections.length; i++) {
+        if (collections[i].name === value) {
+          console.log('current collection:', collections[i].name)
+          setCurrentCollection(collections[i]);
+          return;
+        }
+      }
+    }
+
+    setCurrentCollection(defaultCollection);
+    console.log('deafult collection:', defaultCollection)
+    return;
+
+  };
+
 
   return (
     <div className='project-div'>

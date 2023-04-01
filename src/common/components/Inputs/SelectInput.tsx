@@ -16,7 +16,7 @@ export default function Select({ name, value, options, changeHandler }: Props) {
         value={value}
         onChange={changeHandler}
       >
-        <option key={0} value='default'>{name}</option>
+        <option key={0} value=''>Select {name}</option>
         {
           options.map((option, i) => (
             <option key={i + 1} value={option}>{option}</option>
