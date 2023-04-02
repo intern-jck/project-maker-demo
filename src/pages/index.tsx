@@ -18,6 +18,24 @@ const defaultCollection: CollectionType = {
   projects: []
 };
 
+
+
+async function getProjects(collection: CollectionType) {
+  try {
+    if (collection.name) {
+      const response = axios.get(`/api/projects/collection?name=${collection.name}`);
+      const _projects = await response;
+      return _projects.data;
+    }
+    const response = axios.get(`/api/projects/`);
+    const _projects = await response;
+    return _projects.data;
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
+};
+
 export default function Home() {
 
   // Get initial project data
@@ -35,14 +53,13 @@ export default function Home() {
       const names = getCollectionNames(data);
       setCollectionNames(names);
       setCollections(data);
+      getProjects(currentCollection)
+        .then((_projects) => {
+          setProjects(_projects);
+        })
+        .catch((error) => (console.error(error)));
     }
-    getProjects()
-      .then((projects) => {
-        // console.log('projects:', projects)
-        setProjects(projects);
-      })
-      .catch((error) => (console.error(error)));
-  }, []);
+  }, [data, currentCollection]);
 
   // ____COLLECTIONS____
   // CRUD Functions to handle Collections
@@ -122,27 +139,11 @@ export default function Home() {
   async function createProject(event: React.SyntheticEvent) {
     try {
       const response = await axios.post('/api/projects', { name: 'default name', collection_name: currentCollection.name });
-      const projects = await getProjects();
-      setProjects(projects);
+      const _projects = await getProjects(currentCollection);
+      setProjects(_projects);
       return response;
     } catch (error) {
       console.log(error);
-      return error;
-    }
-  };
-
-  async function getProjects() {
-    try {
-      if (currentCollection.name) {
-        const response = axios.get(`/api/projects/collection?name=${currentCollection.name}`);
-        const projects = await response;
-        return projects.data;
-      }
-      const response = axios.get(`/api/projects/`);
-      const projects = await response;
-      return projects.data;
-    } catch (error) {
-      console.log(error)
       return error;
     }
   };
@@ -157,8 +158,8 @@ export default function Home() {
   async function saveProject(projectData: ProjectType) {
     try {
       const response = await axios.put('/api/projects', { doc: projectData });
-      const projects = await getProjects();
-      setProjects(projects);
+      const _projects = await getProjects(currentCollection);
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.log(error);
@@ -172,8 +173,8 @@ export default function Home() {
     const id = event.currentTarget.getAttribute('data-project-id');
     try {
       const response = await axios.delete(`/api/projects?id=${id}`);
-      const projects = await getProjects();
-      setProjects(projects);
+      const _projects = await getProjects(currentCollection);
+      setProjects(_projects);
       setCurrentProjectId('')
       return true;
     } catch (error) {
