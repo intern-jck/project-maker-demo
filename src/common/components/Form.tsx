@@ -9,6 +9,7 @@ import styles from '@/styles/components/Form.module.scss';
 
 type Props = {
   id: string,
+  collectionNames: string[],
   saveProjectHandler: Function,
   deleteProjectHandler: React.MouseEventHandler,
 };
@@ -41,9 +42,8 @@ const formDefaults: ProjectType = {
   github_url: '',
 };
 
-export default function Form({ id, saveProjectHandler, deleteProjectHandler }: Props) {
+export default function Form({ id, collectionNames, saveProjectHandler, deleteProjectHandler }: Props) {
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
-
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
@@ -64,7 +64,12 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     }));
   };
 
-  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
+  function updateCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.currentTarget;
+    console.log(name, value);
+  };
+
+  function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
     console.log(name, value)
     const currentDate = formData.date;
@@ -164,10 +169,11 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
                 value={formData.name}
                 changeHandler={updateTextInput}
               />
-              <TextInput
-                name={'collection'}
+              <SelectInput
+                name={'collections'}
                 value={formData.collection_name}
-                changeHandler={updateTextInput}
+                options={collectionNames}
+                changeHandler={updateCollection}
               />
               <DateInput
                 date={formData.date}

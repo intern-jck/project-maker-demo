@@ -93,12 +93,15 @@ export default function Home() {
 
   async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
     const id = currentCollection._id;
-    if (currentCollection._id) {
+    if (currentCollection._id !== '0') {
       try {
         const response = await axios.delete(`api/collections?id=${id}`);
+        console.log(response)
         const collections = await getCollections();
+
         setCurrentCollection(defaultCollection);
         const names = getCollectionNames(collections);
+        console.log('deleted', id, names, collections)
         setCollectionNames(names);
         setCollections(collections);
         return true;
@@ -212,6 +215,7 @@ export default function Home() {
           currentProjectId ?
             <Form
               id={currentProjectId}
+              collectionNames={collectionNames}
               saveProjectHandler={saveProject}
               deleteProjectHandler={deleteProject}
             />
