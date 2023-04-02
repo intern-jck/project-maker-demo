@@ -1,7 +1,7 @@
-import { Types } from 'mongoose';
+// import { Types } from 'mongoose';
 
 type CollectionType = {
-  _id: Types.ObjectId,
+  _id: string,
   name: string,
   projects: string[],
 };

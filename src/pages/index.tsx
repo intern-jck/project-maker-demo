@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+// import { Types } from 'mongoose';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -13,7 +13,7 @@ import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
 
 const defaultCollection: CollectionType = {
-  _id: 0,
+  _id: '0',
   name: '',
   projects: []
 };
@@ -35,13 +35,13 @@ export default function Home() {
       const names = getCollectionNames(data);
       setCollectionNames(names);
       setCollections(data);
-      getProjects()
-        .then((projects) => {
-          // console.log('projects:', projects)
-          setProjects(projects);
-        })
-        .catch((error) => (console.error(error)));
     }
+    getProjects()
+      .then((projects) => {
+        // console.log('projects:', projects)
+        setProjects(projects);
+      })
+      .catch((error) => (console.error(error)));
   }, [data]);
 
   // ____COLLECTIONS____
