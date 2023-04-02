@@ -1,12 +1,10 @@
 .form {
   border: $border-thin;
+  margin: 0.5rem;
   padding: $padding-stock;
-  width: 75%;
-  height: 80vh;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  overflow-y: scroll;
 
   .formMenu {
     padding: $padding-stock;

@@ -2,14 +2,12 @@
   border: $border-stock;
   padding: $padding-stock;
   width: 30rem;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .collections {
-  border: $border-thin;
   padding: 0.1rem;
   height: 8rem;
   display: flex;

@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'PUT':
+        console.log('saving project')
         const doc = body ? body.doc : {};
         const filter = { '_id': doc._id };
         const update = {
