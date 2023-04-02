@@ -3,11 +3,13 @@ import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
 import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { query } = req;
-  const { id } = query;
+  const { method, query } = req;
+  const { name } = query;
+
   try {
     const connection = await connectMongo();
-    const response = await ProjectModel.findById({ _id: id }).exec();
+    const response = await ProjectModel.find({ collection_name: name }).exec();
+    console.log(response)
     res.status(200).json(response);
   } catch (error) {
     console.error('Mongo findById', error);

@@ -1,11 +1,8 @@
-import Folder from './Folder';
-import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import { CgAddR, CgTrash } from 'react-icons/cg';
 
-import styles from '@/styles/components/Dashboard.module.scss';
 import { TextInput, SelectInput } from '@/common/components/Inputs';
-import type ProjectType from '@/common/types/ProjectType';
 import type CollectionType from '@/common/types/CollectionType';
+import styles from '@/styles/components/Dashboard.module.scss';
 
 type Props = {
   newCollection: string,
@@ -78,8 +75,8 @@ export default function Dashboard({
       </div>
 
       {/* Create/Download Projects */}
-      <div className={styles.projectControls}>
-        {/* <h2>{currentCollection.name}COLLECTION NAME</h2> */}
+      {/* <div className={styles.projectControls}>
+        <h2>{currentCollection.name}COLLECTION NAME</h2>
         <h2>{currentCollection.name}</h2>
         <button
           name={'create'}
@@ -91,11 +88,11 @@ export default function Dashboard({
           onClick={clickHandlerTest}>
           <GoDesktopDownload size={30} />
         </button>
-      </div>
+      </div> */}
 
       {/* Project Folder List */}
-      <div className={styles.projects}>
-        {/* {
+      {/* <div className={styles.projects}>
+        {
           projects ?
             projects.map((project, i) => {
               return (
@@ -108,8 +105,8 @@ export default function Dashboard({
               )
             })
             : null
-        } */}
-      </div>
+        }
+      </div> */}
     </div>
   );
 };

@@ -15,9 +15,13 @@ type Props = {
 };
 
 export default function DateInput({ date, changeHandler }: Props) {
+
+  // console.log(date);
+
   return (
     <div className={'dateInput'}>
-      <div className='dateRow'>
+
+      {/* <div className='dateRow'>
         <SelectInput
           name='start_month'
           value={date['start_month']}
@@ -44,7 +48,8 @@ export default function DateInput({ date, changeHandler }: Props) {
           options={YEARS}
           changeHandler={changeHandler}
         />
-      </div>
+      </div> */}
+
     </div>
   );
 };

@@ -15,7 +15,7 @@ type Props = {
 type UpdatedDateType = {
   name: string,
   value: string,
-}
+};
 
 const formDefaults: ProjectType = {
   _id: '',
@@ -41,8 +41,8 @@ const formDefaults: ProjectType = {
 };
 
 export default function Form({ id, saveProjectHandler, deleteProjectHandler }: Props) {
-
   const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
+
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
@@ -136,8 +136,9 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
   };
 
   function saveProject(event: React.FormEvent) {
+    event.preventDefault();
     saveProjectHandler(formData);
-  }
+  };
 
   return (
     <>
@@ -206,22 +207,22 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
             </div>
 
             <div className={styles.formRow}>
-              <PhotoInput
+              {/* <PhotoInput
                 name='photos'
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
                 addHandler={addPhoto}
                 deleteHandler={deletePhoto}
-              />
-              <TagInput
+              /> */}
+              {/* <TagInput
                 name='tags'
                 value={newTag}
                 tags={formData.tech}
                 changeHandler={updateTag}
                 addHandler={addTag}
                 deleteHandler={deleteTag}
-              />
+              /> */}
             </div>
           </form>
           : null

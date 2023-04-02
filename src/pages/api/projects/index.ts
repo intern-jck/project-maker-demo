@@ -1,17 +1,19 @@
+import { Types } from 'mongoose';
+
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
 import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method, query } = req;
+  const { method, query, body } = req;
   try {
     const connection = await connectMongo();
     switch (method) {
       case 'GET':
         try {
-          const projects = await ProjectModel.find().exec();
-          console.log(projects)
-          res.status(200).json(projects);
+          const connection = await connectMongo();
+          const response = await ProjectModel.find().exec();
+          res.status(200).json(response);
         } catch (error) {
           console.error('Mongo find', error)
           res.status(500).json({ error })
@@ -20,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'POST':
         try {
-          const doc = req.body ? req.body : {};
+          const doc = body ? body : {};
           const response = await ProjectModel.create(doc);
           res.status(200).send(response);
         } catch (error) {
@@ -30,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'PUT':
-        const doc = req.body ? req.body.doc : {};
+        const doc = body ? body.doc : {};
         const filter = { '_id': doc._id };
         const update = {
           ...doc,
@@ -46,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'DELETE':
-        const { id } = req.query;
+        const { id } = query;
         try {
           const project = await ProjectModel.deleteOne({ _id: id }).exec();
           res.status(200).json(project);
@@ -64,4 +66,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error(method, error)
     res.status(500).json({ method: method, error: error });
   }
-}
+};
