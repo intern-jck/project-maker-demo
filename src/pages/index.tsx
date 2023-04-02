@@ -42,7 +42,7 @@ export default function Home() {
         setProjects(projects);
       })
       .catch((error) => (console.error(error)));
-  }, [data]);
+  }, []);
 
   // ____COLLECTIONS____
   // CRUD Functions to handle Collections
@@ -148,8 +148,10 @@ export default function Home() {
   };
 
   async function getProject(event: React.MouseEvent<HTMLButtonElement>) {
-    const id: string = event.currentTarget.getAttribute('data-folder-id');
-    setCurrentProjectId(id);
+    const id = event.currentTarget.getAttribute('data-folder-id');
+    if (id) {
+      setCurrentProjectId(id);
+    }
   };
 
   async function saveProject(projectData: ProjectType) {
