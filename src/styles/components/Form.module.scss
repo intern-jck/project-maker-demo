@@ -28,11 +28,17 @@
 
   }
 
+  label {
+    display: flex;
+    font-weight: bold;
+    flex-direction: column;
+  }
+
   .formRow {
     border: $border-thin;
     padding: $padding-stock;
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     gap: 0.5rem;
   }
 

@@ -6,7 +6,7 @@ type Props = {
 
 export default function TextInput({ name, value, changeHandler }: Props) {
   return (
-    <>
+    <div className='text-input'>
       <label htmlFor={name}>
         {name.toUpperCase()}
       </label>
@@ -17,6 +17,6 @@ export default function TextInput({ name, value, changeHandler }: Props) {
         placeholder={name}
         onChange={changeHandler}
       />
-    </>
+    </div>
   );
 };
