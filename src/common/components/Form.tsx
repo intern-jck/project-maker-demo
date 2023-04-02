@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
-import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
+import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
 import { fetcher } from '@/common/modules/utils';
 import type ProjectType from '@/common/types/ProjectType';
+import type DateType from '@/common/types/DateType';
 import styles from '@/styles/components/Form.module.scss';
 
 type Props = {
@@ -67,7 +68,7 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     const { name, value } = event.currentTarget;
     console.log(name, value)
     const currentDate = formData.date;
-    currentDate[name] = value; // lookup error
+    currentDate[name as keyof DateType] = value;
     setFormData((formData) => ({
       ...formData,
       ...currentDate,
@@ -96,7 +97,7 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
     if (index) {
-      photos.splice(index, 1); // lookup error
+      photos.splice(parseInt(index), 1);
       setFormData((formData) => ({
         ...formData,
         photos: photos,
@@ -126,7 +127,7 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     const index = event.currentTarget.getAttribute('data-tag-index');
     const { tech } = formData;
     if (index) {
-      tech.splice(index, 1); // lookup error
+      tech.splice(parseInt(index), 1); // lookup error
       setFormData((formData) => ({
         ...formData,
         tech: tech,
