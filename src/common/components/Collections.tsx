@@ -1,7 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { CgAddR, CgTrash } from 'react-icons/cg';
-
-import { TextInput, SelectInput } from '@/common/components/Inputs';
+import { TextInput } from '@/common/components/Inputs';
 import type CollectionType from '@/common/types/CollectionType';
 import styles from '@/styles/components/Collections.module.scss';
 
@@ -21,21 +20,17 @@ export default function Collections({
   deleteCollection,
 }: Props) {
 
-  console.log('collections', collections, currentCollection.name);
-
   const [newCollection, setNewCollection] = useState<string>('');
 
   function setNewCollectionHandler(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    console.log('new col', value)
     setNewCollection(value);
   };
 
   function createCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    console.log('create handler', newCollection)
     createCollection(newCollection);
     setNewCollection('')
   };
@@ -43,15 +38,13 @@ export default function Collections({
   function selectCollectionHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-    console.log('select handler', value)
     selectCollection(value);
   };
 
   function deleteCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    console.log('delete handler', name, currentCollection);
-    // deleteCollection(currentCollection._id);
+    deleteCollection(currentCollection._id);
   }
 
   return (
@@ -72,12 +65,6 @@ export default function Collections({
       </div>
 
       <div className={styles.collectionSelect}>
-        {/* <SelectInput
-          name={'collections'}
-          value={currentCollection.name}
-          options={collections.map((c) => (c.name))}
-        // changeHandler={updateCurrentCollectionHandler}
-        /> */}
         <select
           name={'collections_select'}
           onChange={selectCollectionHandler}

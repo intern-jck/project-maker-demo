@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const connection = await connectMongo();
     const response = await CollectionModel.findById({ _id: id }).exec();
-    console.log('got collection', response)
     res.status(200).json(response);
   } catch (error) {
     console.error('Mongo findById', error);

@@ -47,7 +47,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'DELETE':
         const { id } = query;
-        console.log('deleteing', id)
         try {
           const response = await CollectionModel.deleteOne({ _id: id }).exec();
           res.status(200).json(response);

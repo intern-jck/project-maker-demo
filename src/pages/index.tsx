@@ -25,14 +25,13 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      console.log('app render', data)
       setCollections(data);
     }
   }, [data]);
 
 
+  // COLLECTIONS FUNCTIONS
   async function createCollection(collectionName: string) {
-    console.log('creating', collectionName)
     try {
       const response = await axios.post('/api/collections', { name: collectionName });
       await updateCollections();
@@ -44,17 +43,13 @@ export default function Home() {
   };
 
   async function selectCollection(collectionId: string) {
-    console.log('selecting', collectionId)
     try {
       if (collectionId === 'ALL') {
-        // const _projects = await getProjects();
-        // console.log(_projects)
         setCurrentCollection({});
         return true;
       }
       const response = await axios.get(`/api/collections/${collectionId}`);
       const _collection = response.data;
-      console.log('selected', _collection)
       setCurrentCollection({ ..._collection });
       return true;
     } catch (error) {
@@ -65,8 +60,8 @@ export default function Home() {
 
   async function updateCollections() {
     try {
-      const collections = await getCollections();
-      setCollections(collections);
+      const _collections = await getCollections();
+      setCollections(_collections);
       return true;
     } catch (error) {
       console.error(error);
@@ -76,12 +71,14 @@ export default function Home() {
 
   async function deleteCollection(collectionId: string) {
     try {
-      console.log('deleteing', collectionId)
+      const response = await axios.delete(`/api/collections?id=${collectionId}`);
+      await updateCollections();
+      return true;
     } catch (error) {
       console.error(error);
       return error;
     }
-  }
+  };
 
   return (
     <div className='project-div'>
