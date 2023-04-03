@@ -7,8 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { id } = query;
 
   try {
+    console.log(id)
     const connection = await connectMongo();
     const response = await ProjectModel.findById({ _id: id }).exec();
+
     res.status(200).json(response);
   } catch (error) {
     console.error('Mongo findById', error);

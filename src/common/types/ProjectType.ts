@@ -3,7 +3,7 @@ import type DateType from './DateType'
 type ProjectType = {
   _id: string,
   link: string,
-  collection_name: string,
+  collection_id: string,
   name: string,
   short: string,
   info: string,

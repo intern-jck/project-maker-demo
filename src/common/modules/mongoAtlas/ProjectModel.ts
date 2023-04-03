@@ -5,7 +5,7 @@ import type ProjectType from '@/common/types/ProjectType';
 
 // Mongo DB Schema for a document
 const ProjectSchema = new Schema<ProjectType>({
-  collection_name: { type: String, default: '' },
+  collection_id: { type: String, default: '' },
   name: { type: String, default: '' },
   github_url: { type: String, default: '' },
   link: { type: String, default: '' },

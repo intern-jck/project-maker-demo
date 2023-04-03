@@ -4,6 +4,7 @@ import type { CollectionType } from '@/common/types';
 export default async function getProjects(collectionId?: string) {
   try {
     if (collectionId) {
+      console.log('getting projects for', collectionId)
       const response = axios.get(`/api/projects/collection?id=${collectionId}`);
       const _projects = await response;
       return _projects.data;

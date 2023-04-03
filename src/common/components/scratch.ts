@@ -112,17 +112,7 @@ function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
 
 // ____PROJECTS____
 // CRUD Functions to handle Projects
-async function createProject(event: React.SyntheticEvent) {
-  try {
-    const response = await axios.post('/api/projects', { name: 'default name', collection_name: currentCollection.name });
-    const _projects = await getProjects(currentCollection);
-    setProjects(_projects);
-    return response;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
+
 
 async function getProject(event: React.MouseEvent<HTMLButtonElement>) {
   const id = event.currentTarget.getAttribute('data-folder-id');

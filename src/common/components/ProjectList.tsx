@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
-import type ProjectType from '@/common/types/ProjectType';
+import type { CollectionType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/ProjectList.module.scss';
 
 function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
@@ -9,34 +10,41 @@ function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
 };
 
 type Props = {
-  collectionName: string,
+  currentCollection: CollectionType,
+  createProject: Function,
   projects: ProjectType[],
-  createProjectHandler: React.MouseEventHandler,
-  selectProjectHandler: React.MouseEventHandler
+  // selectProjectHandler: React.MouseEventHandler
 };
 
 export default function ProjectList({
-  collectionName,
+  currentCollection,
+  createProject,
   projects,
-  createProjectHandler,
-  selectProjectHandler,
+  // selectProjectHandler,
 }: Props) {
+
+  // const [projects, setProjects] = useState<ProjectType[]>();
+
+  function createProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    createProject(currentCollection);
+  }
 
   return (
     <div className={styles.projectList}>
 
       {/* Create/Download Projects */}
       <div className={styles.projectControls}>
-        <h2>{collectionName}</h2>
+        <h2>{currentCollection.name}</h2>
         <button
           onClick={createProjectHandler}>
           <GoFileMedia size={30} />
         </button>
-        <button
+        {/* <button
           name={'download'}
           onClick={clickHandlerTest}>
           <GoDesktopDownload size={30} />
-        </button>
+        </button> */}
+
       </div>
 
       {/* Project Folder List */}
@@ -48,7 +56,7 @@ export default function ProjectList({
                 <Folder
                   key={project._id}
                   id={project._id}
-                  clickHandler={selectProjectHandler}
+                  // clickHandler={selectProjectHandler}
                   name={project.name}
                 />
               )
