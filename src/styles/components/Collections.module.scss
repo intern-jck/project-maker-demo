@@ -1,14 +1,8 @@
-.dashboard {
+.collections {
+
   border: $border-stock;
   padding: $padding-stock;
   width: 30rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.collections {
-  padding: 0.1rem;
   height: 8rem;
   display: flex;
   flex-direction: column;
@@ -60,28 +54,4 @@
       font-family: $page-font;
     }
   }
-}
-
-.projectControls {
-  border: $border-thin;
-  padding: 0.1rem;
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  h2 {
-    width: 75%;
-    margin: 0;
-    padding-left: 0.25rem;
-    font-size: 1.2rem;
-  }
-}
-
-.projects {
-  border: $border-thin;
-  grid-column: 1;
-  padding: 0.1rem;
-  height: 100%;
-  overflow-y: scroll;
 }

@@ -6,6 +6,7 @@ type Props = {
 };
 
 export default function Select({ name, value, options, changeHandler }: Props) {
+  console.log(options)
   return (
     <div>
       <label htmlFor={name}>
@@ -14,6 +15,7 @@ export default function Select({ name, value, options, changeHandler }: Props) {
       <select
         name={name}
         onChange={changeHandler}
+        value={value}
       >
         <option key={0} value=''>{name}</option>
         {

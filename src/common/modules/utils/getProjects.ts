@@ -1,10 +1,10 @@
 import axios from 'axios';
 import type { CollectionType } from '@/common/types';
 
-export default async function getProjects(collection: CollectionType) {
+export default async function getProjects(collectionId?: string) {
   try {
-    if (collection.name) {
-      const response = axios.get(`/api/projects/collection?name=${collection.name}`);
+    if (collectionId) {
+      const response = axios.get(`/api/projects/collection?id=${collectionId}`);
       const _projects = await response;
       return _projects.data;
     }
