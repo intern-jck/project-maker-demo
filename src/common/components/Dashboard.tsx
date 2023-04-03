@@ -40,7 +40,6 @@ export default function Dashboard({
   // clickHandler,
   // downloadHandler,
 }: Props) {
-
   return (
     <div className={styles.dashboard}>
 

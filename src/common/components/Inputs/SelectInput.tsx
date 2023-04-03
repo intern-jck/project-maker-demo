@@ -6,6 +6,8 @@ type Props = {
 };
 
 export default function Select({ name, value, options, changeHandler }: Props) {
+
+  console.log('select value', value)
   return (
     <div>
       <label htmlFor={name}>
@@ -13,13 +15,13 @@ export default function Select({ name, value, options, changeHandler }: Props) {
       </label>
       <select
         name={name}
-        value={value}
+        // defaultValue={value}
         onChange={changeHandler}
       >
         <option key={0} value=''>{name}</option>
         {
           options.map((option, i) => (
-            <option key={i + 1} value={option}>{option}</option>
+            <option key={i + 1} value={option} >{option}</option>
           ))
         }
       </select>

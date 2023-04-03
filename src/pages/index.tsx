@@ -18,8 +18,6 @@ const defaultCollection: CollectionType = {
   projects: []
 };
 
-
-
 async function getProjects(collection: CollectionType) {
   try {
     if (collection.name) {
@@ -125,9 +123,11 @@ export default function Home() {
 
   function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
+
     if (value) {
       for (let i = 0; i < collections.length; i++) {
         if (collections[i].name === value) {
+          console.log('selecting', collections[i].name)
           setCurrentCollection(collections[i]);
           return;
         }
