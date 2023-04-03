@@ -15,7 +15,6 @@ export default function Select({ name, value, options, changeHandler }: Props) {
       </label>
       <select
         name={name}
-        // defaultValue={value}
         onChange={changeHandler}
       >
         <option key={0} value=''>{name}</option>

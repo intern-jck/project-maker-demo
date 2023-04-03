@@ -36,15 +36,12 @@ export default function Dashboard({
   updateNewCollectionHandler,
   updateCurrentCollectionHandler,
   deleteCollectionHandler,
-  // projects,
-  // clickHandler,
-  // downloadHandler,
 }: Props) {
   return (
     <div className={styles.dashboard}>
 
-      {/* Create/Delete Collections */}
       <div className={styles.collections}>
+
         <div className={styles.collectionInput}>
           <TextInput
             name={'new_collection'}
@@ -57,6 +54,7 @@ export default function Dashboard({
             <CgAddR size={30} />
           </button>
         </div>
+
         <div className={styles.collectionSelect}>
           <SelectInput
             name={'collections'}
@@ -73,39 +71,6 @@ export default function Dashboard({
 
       </div>
 
-      {/* Create/Download Projects */}
-      {/* <div className={styles.projectControls}>
-        <h2>{currentCollection.name}COLLECTION NAME</h2>
-        <h2>{currentCollection.name}</h2>
-        <button
-          name={'create'}
-          onClick={clickHandlerTest}>
-          <GoFileMedia size={30} />
-        </button>
-        <button
-          name={'download'}
-          onClick={clickHandlerTest}>
-          <GoDesktopDownload size={30} />
-        </button>
-      </div> */}
-
-      {/* Project Folder List */}
-      {/* <div className={styles.projects}>
-        {
-          projects ?
-            projects.map((project, i) => {
-              return (
-                <Folder
-                  key={project._id}
-                  id={project._id}
-                  clickHandler={clickHandler}
-                  name={project.name}
-                />
-              )
-            })
-            : null
-        }
-      </div> */}
     </div>
   );
 };

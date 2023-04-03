@@ -1,10 +1,7 @@
-export async function fetcher(url: string) {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error('fetcher', error)
-    return false;
-  }
-}
+import fetcher from './fetcher';
+import getProjects from './getProjects';
+import getCollections from './getCollections';
+import getCollectionNames from './getCollectionNames';
+import saveProject from './saveProject';
+
+export { fetcher, getProjects, getCollections, getCollectionNames, saveProject };

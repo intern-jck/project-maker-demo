@@ -1,37 +1,18 @@
-// import { Types } from 'mongoose';
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { fetcher } from '@/common/modules/utils';
+import { fetcher, getProjects, getCollections, getCollectionNames, saveProject } from '@/common/modules/utils';
 
 import Dashboard from '@/common/components/Dashboard';
 import ProjectList from '@/common/components/ProjectList';
 import Form from '@/common/components/Form';
 
-import type ProjectType from '@/common/types/ProjectType';
-import type CollectionType from '@/common/types/CollectionType';
+import { ProjectType, CollectionType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
   _id: '0',
   name: '',
   projects: []
-};
-
-async function getProjects(collection: CollectionType) {
-  try {
-    if (collection.name) {
-      const response = axios.get(`/api/projects/collection?name=${collection.name}`);
-      const _projects = await response;
-      return _projects.data;
-    }
-    const response = axios.get(`/api/projects/`);
-    const _projects = await response;
-    return _projects.data;
-  } catch (error) {
-    console.log(error)
-    return error;
-  }
 };
 
 export default function Home() {
@@ -45,6 +26,7 @@ export default function Home() {
   const [currentProjectId, setCurrentProjectId] = useState('');
 
   const [projects, setProjects] = useState<ProjectType[]>();
+  const [currentProject, setCurrentProject] = useState<ProjectType>();
 
   useEffect(() => {
     if (data) {
@@ -78,17 +60,6 @@ export default function Home() {
     }
   };
 
-  async function getCollections() {
-    try {
-      const response = axios.get('api/collections');
-      const collections = await response;
-      return collections.data;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
   async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
     const id = currentCollection._id;
     if (currentCollection._id !== '0') {
@@ -96,7 +67,6 @@ export default function Home() {
         const response = await axios.delete(`api/collections?id=${id}`);
         console.log(response)
         const collections = await getCollections();
-
         setCurrentCollection(defaultCollection);
         const names = getCollectionNames(collections);
         console.log('deleted', id, names, collections)
@@ -114,11 +84,6 @@ export default function Home() {
   function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.currentTarget;
     setNewCollection(value);
-  };
-
-  function getCollectionNames(collections: Array<CollectionType>) {
-    const names = collections.map((collection: CollectionType) => (collection.name))
-    return names;
   };
 
   function updateCurrentCollection(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -158,18 +123,6 @@ export default function Home() {
     }
   };
 
-  async function saveProject(projectData: ProjectType) {
-    try {
-      const response = await axios.put('/api/projects', { doc: projectData });
-      const _projects = await getProjects(currentCollection);
-      setProjects(_projects);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
   async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
@@ -186,6 +139,18 @@ export default function Home() {
     }
   };
 
+  async function saveProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    try {
+      if (currentProject) {
+        const response = await saveProject(currentProject);
+        const _projects = await getProjects(currentCollection);
+        setProjects(_projects);
+      }
+    } catch (error) {
+
+    }
+  }
+
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
@@ -198,7 +163,8 @@ export default function Home() {
           updateCurrentCollectionHandler={updateCurrentCollection}
           deleteCollectionHandler={deleteCollection}
         />
-        {
+
+        {/* {
           projects ?
             <ProjectList
               collectionName={currentCollection.name}
@@ -207,11 +173,12 @@ export default function Home() {
               selectProjectHandler={getProject}
             />
             : <></>
-        }
+        } */}
+
       </div>
 
       <div className='project-form'>
-        {
+        {/* {
           currentProjectId ?
             <Form
               id={currentProjectId}
@@ -220,7 +187,7 @@ export default function Home() {
               deleteProjectHandler={deleteProject}
             />
             : <></>
-        }
+        } */}
       </div>
     </div>
   )

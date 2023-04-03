@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
-import { fetcher } from '@/common/modules/utils';
+import { fetcher } from '@/common/modules/utils/fetcher';
 import type ProjectType from '@/common/types/ProjectType';
 import type DateType from '@/common/types/DateType';
 import styles from '@/styles/components/Form.module.scss';
