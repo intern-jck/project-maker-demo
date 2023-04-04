@@ -10,9 +10,9 @@ import ProjectList from '@/common/components/ProjectList';
 import { ProjectType, CollectionType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
-  _id: '0',
+  _id: '',
   name: '',
-  projects: []
+  projects: [],
 };
 
 export default function Home() {
@@ -22,18 +22,17 @@ export default function Home() {
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>();
-
   const [currentProject, setCurrentProject] = useState<ProjectType>();
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     if (data) {
       setCollections(data);
-      getProjects()
-        .then((projects) => {
-          setProjects(projects)
-        })
-        .catch((error) => (console.error(error)))
+      // getProjects()
+      //   .then((projects) => {
+      //     setProjects(projects)
+      //   })
+      //   .catch((error) => (console.error(error)))
     }
   }, [data]);
 
@@ -51,21 +50,31 @@ export default function Home() {
 
   async function selectCollection(collectionId: string) {
     try {
-      if (collectionId === 'ALL') {
-        console.log('selected all')
-        setCurrentCollection({});
-        const _projects = await getProjects();
-        setProjects(_projects);
+
+      // if (collectionId === '') {
+      //   console.log('selected all')
+      //   setCurrentCollection(defaultCollection);
+      //   const _projects = await getProjects();
+      //   setProjects(_projects);
+      //   return true;
+      // }
+      // console.log('selected', collectionId)
+      // const response = await axios.get(`/api/collections/${collectionId}`);
+      // const _collection = response.data;
+      // setCurrentCollection({ ..._collection });
+
+      if (collectionId === '') {
+        console.log('selecting all')
+        setCurrentCollection(defaultCollection);
         return true;
       }
 
-      console.log('selected', collectionId)
+      console.log('selecting collection', collectionId)
       const response = await axios.get(`/api/collections/${collectionId}`);
-      const _collection = response.data;
-      setCurrentCollection({ ..._collection });
+      const _collection: CollectionType = response.data;
+      console.log('selection collection', _collection)
+      setCurrentCollection(_collection);
 
-      const _projects = await getProjects(collectionId);
-      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -87,14 +96,18 @@ export default function Home() {
   async function deleteCollection(collectionId: string) {
     try {
       const response = await axios.delete(`/api/collections?id=${collectionId}`);
-      await updateCollections();
+      // const _collections = await updateCollections();
+      // console.log(_collections)
+      // if (updateCollections.length === 0) {
+      // setCurrentCollection(defaultCollection);
+      selectCollection(collectionId)
+      // }
       return true;
     } catch (error) {
       console.error(error);
       return error;
     }
   };
-
 
   // PROJECTS FUNCTIONS
   async function createProject(collection: CollectionType) {
@@ -113,7 +126,6 @@ export default function Home() {
       return error;
     }
   };
-
 
   return (
     <div className='project-div'>
@@ -136,7 +148,7 @@ export default function Home() {
               <ProjectList
                 currentCollection={currentCollection}
                 createProject={createProject}
-                projects={projects}
+              // projects={projects}
               // selectProjectHandler={getProject}
               />
               : <></>

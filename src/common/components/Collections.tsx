@@ -70,7 +70,7 @@ export default function Collections({
           onChange={selectCollectionHandler}
           value={currentCollection._id}
         >
-          <option key={0} value='ALL'>collections</option>
+          <option key={0} value=''>collections</option>
           {
             collections.map((collection, i) => (
               <option key={i + 1} value={collection._id} >{collection.name}</option>

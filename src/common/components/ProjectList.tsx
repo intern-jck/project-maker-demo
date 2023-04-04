@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
 import type { CollectionType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/ProjectList.module.scss';
+import useSWR from 'swr';
+import { fetcher } from '@/common/modules/utils';
+
+import { getProjects } from '@/common/modules/utils';
 
 function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
   const { name, value } = event.currentTarget;
@@ -12,22 +16,31 @@ function clickHandlerTest(event: React.MouseEvent<HTMLButtonElement>) {
 type Props = {
   currentCollection: CollectionType,
   createProject: Function,
-  projects: ProjectType[],
+  // projects: ProjectType[],
   // selectProjectHandler: React.MouseEventHandler
 };
 
-export default function ProjectList({
-  currentCollection,
-  createProject,
-  projects,
-  // selectProjectHandler,
-}: Props) {
+export default function ProjectList({ currentCollection, createProject, }: Props) {
 
-  // const [projects, setProjects] = useState<ProjectType[]>();
+  // console.log(currentCollection, projects)
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   function createProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
     createProject(currentCollection);
-  }
+  };
+
+  // const { data, error } = useSWR<CollectionType[]>(`/api/projects/collection`, fetcher);
+
+  useEffect(() => {
+    // if (data) {
+    // console.log(currentCollection, data)
+    getProjects(currentCollection._id)
+      .then((projects) => {
+        setProjects(projects)
+      })
+      .catch((error) => (console.error(error)))
+    // }
+  }, [currentCollection]);
 
   return (
     <div className={styles.projectList}>
@@ -44,7 +57,6 @@ export default function ProjectList({
           onClick={clickHandlerTest}>
           <GoDesktopDownload size={30} />
         </button> */}
-
       </div>
 
       {/* Project Folder List */}
@@ -64,6 +76,7 @@ export default function ProjectList({
             : null
         }
       </div>
+
     </div>
   );
 };
