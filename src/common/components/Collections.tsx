@@ -20,6 +20,7 @@ export default function Collections({
   deleteCollection,
 }: Props) {
 
+  console.log('Collections')
   const [newCollection, setNewCollection] = useState<string>('');
 
   function setNewCollectionHandler(event: React.ChangeEvent<HTMLInputElement>) {

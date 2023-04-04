@@ -1,48 +1,75 @@
 import { useState, useEffect } from 'react';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
+import axios from 'axios';
+import useSWR from 'swr';
+
 import Folder from './Folder';
 
 import type { CollectionType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/Projects.module.scss';
-import { getProjects } from '@/common/modules/utils';
+import { fetcher, getProjects, clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
   createProject: Function,
 };
 
-
-// // PROJECTS FUNCTIONS
-// async function createProject(collection: CollectionType) {
-//   try {
-
-//     console.log('creating project in collection', currentCollection);
-//     const response = await axios.post('/api/projects', { name: 'default name', collection_id: collection._id });
-//     const newProject = await response.data;
-//     console.log('created project', newProject);
-//     return true;
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };
-
 export default function Projects({ currentCollection }: Props) {
+  console.log('Projects')
+  const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
 
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
 
-
   useEffect(() => {
-    getProjects(currentCollection._id)
-      .then((projects) => {
-        setProjects(projects)
-      })
-      .catch((error) => (console.error(error)))
-  }, [currentCollection]);
+    // getProjects(currentCollection._id)
+    //   .then((_projects) => {
+    //     setProjects(_projects);
+    //   })
+    //   .catch((error) => (console.error(error)));
+    if (data) {
+      setProjects(data);
+    }
+  }, [data]);
 
-  function createProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
-    createProject(currentCollection);
+  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
+    const { name } = event.currentTarget;
+    try {
+      console.log('creating project in collection', currentCollection);
+      const response = await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
+      const newProject = await response.data;
+      console.log('created project', newProject);
+      await updateProjects(currentCollection._id);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
+  async function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
+    const { name } = event.currentTarget;
+    console.log(name)
+    try {
+      const response = await axios.get(`api/projects/${name}`);
+      const _project: ProjectType = await response.data;
+      console.log('selected', _project)
+      setCurrentProject(_project);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+  async function updateProjects(collectionId: string) {
+    try {
+      const _projects = await getProjects(currentCollection._id);
+      setProjects(_projects);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
   return (
@@ -52,14 +79,15 @@ export default function Projects({ currentCollection }: Props) {
       <div className={styles.projectControls}>
         <h2>{currentCollection.name}</h2>
         <button
-          onClick={createProjectHandler}>
+          name='create-project'
+          onClick={createProject}>
           <GoFileMedia size={30} />
         </button>
-        {/* <button
-          name={'download'}
+        <button
+          name='download-projects'
           onClick={clickHandlerTest}>
           <GoDesktopDownload size={30} />
-        </button> */}
+        </button>
       </div>
 
       {/* Project Folder List */}
@@ -71,7 +99,7 @@ export default function Projects({ currentCollection }: Props) {
                 <Folder
                   key={project._id}
                   id={project._id}
-                  // clickHandler={selectProjectHandler}
+                  clickHandler={selectProject}
                   name={project.name}
                 />
               )

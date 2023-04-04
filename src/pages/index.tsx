@@ -7,7 +7,6 @@ import Projects from '@/common/components/Projects';
 // import ProjectForm from '@/common/components/ProjectForm';
 
 import { fetcher, getCollections } from '@/common/modules/utils';
-
 import { CollectionType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
@@ -17,8 +16,7 @@ const defaultCollection: CollectionType = {
 };
 
 export default function Home() {
-
-  // Get initial project data
+  console.log('HOME')
   const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
@@ -26,6 +24,7 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       setCollections(data);
     }
   }, [data]);
@@ -99,16 +98,16 @@ export default function Home() {
               : <></>
           }
         </>
-
         <>
           {
-            <Projects
-              currentCollection={currentCollection}
-            // createProject={createProject}
-            />
+            collections ?
+              <Projects
+                currentCollection={currentCollection}
+              // createProject={createProject}
+              />
+              : <></>
           }
         </>
-
       </div>
 
       <div className='project-form'>

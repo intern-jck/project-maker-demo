@@ -11,6 +11,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
+          console.log('getting projects for', query)
+          // add check for collection id here
           const connection = await connectMongo();
           const response = await ProjectModel.find().exec();
           res.status(200).json(response);
