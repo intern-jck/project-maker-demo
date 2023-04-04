@@ -43,9 +43,8 @@ export default function Collections({
 
   function deleteCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const { name, value } = event.currentTarget;
     deleteCollection(currentCollection._id);
-  }
+  };
 
   return (
 

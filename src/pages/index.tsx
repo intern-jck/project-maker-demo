@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { fetcher, getProjects, getCollections, getCollectionNames, saveProject } from '@/common/modules/utils';
 
 import Collections from '@/common/components/Collections';
-import ProjectList from '@/common/components/ProjectList';
-// import Form from '@/common/components/Form';
+import Projects from '@/common/components/Projects';
+// import ProjectForm from '@/common/components/ProjectForm';
 
-import { ProjectType, CollectionType } from '@/common/types';
+import { fetcher, getCollections } from '@/common/modules/utils';
+
+import { CollectionType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
   _id: '',
@@ -22,21 +23,15 @@ export default function Home() {
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>();
-  const [currentProject, setCurrentProject] = useState<ProjectType>();
-  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     if (data) {
       setCollections(data);
-      // getProjects()
-      //   .then((projects) => {
-      //     setProjects(projects)
-      //   })
-      //   .catch((error) => (console.error(error)))
     }
   }, [data]);
 
   // COLLECTIONS FUNCTIONS
+  // Move all this into Collections component?
   async function createCollection(collectionName: string) {
     try {
       const response = await axios.post('/api/collections', { name: collectionName });
@@ -50,31 +45,14 @@ export default function Home() {
 
   async function selectCollection(collectionId: string) {
     try {
-
-      // if (collectionId === '') {
-      //   console.log('selected all')
-      //   setCurrentCollection(defaultCollection);
-      //   const _projects = await getProjects();
-      //   setProjects(_projects);
-      //   return true;
-      // }
-      // console.log('selected', collectionId)
-      // const response = await axios.get(`/api/collections/${collectionId}`);
-      // const _collection = response.data;
-      // setCurrentCollection({ ..._collection });
-
       if (collectionId === '') {
         console.log('selecting all')
         setCurrentCollection(defaultCollection);
         return true;
       }
-
-      console.log('selecting collection', collectionId)
       const response = await axios.get(`/api/collections/${collectionId}`);
       const _collection: CollectionType = response.data;
-      console.log('selection collection', _collection)
       setCurrentCollection(_collection);
-
       return true;
     } catch (error) {
       console.error(error);
@@ -96,12 +74,8 @@ export default function Home() {
   async function deleteCollection(collectionId: string) {
     try {
       const response = await axios.delete(`/api/collections?id=${collectionId}`);
-      // const _collections = await updateCollections();
-      // console.log(_collections)
-      // if (updateCollections.length === 0) {
-      // setCurrentCollection(defaultCollection);
-      selectCollection(collectionId)
-      // }
+      await updateCollections();
+      await selectCollection('')
       return true;
     } catch (error) {
       console.error(error);
@@ -109,49 +83,29 @@ export default function Home() {
     }
   };
 
-  // PROJECTS FUNCTIONS
-  async function createProject(collection: CollectionType) {
-    try {
-
-      console.log('creating project in collection', currentCollection);
-      const response = await axios.post('/api/projects', { name: 'default name', collection_id: collection._id });
-      const newProject = await response.data;
-      console.log('created project', newProject);
-      // setCurrentProject(newProject);
-      const _projects = await getProjects();
-      setProjects(_projects);
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
-        {
-          collections ?
-            <Collections
-              currentCollection={currentCollection}
-              collections={collections}
-              createCollection={createCollection}
-              selectCollection={selectCollection}
-              deleteCollection={deleteCollection}
-            />
-            : <></>
-        }
+        <>
+          {
+            collections ?
+              <Collections
+                currentCollection={currentCollection}
+                collections={collections}
+                createCollection={createCollection}
+                selectCollection={selectCollection}
+                deleteCollection={deleteCollection}
+              />
+              : <></>
+          }
+        </>
 
         <>
           {
-            projects ?
-              <ProjectList
-                currentCollection={currentCollection}
-                createProject={createProject}
-              // projects={projects}
-              // selectProjectHandler={getProject}
-              />
-              : <></>
+            <Projects
+              currentCollection={currentCollection}
+            // createProject={createProject}
+            />
           }
         </>
 
@@ -160,7 +114,7 @@ export default function Home() {
       <div className='project-form'>
         {/* {
           currentProjectId ?
-            <Form
+            <ProjectForm
               id={currentProjectId}
               collectionNames={collectionNames}
               saveProjectHandler={saveProject}
