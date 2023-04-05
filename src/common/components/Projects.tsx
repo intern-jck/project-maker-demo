@@ -11,13 +11,17 @@ import { fetcher, getProjects, clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
-  createProject: Function,
+  // projects: ProjectType[],
+  // createProject: Function,
 };
 
-export default function Projects({ currentCollection }: Props) {
-  console.log('Projects')
-  const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
+export default function Projects({
+  currentCollection,
+  // projects
+}: Props) {
+  console.log('Projects', currentCollection)
 
+  // const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
 
@@ -27,10 +31,11 @@ export default function Projects({ currentCollection }: Props) {
     //     setProjects(_projects);
     //   })
     //   .catch((error) => (console.error(error)));
-    if (data) {
-      setProjects(data);
-    }
-  }, [data]);
+    // if (data) {
+    //   console.log('got', data)
+    //   setProjects(data);
+    // }
+  }, []);
 
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     const { name } = event.currentTarget;
@@ -64,7 +69,7 @@ export default function Projects({ currentCollection }: Props) {
   async function updateProjects(collectionId: string) {
     try {
       const _projects = await getProjects(currentCollection._id);
-      setProjects(_projects);
+      // setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);

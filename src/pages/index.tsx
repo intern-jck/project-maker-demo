@@ -7,7 +7,7 @@ import Projects from '@/common/components/Projects';
 // import ProjectForm from '@/common/components/ProjectForm';
 
 import { fetcher, getCollections } from '@/common/modules/utils';
-import { CollectionType } from '@/common/types';
+import { CollectionType, ProjectType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
   _id: '',
@@ -16,15 +16,16 @@ const defaultCollection: CollectionType = {
 };
 
 export default function Home() {
-  console.log('HOME')
+
   const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>();
+  // const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     if (data) {
-      console.log(data)
+      console.log('collections:', data);
       setCollections(data);
     }
   }, [data]);
@@ -45,13 +46,14 @@ export default function Home() {
   async function selectCollection(collectionId: string) {
     try {
       if (collectionId === '') {
-        console.log('selecting all')
         setCurrentCollection(defaultCollection);
         return true;
       }
       const response = await axios.get(`/api/collections/${collectionId}`);
       const _collection: CollectionType = response.data;
       setCurrentCollection(_collection);
+      // const _projects = await getCollectionProjects(collectionId);
+      // setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -82,6 +84,18 @@ export default function Home() {
     }
   };
 
+  // async function getCollectionProjects(collectionId: string) {
+  //   try {
+  //     const response = await axios.get(`/api/projects?collectionId=${collectionId}`);
+  //     const _projects = await response.data;
+  //     console.log('collection projects: ', _projects)
+  //     return _projects;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return error;
+  //   }
+  // };
+
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
@@ -103,6 +117,7 @@ export default function Home() {
             collections ?
               <Projects
                 currentCollection={currentCollection}
+              // projects={projects}
               // createProject={createProject}
               />
               : <></>
@@ -124,4 +139,4 @@ export default function Home() {
       </div>
     </div>
   )
-}
+};
