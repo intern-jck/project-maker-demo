@@ -11,31 +11,34 @@ import { fetcher, getProjects, clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
-  // projects: ProjectType[],
+  projects: ProjectType[],
   // createProject: Function,
 };
 
 export default function Projects({
   currentCollection,
-  // projects
+  projects
 }: Props) {
-  console.log('Projects', currentCollection)
 
-  // const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
-  const [projects, setProjects] = useState<ProjectType[]>([]);
+  console.log('Projects', currentCollection, projects)
+
+  const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
+  // const [projects, setProjects] = useState<ProjectType[]>([]);
 
-  useEffect(() => {
-    // getProjects(currentCollection._id)
-    //   .then((_projects) => {
-    //     setProjects(_projects);
-    //   })
-    //   .catch((error) => (console.error(error)));
-    // if (data) {
-    //   console.log('got', data)
-    //   setProjects(data);
-    // }
-  }, []);
+  // useEffect(() => {
+  //   // getProjects(currentCollection._id)
+  //   //   .then((_projects) => {
+  //   //     // console.log('projects', _projects)
+  //   //     // setProjects(_projects);
+  //   //   })
+  //   //   .catch((error) => (console.error(error)));
+
+  //   // if (data) {
+  //   //   console.log('projects', data)
+  //   //   // setProjects(data);
+  //   // }
+  // }, [currentCollection]);
 
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     const { name } = event.currentTarget;
@@ -76,6 +79,7 @@ export default function Projects({
       return error;
     }
   };
+
 
   return (
     <div className={styles.projects}>

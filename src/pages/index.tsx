@@ -6,7 +6,7 @@ import Collections from '@/common/components/Collections';
 import Projects from '@/common/components/Projects';
 // import ProjectForm from '@/common/components/ProjectForm';
 
-import { fetcher, getCollections } from '@/common/modules/utils';
+import { fetcher, getCollections, getProjects, } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
@@ -21,13 +21,16 @@ export default function Home() {
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>();
-  // const [projects, setProjects] = useState<ProjectType[]>([]);
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     if (data) {
       console.log('collections:', data);
       setCollections(data);
     }
+    // getProjects()
+    //   .then((_projects) => (console.log(_projects)))
+    //   .catch((error) => (console.error(error)));
   }, [data]);
 
   // COLLECTIONS FUNCTIONS
@@ -45,15 +48,19 @@ export default function Home() {
 
   async function selectCollection(collectionId: string) {
     try {
+
       if (collectionId === '') {
         setCurrentCollection(defaultCollection);
         return true;
       }
+
       const response = await axios.get(`/api/collections/${collectionId}`);
       const _collection: CollectionType = response.data;
       setCurrentCollection(_collection);
-      // const _projects = await getCollectionProjects(collectionId);
+
+      // const _projects = await getProjects(collectionId);
       // setProjects(_projects);
+
       return true;
     } catch (error) {
       console.error(error);
@@ -74,6 +81,7 @@ export default function Home() {
 
   async function deleteCollection(collectionId: string) {
     try {
+      console.log('delete', collectionId)
       const response = await axios.delete(`/api/collections?id=${collectionId}`);
       await updateCollections();
       await selectCollection('')
@@ -114,10 +122,10 @@ export default function Home() {
         </>
         <>
           {
-            collections ?
+            projects.length ?
               <Projects
                 currentCollection={currentCollection}
-              // projects={projects}
+                projects={projects}
               // createProject={createProject}
               />
               : <></>

@@ -11,23 +11,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
+          const { collectionId } = query;
+          console.log(query)
+          if (collectionId) {
+            console.log('getting projects for', collectionId)
+            const connection = await connectMongo();
+            const response = await ProjectModel.find({ collection_id: collectionId }).exec();
+            console.log(response.length)
+            res.status(200).json(response);
+            return;
+          }
 
-          // og get all projects
-          // // add check for collection id here
-          // const connection = await connectMongo();
-          // const response = await ProjectModel.find().exec();
-          // res.status(200).json(response);
-
-
-          // get projects by collection id,
-          // if none, get all
-
-          const { id } = query;
-          console.log('getting projects for', id)
+          console.log('getting all projects')
           const connection = await connectMongo();
-          const response = await ProjectModel.find({ collection_id: id }).exec();
+          const response = await ProjectModel.find().exec();
           console.log(response.length)
           res.status(200).json(response);
+          return;
 
         } catch (error) {
           console.error('Mongo find', error)
