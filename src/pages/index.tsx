@@ -6,7 +6,7 @@ import Collections from '@/common/components/Collections';
 import Projects from '@/common/components/Projects';
 import Form from '@/common/components/Form';
 
-import { fetcher, getCollections } from '@/common/modules/utils';
+import { fetcher, getProjects, getCollections } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
@@ -46,6 +46,7 @@ export default function Home({ }) {
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     getCollections()
@@ -54,6 +55,13 @@ export default function Home({ }) {
         setCurrentCollection(defaultCollection);
       })
       .catch(error => console.error(error));
+
+    getProjects(currentCollection._id)
+      .then((projectsData) => {
+        setProjects(projectsData);
+      })
+      .catch(error => console.error(error));
+
   }, []);
 
   // do i need async for all this?
@@ -174,33 +182,10 @@ export default function Home({ }) {
     }
   };
 
-
-  function createProject(event: React.MouseEvent<HTMLButtonElement>) {
-    // const { name } = event.currentTarget;
-
-    axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id })
-      .then((response) => {
-        const _project = response.data;
-        console.log('created', _project)
-        setCurrentProject(_project);
-      })
-      .catch(error => console.error(error));
-    // try {
-    //   const response = await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
-    //   const newProject = await response.data;
-    //   console.log('created project', newProject);
-    //   await updateProjects(currentCollection._id);
-    //   return true;
-    // } catch (error) {
-    //   console.log(error);
-    //   return error;
-    // }
-  };
-
-  async function updateProjects(collectionId: string) {
+  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     try {
-      const _projects = await getProjects(currentCollection._id);
-      // setProjects(_projects);
+      await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
+      await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
       console.error(error);
@@ -208,9 +193,16 @@ export default function Home({ }) {
     }
   };
 
-
-
-
+  async function updateProjects(collectionId: string) {
+    try {
+      const _projects = await getProjects(currentCollection._id);
+      setProjects(_projects);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
 
   return (
     <div className='project-div'>
@@ -231,14 +223,14 @@ export default function Home({ }) {
 
         <>
           {
-            // projects.length ?
-            <Projects
-              currentCollection={currentCollection}
-              selectProject={selectProject}
-              createProject={createProject}
-            // projects={projects}
-            />
-            // : <></>
+            projects ?
+              <Projects
+                currentCollection={currentCollection}
+                selectProject={selectProject}
+                createProject={createProject}
+                projects={projects}
+              />
+              : <></>
           }
         </>
       </div>

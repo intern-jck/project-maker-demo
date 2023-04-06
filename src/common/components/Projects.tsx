@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-import axios from 'axios';
 
 import Folder from './Folder';
 
@@ -10,27 +9,29 @@ import { getProjects, clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
+  projects: ProjectType[],
   selectProject: React.MouseEventHandler,
   createProject: React.MouseEventHandler,
 };
 
 export default function Projects({
   currentCollection,
+  projects,
   selectProject,
   createProject
 }: Props) {
   console.log('Projects')
 
-  const [projects, setProjects] = useState<ProjectType[]>([]);
+  // const [projects, setProjects] = useState<ProjectType[]>([]);
 
-  useEffect(() => {
-    getProjects(currentCollection._id)
-      .then((projectsData) => {
-        console.log(projectsData.length)
-        setProjects(projectsData);
-      })
-      .catch(error => console.error(error));
-  }, [currentCollection]);
+  // useEffect(() => {
+  // getProjects(currentCollection._id)
+  //   .then((projectsData) => {
+  //     console.log(projectsData.length)
+  //     setProjects(projectsData);
+  //   })
+  //   .catch(error => console.error(error));
+  // }, [currentCollection]);
 
   return (
     <div className={styles.projects}>
