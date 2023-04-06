@@ -1,49 +1,50 @@
 .collections {
-  border: $border-thin;
-  padding: $padding-thin;
+  border: $border-test-orange;
+  padding: $padding-stock;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+
+  label {
+    display: none;
+  }
+
+  input,
+  select {
+    border: $border-test-red;
+    width: 14rem;
+  }
 
   button {
-    margin-right: 1rem;
-  }
-
-  .collectionInput {
-    border: $border-thin;
-    padding: 0.1rem;
+    border: none;
+    margin-left: auto;
+    margin-right: 0.25rem;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    font-size: 2rem;
 
-    label {
-      display: none;
-    }
-
-    input {
-      border: $border-thin;
-      width: 16rem;
-      font-size: 1.2rem;
-      font-family: $page-font;
-    }
-
+    // Reminder, you can style the icon svg
+    // svg {}
   }
 
+  .collectionInput,
   .collectionSelect {
-    border: $border-thin;
-    padding: 0.1rem;
+    border: $border-test-blue;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-
-    label {
-      display: none;
-    }
-
-    select {
-      border: $border-thin;
-      font-size: 1.2rem;
-      font-family: $page-font;
-    }
+    flex-wrap: wrap;
   }
 }
+
+@media screen and (orientation:landscape) and (max-width: $screen-break-m) {
+
+  // TODO: style for screen sizes
+  // .collections {
+  //   input,
+  //   select {
+  //     border: $border-test-red;
+  //     width: 100%;
+  //   }
+  // }
+
+}
+
+@media screen and (orientation:portrait) {}

@@ -1,36 +1,53 @@
 .projects {
-  border: $border-stock;
+  border: $border-test-orange;
   padding: $padding-stock;
-  // width: 30rem;
-  // height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.projectControls {
-  border: $border-thin;
-  padding: 0.1rem;
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  h2 {
-    width: 75%;
-    margin: 0;
-    padding-left: 0.25rem;
-    font-size: 1.2rem;
-  }
-}
-
-.projectsList {
-  border: $border-thin;
-  padding: 0.25rem;
   height: 100%;
-  overflow-y: scroll;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 0.5rem;
+
+  .projectControls {
+    border: $border-test-blue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    button {
+      border: none;
+      margin-left: 0.25rem;
+      margin-right: 0.5rem;
+      display: flex;
+      font-size: 2rem;
+
+      // Reminder, you can style the icon svg
+      // svg {}
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 0;
+      margin-right: auto;
+      padding-left: $padding-stock;
+    }
+  }
+
+  .projectsList {
+    border: $border-test-blue;
+    padding: $padding-stock;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    button {
+      border: $border-test-green;
+      padding: $padding-thin;
+      font-size: 1.2rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
 }

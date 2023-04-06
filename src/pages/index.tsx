@@ -142,7 +142,6 @@ export default function Home({ }) {
   //   }
   // };
 
-
   function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
@@ -175,10 +174,48 @@ export default function Home({ }) {
     }
   };
 
+
+  function createProject(event: React.MouseEvent<HTMLButtonElement>) {
+    // const { name } = event.currentTarget;
+
+    axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id })
+      .then((response) => {
+        const _project = response.data;
+        console.log('created', _project)
+        setCurrentProject(_project);
+      })
+      .catch(error => console.error(error));
+    // try {
+    //   const response = await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
+    //   const newProject = await response.data;
+    //   console.log('created project', newProject);
+    //   await updateProjects(currentCollection._id);
+    //   return true;
+    // } catch (error) {
+    //   console.log(error);
+    //   return error;
+    // }
+  };
+
+  async function updateProjects(collectionId: string) {
+    try {
+      const _projects = await getProjects(currentCollection._id);
+      // setProjects(_projects);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+
+
+
+
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
-        {/* <>
+        <>
           {
             collections ?
               <Collections
@@ -198,11 +235,12 @@ export default function Home({ }) {
             <Projects
               currentCollection={currentCollection}
               selectProject={selectProject}
+              createProject={createProject}
             // projects={projects}
             />
             // : <></>
           }
-        </> */}
+        </>
       </div>
 
       <div className='project-form'>
