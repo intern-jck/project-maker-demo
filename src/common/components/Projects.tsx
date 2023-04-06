@@ -12,33 +12,19 @@ import { fetcher, getProjects, clickHandlerTest } from '@/common/modules/utils';
 type Props = {
   currentCollection: CollectionType,
   projects: ProjectType[],
-  // createProject: Function,
+  selectProject: React.MouseEventHandler,
 };
 
 export default function Projects({
   currentCollection,
-  projects
+  projects,
+  selectProject
 }: Props) {
 
-  console.log('Projects', currentCollection, projects)
+  console.log('Projects', currentCollection.name, projects)
 
   const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
-  // const [projects, setProjects] = useState<ProjectType[]>([]);
-
-  // useEffect(() => {
-  //   // getProjects(currentCollection._id)
-  //   //   .then((_projects) => {
-  //   //     // console.log('projects', _projects)
-  //   //     // setProjects(_projects);
-  //   //   })
-  //   //   .catch((error) => (console.error(error)));
-
-  //   // if (data) {
-  //   //   console.log('projects', data)
-  //   //   // setProjects(data);
-  //   // }
-  // }, [currentCollection]);
 
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     const { name } = event.currentTarget;
@@ -55,19 +41,19 @@ export default function Projects({
     }
   };
 
-  async function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
-    const { name } = event.currentTarget;
-    console.log(name)
-    try {
-      const response = await axios.get(`api/projects/${name}`);
-      const _project: ProjectType = await response.data;
-      console.log('selected', _project)
-      setCurrentProject(_project);
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
+  // async function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
+  //   const { name } = event.currentTarget;
+  //   console.log(name)
+  //   try {
+  //     const response = await axios.get(`api/projects/${name}`);
+  //     const _project: ProjectType = await response.data;
+  //     console.log('selected', _project)
+  //     setCurrentProject(_project);
+  //   } catch (error) {
+  //     console.error(error);
+  //     return error;
+  //   }
+  // };
 
   async function updateProjects(collectionId: string) {
     try {
@@ -79,7 +65,6 @@ export default function Projects({
       return error;
     }
   };
-
 
   return (
     <div className={styles.projects}>

@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 import Collections from '@/common/components/Collections';
 import Projects from '@/common/components/Projects';
-// import ProjectForm from '@/common/components/ProjectForm';
+import Form from '@/common/components/Form';
 
 import { fetcher, getCollections, getProjects, } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
@@ -15,30 +15,41 @@ const defaultCollection: CollectionType = {
   projects: [],
 };
 
-export default function Home() {
+export default function Home({ }) {
 
-  const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
+  // const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
-  const [collections, setCollections] = useState<CollectionType[]>();
+  const [collections, setCollections] = useState<CollectionType[]>([]);
+  const [currentProject, setCurrentProject] = useState<ProjectType>();
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
-  useEffect(() => {
-    if (data) {
-      console.log('collections:', data);
-      setCollections(data);
-    }
-    // getProjects()
-    //   .then((_projects) => (console.log(_projects)))
-    //   .catch((error) => (console.error(error)));
-  }, [data]);
 
-  // COLLECTIONS FUNCTIONS
-  // Move all this into Collections component?
+
+  useEffect(() => {
+    getCollections()
+      .then((collectionData) => {
+        setCollections(collectionData);
+      })
+      .catch(error => console.error(error));
+
+    getProjects()
+      .then((projectsData) => {
+        setProjects(projectsData)
+      })
+      .catch(error => console.error(error))
+  }, []);
+
+
+  // do i need async for all this?
   async function createCollection(collectionName: string) {
     try {
       const response = await axios.post('/api/collections', { name: collectionName });
+      // await updateCollections();
+      console.log(response.data)
+
       await updateCollections();
+      // setCurrentCollection(defaultCollection);
       return true;
     } catch (error) {
       console.error(error);
@@ -46,26 +57,25 @@ export default function Home() {
     }
   };
 
-  async function selectCollection(collectionId: string) {
-    try {
-
-      if (collectionId === '') {
-        setCurrentCollection(defaultCollection);
-        return true;
+  function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
+    const { value } = event.currentTarget;
+    console.log('selected', value)
+    if (value) {
+      for (let collection of collections) {
+        if (collection._id === value) {
+          setCurrentCollection(collection)
+        }
       }
-
-      const response = await axios.get(`/api/collections/${collectionId}`);
-      const _collection: CollectionType = response.data;
-      setCurrentCollection(_collection);
-
-      // const _projects = await getProjects(collectionId);
-      // setProjects(_projects);
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
+      getProjects(value)
+        .then((projectsData) => {
+          console.log(projectsData)
+          setProjects(projectsData)
+        })
+        .catch(error => console.error(error))
+      return;
     }
+    setCurrentCollection(defaultCollection);
   };
 
   async function updateCollections() {
@@ -79,12 +89,23 @@ export default function Home() {
     }
   };
 
-  async function deleteCollection(collectionId: string) {
+  async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { name, value } = event.currentTarget;
+
+    if (!currentCollection._id) {
+      console.log('no collection selected')
+      return false;
+    }
+
     try {
-      console.log('delete', collectionId)
-      const response = await axios.delete(`/api/collections?id=${collectionId}`);
-      await updateCollections();
-      await selectCollection('')
+      console.log('delete', name)
+      const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
+      // await updateCollections();
+
+      const _collections = await getCollections();
+      setCollections(_collections);
+      setCurrentCollection(defaultCollection)
       return true;
     } catch (error) {
       console.error(error);
@@ -92,17 +113,23 @@ export default function Home() {
     }
   };
 
-  // async function getCollectionProjects(collectionId: string) {
-  //   try {
-  //     const response = await axios.get(`/api/projects?collectionId=${collectionId}`);
-  //     const _projects = await response.data;
-  //     console.log('collection projects: ', _projects)
-  //     return _projects;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return error;
-  //   }
-  // };
+  async function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { value } = event.currentTarget;
+
+    if (value) {
+      console.log('selected', value);
+      try {
+        const response = await axios.get(`api/projects/${value}`);
+        const _project: ProjectType = await response.data;
+        console.log('selected', _project)
+        setCurrentProject(_project);
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    }
+  };
 
   return (
     <div className='project-div'>
@@ -113,20 +140,21 @@ export default function Home() {
               <Collections
                 currentCollection={currentCollection}
                 collections={collections}
-                createCollection={createCollection}
                 selectCollection={selectCollection}
+                createCollection={createCollection}
                 deleteCollection={deleteCollection}
               />
               : <></>
           }
         </>
+
         <>
           {
             projects.length ?
               <Projects
                 currentCollection={currentCollection}
                 projects={projects}
-              // createProject={createProject}
+                selectProject={selectProject}
               />
               : <></>
           }
@@ -134,16 +162,17 @@ export default function Home() {
       </div>
 
       <div className='project-form'>
-        {/* {
-          currentProjectId ?
-            <ProjectForm
-              id={currentProjectId}
-              collectionNames={collectionNames}
+        {
+          currentProject ?
+            <Form
+              id={currentProject._id}
+              // collections={collections}
+              projectData={currentProject}
               saveProjectHandler={saveProject}
               deleteProjectHandler={deleteProject}
             />
             : <></>
-        } */}
+        }
       </div>
     </div>
   )

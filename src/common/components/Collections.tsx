@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CgAddR, CgTrash } from 'react-icons/cg';
+
 import { TextInput } from '@/common/components/Inputs';
-import type CollectionType from '@/common/types/CollectionType';
 import styles from '@/styles/components/Collections.module.scss';
+
+import type CollectionType from '@/common/types/CollectionType';
+import { changeHandlerTest, clickHandlerTest } from '@/common/modules/utils';
+
 
 type Props = {
   currentCollection: CollectionType,
   collections: CollectionType[],
   createCollection: Function,
-  selectCollection: Function,
-  deleteCollection: Function,
+  selectCollection: React.ChangeEventHandler,
+  deleteCollection: React.MouseEventHandler,
 };
 
 export default function Collections({
@@ -20,33 +24,23 @@ export default function Collections({
   deleteCollection,
 }: Props) {
 
-  console.log('Collections')
+  // console.log('Collections', currentCollection, collections)
 
   const [newCollection, setNewCollection] = useState<string>('');
 
-  function setNewCollectionHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
-    const { name, value } = event.currentTarget;
-    setNewCollection(value);
-  };
-
-  function createCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    const { name, value } = event.currentTarget;
-    createCollection(newCollection);
-    setNewCollection('')
-  };
-
-  function selectCollectionHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+  function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-    selectCollection(value);
-  };
+    setNewCollection(value);
+  }
 
-  function deleteCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    deleteCollection(currentCollection._id);
-  };
+  function createCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    console.log('creating', newCollection);
+    if (newCollection) {
+      createCollection(newCollection);
+      setNewCollection('');
+    }
+  }
 
   return (
 
@@ -56,7 +50,7 @@ export default function Collections({
         <TextInput
           name={'new_collection'}
           value={newCollection}
-          changeHandler={setNewCollectionHandler}
+          changeHandler={updateNewCollection}
         />
         <button
           name={'add'}
@@ -68,7 +62,7 @@ export default function Collections({
       <div className={styles.collectionSelect}>
         <select
           name={'collections_select'}
-          onChange={selectCollectionHandler}
+          onChange={selectCollection}
           value={currentCollection._id}
         >
           <option key={0} value=''>collections</option>
@@ -80,7 +74,7 @@ export default function Collections({
         </select>
         <button
           name={'delete'}
-          onClick={deleteCollectionHandler}
+          onClick={deleteCollection}
         >
           <CgTrash size={30} />
         </button>

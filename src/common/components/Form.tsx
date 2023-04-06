@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import useSWR from 'swr';
+// import useSWR from 'swr';
 import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
-import { fetcher } from '@/common/modules/utils/fetcher';
+// import { fetcher } from '@/common/modules/utils/fetcher';
 import type ProjectType from '@/common/types/ProjectType';
 import type DateType from '@/common/types/DateType';
 import styles from '@/styles/components/Form.module.scss';
@@ -42,8 +42,15 @@ const formDefaults: ProjectType = {
   github_url: '',
 };
 
-export default function Form({ id, collectionNames, saveProjectHandler, deleteProjectHandler }: Props) {
-  const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
+export default function Form({
+  id,
+  collectionNames,
+  saveProjectHandler,
+  deleteProjectHandler
+}: Props) {
+
+  // const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
+
   const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');

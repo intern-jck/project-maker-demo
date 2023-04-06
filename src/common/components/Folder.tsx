@@ -12,6 +12,7 @@ export default function Folder({ id, name, clickHandler }: Props) {
     <div className={styles.folder}>
       <button
         name={id}
+        value={id}
         onClick={clickHandler}
       // data-folder-id={id}
       >
