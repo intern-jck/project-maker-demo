@@ -1,27 +1,4 @@
 
-async function downloadCollection() {
-  try {
-    const projects = await getProjects();
-    const collectionName = currentCollection.name;
-    const projectData = {
-      [collectionName]: projects,
-    };
-    const filename = `${collectionName}`;
-    const json = JSON.stringify(projectData, null, 2);
-    const blob = new Blob([json], { type: 'application/json' })
-    const href: string = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = filename + '.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObectURL(href);
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
 
 // Functions to handle Projects
 async function createProject(event: React.SyntheticEvent) {
@@ -79,21 +56,6 @@ async function saveProject(projectData: ProjectType) {
   }
 };
 
-async function deleteProject(event: React.SyntheticEvent) {
-  event.preventDefault();
-  const id = event.currentTarget.getAttribute('data-project-id');
-  try {
-    const response = await axios.delete(`/api/projects?id=${id}`);
-    const data = await response.data;
-    const projects = await getProjects();
-    setProjects(projects);
-    setCurrentProjectId('')
-    return true;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
 // newCollection: string,
 //   createCollectionHandler: Function,
 //     updateNewCollectionHandler: React.ChangeEventHandler,

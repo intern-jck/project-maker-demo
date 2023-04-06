@@ -21,13 +21,9 @@ export default function Projects({
   // projects,
 }: Props) {
 
-  // console.log('Projects', currentCollection.name, projects.length)
-
   console.log('Projects', currentCollection.name)
 
   // const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
-  // const [currentProject, setCurrentProject] = useState<ProjectType>();
-
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
@@ -92,8 +88,8 @@ export default function Projects({
                 <Folder
                   key={project._id}
                   id={project._id}
-                  clickHandler={selectProject}
                   name={project.name}
+                  clickHandler={selectProject}
                 />
               )
             })

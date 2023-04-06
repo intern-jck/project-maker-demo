@@ -14,7 +14,6 @@ export default function Folder({ id, name, clickHandler }: Props) {
         name={id}
         value={id}
         onClick={clickHandler}
-      // data-folder-id={id}
       >
         <CgFolder />
         <span>{name}</span>

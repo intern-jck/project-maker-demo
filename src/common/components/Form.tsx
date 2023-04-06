@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-// import useSWR from 'swr';
 import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete } from "react-icons/md";
-// import { fetcher } from '@/common/modules/utils/fetcher';
+
 import type ProjectType from '@/common/types/ProjectType';
 import type DateType from '@/common/types/DateType';
-import styles from '@/styles/components/Form.module.scss';
+
+import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
   id: string,
   collectionNames: string[],
-  saveProjectHandler: Function,
+  project: ProjectType,
+  // saveProjectHandler: Function,
   deleteProjectHandler: React.MouseEventHandler,
 };
 
@@ -22,9 +23,10 @@ type UpdatedDateType = {
 const formDefaults: ProjectType = {
   _id: '',
   link: '',
+  collection_name: '',
+  collection_id: '',
 
   name: '',
-  collection_name: '',
   date: {
     start_month: '',
     start_year: '',
@@ -42,24 +44,25 @@ const formDefaults: ProjectType = {
   github_url: '',
 };
 
-export default function Form({
+export default function ProjectForm({
   id,
   collectionNames,
-  saveProjectHandler,
+  project,
+  // saveProjectHandler,
   deleteProjectHandler
 }: Props) {
 
   // const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
 
-  const [formData, setFormData] = useState<ProjectType>(formDefaults);
+  const [formData, setFormData] = useState<ProjectType>(project);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
-    if (data) {
-      setFormData(data);
+    if (project) {
+      setFormData(project);
     }
-  }, [data]);
+  }, [project]);
 
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -150,14 +153,15 @@ export default function Form({
 
   function saveProject(event: React.FormEvent) {
     event.preventDefault();
-    saveProjectHandler(formData);
+    // saveProjectHandler(formData);
+    console.log('save')
   };
 
   return (
     <>
       {
         formData ?
-          <form className={styles.form} onSubmit={saveProject}>
+          <form id={styles.form} onSubmit={saveProject}>
 
             <div className={styles.formMenu}>
               <h1>NAME: {formData.name}</h1>
@@ -165,79 +169,12 @@ export default function Form({
               <button type='submit'>
                 <MdSave size={40} />
               </button>
-              <button onClick={deleteProjectHandler} data-project-id={id}>
+              <button onClick={deleteProjectHandler} name={'delete'} value={formData._id} id={formData._id}>
                 <MdDelete size={40} />
               </button>
             </div>
 
-            <div className={styles.formRow}>
-              <TextInput
-                name={'name'}
-                value={formData.name}
-                changeHandler={updateTextInput}
-              />
-              <SelectInput
-                name={'collections'}
-                value={formData.collection_name}
-                options={collectionNames}
-                changeHandler={updateCollection}
-              />
-              <DateInput
-                date={formData.date}
-                changeHandler={updateDate}
-              />
-            </div>
 
-            <div className={styles.formRow}>
-              <div className={styles.formCol}>
-                <TextInput
-                  name={'client'}
-                  value={formData.client}
-                  changeHandler={updateTextInput}
-                />
-                <TextInput
-                  name={'client_url'}
-                  value={formData.client_url}
-                  changeHandler={updateTextInput}
-                />
-                <TextInput
-                  name={'github_url'}
-                  value={formData.github_url}
-                  changeHandler={updateTextInput}
-                />
-              </div>
-              <div className={styles.formCol}>
-                <TextInput
-                  name={'short'}
-                  value={formData.short}
-                  changeHandler={updateTextInput}
-                />
-                <TextArea
-                  name={'info'}
-                  value={formData.info}
-                  changeHandler={updateTextInput}
-                />
-              </div>
-            </div>
-
-            <div className={styles.formRow}>
-              {/* <PhotoInput
-                name='photos'
-                value={newPhoto}
-                photos={formData.photos}
-                changeHandler={updatePhoto}
-                addHandler={addPhoto}
-                deleteHandler={deletePhoto}
-              /> */}
-              {/* <TagInput
-                name='tags'
-                value={newTag}
-                tags={formData.tech}
-                changeHandler={updateTag}
-                addHandler={addTag}
-                deleteHandler={deleteTag}
-              /> */}
-            </div>
           </form>
           : null
       }

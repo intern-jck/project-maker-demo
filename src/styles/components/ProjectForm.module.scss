@@ -1,16 +1,18 @@
-.form {
-  border: $border-thin;
-  margin: 0.5rem;
+#form {
+  border: $border-stock;
+  margin: 1rem;
   padding: $padding-stock;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 
   .formMenu {
-    padding: $padding-stock;
+    padding: $padding-thin;
+    border: $border-thin;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 
     h1,
     h2 {

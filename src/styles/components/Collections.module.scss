@@ -1,9 +1,6 @@
 .collections {
-
-  border: $border-stock;
-  padding: $padding-stock;
-  width: 30rem;
-  height: 8rem;
+  border: $border-thin;
+  padding: $padding-thin;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -13,21 +10,19 @@
   }
 
   .collectionInput {
+    border: $border-thin;
     padding: 0.1rem;
-    width: 100%;
-    height: 50%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     label {
       display: none;
-      width: 100%;
     }
 
     input {
       border: $border-thin;
-      width: 20rem;
+      width: 16rem;
       font-size: 1.2rem;
       font-family: $page-font;
     }
@@ -35,21 +30,18 @@
   }
 
   .collectionSelect {
+    border: $border-thin;
     padding: 0.1rem;
-    width: 100%;
-    height: 50%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     label {
       display: none;
-      width: 100%;
     }
 
     select {
       border: $border-thin;
-      width: 20rem;
       font-size: 1.2rem;
       font-family: $page-font;
     }

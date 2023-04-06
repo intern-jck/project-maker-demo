@@ -43,14 +43,6 @@ main {
   gap: 1rem;
 }
 
-.menu-div {
-  border: $border-stock;
-  padding: $padding-stock;
-  height: 10rem;
-  display: flex;
-  gap: 1rem;
-}
-
 .project-div {
   border: $border-stock;
   padding: $padding-stock;
@@ -60,11 +52,18 @@ main {
 }
 
 .project-dashboard {
-  border: $border-stock;
+  border: $border-test-orange;
   padding: $padding-stock;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .project-form {
-  border: $border-stock;
-  width: 100%;
+  border: $border-test-orange;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

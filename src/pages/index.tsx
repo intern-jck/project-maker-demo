@@ -6,13 +6,37 @@ import Collections from '@/common/components/Collections';
 import Projects from '@/common/components/Projects';
 import Form from '@/common/components/Form';
 
-import { fetcher, getCollections, getProjects, } from '@/common/modules/utils';
+import { fetcher, getCollections } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
   _id: '',
   name: '',
   projects: [],
+};
+
+const formDefaults: ProjectType = {
+  _id: '',
+  link: '',
+  collection_name: '',
+  collection_id: '',
+
+  name: '',
+  date: {
+    start_month: '',
+    start_year: '',
+    end_month: '',
+    end_year: '',
+  },
+
+  client: '',
+  client_url: '',
+  short: '',
+  info: '',
+
+  tech: [],
+  photos: [],
+  github_url: '',
 };
 
 export default function Home({ }) {
@@ -22,7 +46,6 @@ export default function Home({ }) {
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectType>();
-  // const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     getCollections()
@@ -31,13 +54,6 @@ export default function Home({ }) {
         setCurrentCollection(defaultCollection);
       })
       .catch(error => console.error(error));
-
-    // getProjects()
-    //   .then((projectsData) => {
-    //     setProjects(projectsData)
-    //   })
-    //   .catch(error => console.error(error))
-
   }, []);
 
   // do i need async for all this?
@@ -91,7 +107,6 @@ export default function Home({ }) {
     }
 
     try {
-      console.log('delete', name)
       const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
       const _collections = await getCollections();
       setCollections(_collections);
@@ -103,42 +118,67 @@ export default function Home({ }) {
     }
   };
 
+  // async function downloadCollection() {
+  //   try {
+  //     const projects = await getProjects();
+  //     const collectionName = currentCollection.name;
+  //     const projectData = {
+  //       [collectionName]: projects,
+  //     };
+  //     const filename = `${collectionName}`;
+  //     const json = JSON.stringify(projectData, null, 2);
+  //     const blob = new Blob([json], { type: 'application/json' })
+  //     const href: string = URL.createObjectURL(blob);
+  //     const link = document.createElement('a');
+  //     link.href = href;
+  //     link.download = filename + '.json';
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //     URL.revokeObectURL(href);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return error;
+  //   }
+  // };
+
+
   function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-
-    // if (value) {
-    //   console.log('selected', value);
-    //   try {
-    //     const response = await axios.get(`api/projects/${value}`);
-    //     const _project: ProjectType = await response.data;
-    //     console.log('selected', _project)
-    //     setCurrentProject(_project);
-    //   } catch (error) {
-    //     console.error(error);
-    //     return error;
-    //   }
-    // }
-
     axios.get(`api/projects/${value}`)
       .then((response) => {
-        const _projects = response.data;
-        console.log(_projects)
+        const _project = response.data;
+        console.log(_project);
+        setCurrentProject(_project);
       })
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
+  };
 
+  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    // const id = event.currentTarget.getAttribute('data-project-id');
+    const { id } = event.currentTarget;
+    // console.log(id)
+    // return;
 
-
-
-
-
-
+    try {
+      const response = await axios.delete(`/api/projects?id=${id}`);
+      // const data = await response.data;
+      // const projects = await getProjects();
+      // setProjects(projects);
+      setCurrentProject({})
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
-        <>
+        {/* <>
           {
             collections ?
               <Collections
@@ -162,21 +202,22 @@ export default function Home({ }) {
             />
             // : <></>
           }
-        </>
+        </> */}
       </div>
 
       <div className='project-form'>
-        {
+        {/* {
           currentProject ?
             <Form
               id={currentProject._id}
               // collections={collections}
               // projectData={currentProject}
               // saveProjectHandler={saveProject}
+              project={currentProject}
               deleteProjectHandler={deleteProject}
             />
             : <></>
-        }
+        } */}
       </div>
     </div>
   )
