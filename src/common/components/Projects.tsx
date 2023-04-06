@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-
 import Folder from './Folder';
-
 import type { CollectionType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/Projects.module.scss';
-import { getProjects, clickHandlerTest } from '@/common/modules/utils';
+import { clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
@@ -20,18 +17,6 @@ export default function Projects({
   selectProject,
   createProject
 }: Props) {
-  console.log('Projects')
-
-  // const [projects, setProjects] = useState<ProjectType[]>([]);
-
-  // useEffect(() => {
-  // getProjects(currentCollection._id)
-  //   .then((projectsData) => {
-  //     console.log(projectsData.length)
-  //     setProjects(projectsData);
-  //   })
-  //   .catch(error => console.error(error));
-  // }, [currentCollection]);
 
   return (
     <div className={styles.projects}>

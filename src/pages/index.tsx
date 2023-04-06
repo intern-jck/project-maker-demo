@@ -65,6 +65,8 @@ export default function Home({ }) {
   }, []);
 
   // do i need async for all this?
+
+  // COLLECTIONS CRUDS
   async function createCollection(collectionName: string) {
     try {
       const response = await axios.post('/api/collections', { name: collectionName });
@@ -126,29 +128,42 @@ export default function Home({ }) {
     }
   };
 
-  // async function downloadCollection() {
-  //   try {
-  //     const projects = await getProjects();
-  //     const collectionName = currentCollection.name;
-  //     const projectData = {
-  //       [collectionName]: projects,
-  //     };
-  //     const filename = `${collectionName}`;
-  //     const json = JSON.stringify(projectData, null, 2);
-  //     const blob = new Blob([json], { type: 'application/json' })
-  //     const href: string = URL.createObjectURL(blob);
-  //     const link = document.createElement('a');
-  //     link.href = href;
-  //     link.download = filename + '.json';
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //     URL.revokeObectURL(href);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return error;
-  //   }
-  // };
+  async function downloadCollection() {
+    try {
+      const projects = await getProjects();
+      const collectionName = currentCollection.name;
+      const projectData = {
+        [collectionName]: projects,
+      };
+      const filename = `${collectionName}`;
+      const json = JSON.stringify(projectData, null, 2);
+      const blob = new Blob([json], { type: 'application/json' })
+      const href: string = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = filename + '.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObectURL(href);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
+
+  // PROJECTS CRUDS
+  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
+    try {
+      await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
+      await updateProjects(currentCollection._id);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
 
   function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -163,18 +178,12 @@ export default function Home({ }) {
   };
 
   async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    // const id = event.currentTarget.getAttribute('data-project-id');
     const { id } = event.currentTarget;
-    // console.log(id)
-    // return;
-
     try {
       const response = await axios.delete(`/api/projects?id=${id}`);
-      // const data = await response.data;
-      // const projects = await getProjects();
-      // setProjects(projects);
-      setCurrentProject({})
+      await updateProjects(currentCollection._id);
+      // reset current project
+      setCurrentProject(undefined); // better way to do this?
       return true;
     } catch (error) {
       console.log(error);
@@ -182,16 +191,7 @@ export default function Home({ }) {
     }
   };
 
-  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
-    try {
-      await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
-      await updateProjects(currentCollection._id);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
+
 
   async function updateProjects(collectionId: string) {
     try {
@@ -236,7 +236,7 @@ export default function Home({ }) {
       </div>
 
       <div className='project-form'>
-        {/* {
+        {
           currentProject ?
             <Form
               id={currentProject._id}
@@ -247,7 +247,7 @@ export default function Home({ }) {
               deleteProjectHandler={deleteProject}
             />
             : <></>
-        } */}
+        }
       </div>
     </div>
   )

@@ -15,35 +15,6 @@ type Props = {
   deleteProjectHandler: React.MouseEventHandler,
 };
 
-type UpdatedDateType = {
-  name: string,
-  value: string,
-};
-
-const formDefaults: ProjectType = {
-  _id: '',
-  link: '',
-  collection_name: '',
-  collection_id: '',
-
-  name: '',
-  date: {
-    start_month: '',
-    start_year: '',
-    end_month: '',
-    end_year: '',
-  },
-
-  client: '',
-  client_url: '',
-  short: '',
-  info: '',
-
-  tech: [],
-  photos: [],
-  github_url: '',
-};
-
 export default function ProjectForm({
   id,
   collectionNames,
@@ -151,6 +122,10 @@ export default function ProjectForm({
 
   };
 
+
+
+
+  // FUNCTIONS
   function saveProject(event: React.FormEvent) {
     event.preventDefault();
     // saveProjectHandler(formData);
@@ -164,13 +139,14 @@ export default function ProjectForm({
           <form id={styles.form} onSubmit={saveProject}>
 
             <div className={styles.formMenu}>
-              <h1>NAME: {formData.name}</h1>
-              <h2>ID: {formData._id}</h2>
+              <h1>NAME: <span>{formData.name}</span></h1>
+              <h2>COLLECTION: <span>{formData.collection_name}</span></h2>
+
               <button type='submit'>
-                <MdSave size={40} />
+                <MdSave />
               </button>
-              <button onClick={deleteProjectHandler} name={'delete'} value={formData._id} id={formData._id}>
-                <MdDelete size={40} />
+              <button id={formData._id} onClick={deleteProjectHandler}>
+                <MdDelete />
               </button>
             </div>
 
