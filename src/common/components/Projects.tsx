@@ -11,20 +11,33 @@ import { fetcher, getProjects, clickHandlerTest } from '@/common/modules/utils';
 
 type Props = {
   currentCollection: CollectionType,
-  projects: ProjectType[],
   selectProject: React.MouseEventHandler,
+  // projects: ProjectType[],
 };
 
 export default function Projects({
   currentCollection,
-  projects,
   selectProject
+  // projects,
 }: Props) {
 
-  console.log('Projects', currentCollection.name, projects)
+  // console.log('Projects', currentCollection.name, projects.length)
 
-  const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
-  const [currentProject, setCurrentProject] = useState<ProjectType>();
+  console.log('Projects', currentCollection.name)
+
+  // const { data, error } = useSWR<ProjectType[]>(`/api/projects`, fetcher);
+  // const [currentProject, setCurrentProject] = useState<ProjectType>();
+
+  const [projects, setProjects] = useState<ProjectType[]>([]);
+
+  useEffect(() => {
+    getProjects(currentCollection._id)
+      .then((projectsData) => {
+        console.log(projectsData)
+        setProjects(projectsData);
+      })
+      .catch(error => console.error(error));
+  }, [currentCollection]);
 
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     const { name } = event.currentTarget;
@@ -40,20 +53,6 @@ export default function Projects({
       return error;
     }
   };
-
-  // async function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
-  //   const { name } = event.currentTarget;
-  //   console.log(name)
-  //   try {
-  //     const response = await axios.get(`api/projects/${name}`);
-  //     const _project: ProjectType = await response.data;
-  //     console.log('selected', _project)
-  //     setCurrentProject(_project);
-  //   } catch (error) {
-  //     console.error(error);
-  //     return error;
-  //   }
-  // };
 
   async function updateProjects(collectionId: string) {
     try {
@@ -71,7 +70,7 @@ export default function Projects({
 
       {/* Create/Download Projects */}
       <div className={styles.projectControls}>
-        <h2>{currentCollection.name}</h2>
+        <h2>{currentCollection.name ? currentCollection.name : 'ALL'}</h2>
         <button
           name='create-project'
           onClick={createProject}>
