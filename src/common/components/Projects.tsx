@@ -18,7 +18,7 @@ export default function Projects({
   createProject
 }: Props) {
 
-  console.log('Projects', currentCollection)
+  // console.log('Projects', currentCollection)
 
   return (
     <div className={styles.projects}>

@@ -11,7 +11,7 @@ type Props = {
   id: string,
   collectionNames: string[],
   project: ProjectType,
-  // saveProjectHandler: Function,
+  saveProject: Function,
   deleteProjectHandler: React.MouseEventHandler,
 };
 
@@ -19,20 +19,20 @@ export default function ProjectForm({
   id,
   collectionNames,
   project,
-  // saveProjectHandler,
+  saveProject,
   deleteProjectHandler
 }: Props) {
 
-  // const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
+  console.log('ProjectFrom', project)
 
   const [formData, setFormData] = useState<ProjectType>(project);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
-    if (project) {
-      setFormData(project);
-    }
+    // if (project) {
+    setFormData(project);
+    // }
   }, [project]);
 
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -119,21 +119,19 @@ export default function ProjectForm({
         tech: tech,
       }))
     };
-
   };
 
   // FUNCTIONS
-  function saveProject(event: React.FormEvent) {
+  function saveProjectHandler(event: React.FormEvent) {
     event.preventDefault();
-    // saveProjectHandler(formData);
-    console.log('save')
+    saveProject(formData);
   };
 
   return (
     <>
       {
         formData ?
-          <form id={styles.form} onSubmit={saveProject}>
+          <form id={styles.form} onSubmit={saveProjectHandler}>
 
             <div className={styles.formMenu}>
               <h1>NAME: <span>{formData.name}</span></h1>
@@ -146,6 +144,25 @@ export default function ProjectForm({
                 <MdDelete />
               </button>
             </div>
+
+            <div className={styles.formRow}>
+              <TextInput
+                name={'name'}
+                value={formData.name}
+                changeHandler={updateTextInput}
+              />
+              {/* <SelectInput
+                name={'collections'}
+                value={formData.collection_name}
+                options={collectionNames}
+                changeHandler={updateCollection}
+              /> */}
+              {/* <DateInput
+                date={formData.date}
+                changeHandler={updateDate}
+              /> */}
+            </div>
+
 
           </form>
           : null

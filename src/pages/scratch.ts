@@ -43,18 +43,6 @@ async function getProject(event: React.SyntheticEvent) {
   setCurrentProjectId(id); // lookup error
 };
 
-async function saveProject(projectData: ProjectType) {
-  try {
-    const response = await axios.put('/api/projects', { doc: projectData });
-    const data = await response.data;
-    const projects = await getProjects();
-    setProjects(projects);
-    return true;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
 
 // newCollection: string,
 //   createCollectionHandler: Function,

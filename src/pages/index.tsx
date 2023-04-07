@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 import Collections from '@/common/components/Collections';
 import Projects from '@/common/components/Projects';
-import Form from '@/common/components/Form';
+import ProjectForm from '@/common/components/ProjectForm';
 
 import { fetcher, getProjects, getCollections } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
@@ -170,7 +170,7 @@ export default function Home({ }) {
     }
 
     try {
-      await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id });
+      await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id, collection_name: currentCollection.name });
       await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
@@ -185,14 +185,15 @@ export default function Home({ }) {
     axios.get(`api/projects/${value}`)
       .then((response) => {
         const _project = response.data;
-        console.log(_project);
         setCurrentProject(_project);
       })
       .catch(error => console.error(error));
   };
 
   async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const { id } = event.currentTarget;
+    console.log('deleting', id)
     try {
       const response = await axios.delete(`/api/projects?id=${id}`);
       await updateProjects(currentCollection._id);
@@ -212,6 +213,21 @@ export default function Home({ }) {
       return true;
     } catch (error) {
       console.error(error);
+      return error;
+    }
+  };
+
+  async function saveProject(projectData: ProjectType) {
+    try {
+      const response = await axios.put('/api/projects', { doc: projectData });
+      const data = await response.data;
+      console.log('saving', data)
+      // const _projects = await getProjects();
+      // setProjects(_projects);
+      await updateProjects(currentCollection._id);
+      return true;
+    } catch (error) {
+      console.log(error);
       return error;
     }
   };
@@ -250,12 +266,11 @@ export default function Home({ }) {
       <div className='project-form'>
         {
           currentProject ?
-            <Form
+            <ProjectForm
               id={currentProject._id}
               // collections={collections}
-              // projectData={currentProject}
-              // saveProjectHandler={saveProject}
               project={currentProject}
+              saveProject={saveProject}
               deleteProjectHandler={deleteProject}
             />
             : <></>

@@ -2,23 +2,6 @@
 
 // BODY
 <>
-  <div className={styles.formRow}>
-    <TextInput
-      name={'name'}
-      value={formData.name}
-      changeHandler={updateTextInput}
-    />
-    <SelectInput
-      name={'collections'}
-      value={formData.collection_name}
-      options={collectionNames}
-      changeHandler={updateCollection}
-    />
-    <DateInput
-      date={formData.date}
-      changeHandler={updateDate}
-    />
-  </div>
 
   <div className={styles.formRow}>
     <div className={styles.formCol}>
