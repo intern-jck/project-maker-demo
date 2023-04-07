@@ -64,8 +64,6 @@ export default function Home({ }) {
 
   }, [data]);
 
-  // do i need async for all this?
-
   // COLLECTIONS CRUDS
   async function createCollection(collectionName: string) {
     try {
@@ -81,18 +79,27 @@ export default function Home({ }) {
   function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
     const { value } = event.currentTarget;
 
+    // console.log('selected', value ? value : 'ALL');
+
+    let _collection = defaultCollection;
+
     if (value) {
       for (let collection of collections) {
         if (collection._id === value) {
-          console.log('selected', collection);
-          setCurrentCollection(collection);
-          return;
+          _collection = collection;
         }
       }
     }
 
-    console.log('selected', 'default');
-    setCurrentCollection(defaultCollection);
+    // console.log(_collection)
+    setCurrentCollection(_collection);
+    getProjects(_collection._id)
+      .then((projectsData) => {
+        // console.log('collection projects: ', projectsData)
+        setProjects(projectsData)
+      })
+      .catch(error => console.error(error));
+
     return;
   };
 
@@ -220,7 +227,7 @@ export default function Home({ }) {
 
         <>
           {
-            projects.length ?
+            projects ?
               <Projects
                 currentCollection={currentCollection}
                 selectProject={selectProject}
