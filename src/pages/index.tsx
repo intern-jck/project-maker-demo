@@ -41,7 +41,7 @@ const formDefaults: ProjectType = {
 
 export default function Home({ }) {
 
-  // const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
+  const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
 
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
   const [collections, setCollections] = useState<CollectionType[]>([]);
@@ -49,20 +49,20 @@ export default function Home({ }) {
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
-    getCollections()
-      .then((collectionData) => {
-        setCollections(collectionData);
-        setCurrentCollection(defaultCollection);
-      })
-      .catch(error => console.error(error));
 
-    getProjects(currentCollection._id)
-      .then((projectsData) => {
-        setProjects(projectsData);
-      })
-      .catch(error => console.error(error));
+    if (data) {
+      console.log('render', data)
+      setCollections(data);
 
-  }, []);
+      getProjects(currentCollection._id)
+        .then((projectsData) => {
+          console.log('render', projectsData)
+          setProjects(projectsData);
+        })
+        .catch(error => console.error(error));
+    }
+
+  }, [data]);
 
   // do i need async for all this?
 
@@ -80,18 +80,18 @@ export default function Home({ }) {
 
   function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
     const { value } = event.currentTarget;
-    console.log('selected', value)
 
     if (value) {
       for (let collection of collections) {
         if (collection._id === value) {
-          setCurrentCollection(collection)
+          console.log('selected', collection);
+          setCurrentCollection(collection);
+          return;
         }
       }
-      return;
     }
 
-    console.log('selected', 'ALL');
+    console.log('selected', 'default');
     setCurrentCollection(defaultCollection);
     return;
   };
@@ -152,7 +152,6 @@ export default function Home({ }) {
     }
   };
 
-
   // PROJECTS CRUDS
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
     try {
@@ -191,8 +190,6 @@ export default function Home({ }) {
     }
   };
 
-
-
   async function updateProjects(collectionId: string) {
     try {
       const _projects = await getProjects(currentCollection._id);
@@ -223,7 +220,7 @@ export default function Home({ }) {
 
         <>
           {
-            projects ?
+            projects.length ?
               <Projects
                 currentCollection={currentCollection}
                 selectProject={selectProject}

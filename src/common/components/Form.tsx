@@ -122,9 +122,6 @@ export default function ProjectForm({
 
   };
 
-
-
-
   // FUNCTIONS
   function saveProject(event: React.FormEvent) {
     event.preventDefault();
