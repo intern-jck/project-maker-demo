@@ -161,8 +161,16 @@ export default function Home({ }) {
 
   // PROJECTS CRUDS
   async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
+
+    // Create random project name as default
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    let randomName = '';
+    for (let i = 0; i < 8; i++) {
+      randomName += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
     try {
-      await axios.post('/api/projects', { name: 'default name', collection_id: currentCollection._id });
+      await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id });
       await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
