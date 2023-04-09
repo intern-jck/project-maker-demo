@@ -1,7 +1,9 @@
+// import { Types } from 'mongoose';
+
 type CollectionType = {
+  _id: string,
   name: string,
-  _id?: string,
-  count?: number,
+  projects: string[],
 };
 
 export default CollectionType;

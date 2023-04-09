@@ -5,7 +5,6 @@ import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req;
   const { id } = query;
-
   try {
     const connection = await connectMongo();
     const response = await ProjectModel.findById({ _id: id }).exec();

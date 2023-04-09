@@ -1,12 +1,31 @@
 $page-font: 'Courier New', Courier, monospace;
+
 $primary: black;
 $secondary: grey;
 $background-color: white;
 $active-color: green;
+
 $font-color: black;
+
 $border-color: black;
 $border-thick: 6px solid black;
 $border-stock: 4px solid black;
 $border-thin: 2px solid black;
-$padding-thick: 0.5rem;
-$padding-stock: 0.25rem;
+
+$border-test-orange: 2px solid orange;
+$border-test-blue: 2px solid blue;
+$border-test-green: 2px solid green;
+$border-test-red: 2px solid red;
+
+$padding-thick: 1.0rem;
+$padding-stock: 0.5rem;
+$padding-thin: 0.25rem;
+
+
+$screen-break-xxl: 1900px;
+$screen-break-xl: 1600px;
+$screen-break-l: 1400px;
+$screen-break-m: 1200px;
+$screen-break-s: 900px;
+$screen-break-xs: 600px;
+$screen-break-xxs: 400px;

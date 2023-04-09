@@ -10,22 +10,25 @@ type DateType = {
 };
 
 type Props = {
+  className: string,
   date: DateType,
   changeHandler: React.ChangeEventHandler,
 };
 
-export default function DateInput({ date, changeHandler }: Props) {
+export default function DateInput({ className, date, changeHandler }: Props) {
   return (
-    <div className={'dateInput'}>
+    <div className={className}>
+
       <div className='dateRow'>
         <SelectInput
-          name='start_month'
+          className={'dateSelect'}
+          inputName='start_month'
           value={date['start_month']}
           options={MONTHS}
           changeHandler={changeHandler}
         />
         <SelectInput
-          name='start_year'
+          inputName='start_year'
           value={date['start_year']}
           options={YEARS}
           changeHandler={changeHandler}
@@ -33,18 +36,19 @@ export default function DateInput({ date, changeHandler }: Props) {
       </div>
       <div className='dateRow'>
         <SelectInput
-          name='end_month'
+          inputName='end_month'
           value={date['end_month']}
           options={MONTHS}
           changeHandler={changeHandler}
         />
         <SelectInput
-          name='end_year'
+          inputName='end_year'
           value={date['end_year']}
           options={YEARS}
           changeHandler={changeHandler}
         />
       </div>
+
     </div>
   );
 };

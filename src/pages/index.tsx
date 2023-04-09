@@ -1,111 +1,127 @@
 import { useState, useEffect } from 'react';
-import useSWR from 'swr';
 import axios from 'axios';
-import Menu from '@/common/components/Menu';
-import Dashboard from '@/common/components/Dashboard';
-import Form from '@/common/components/Form';
-import { fetcher } from '@/common/modules/utils';
-import type ProjectType from '@/common/types/ProjectType';
-import type CollectionType from '@/common/types/CollectionType';
+import useSWR from 'swr';
+
+import Collections from '@/common/components/Collections';
+import Projects from '@/common/components/Projects';
+import ProjectForm from '@/common/components/ProjectForm';
+
+import { fetcher, getProjects, getCollections } from '@/common/modules/utils';
+import { CollectionType, ProjectType } from '@/common/types';
 
 const defaultCollection: CollectionType = {
-  name: ''
+  _id: '',
+  name: '',
+  projects: [],
 };
 
-export default function Home() {
+const formDefaults: ProjectType = {
+  _id: '',
+  link: '',
+  collection_name: '',
+  collection_id: '',
 
-  // Get initial project data
-  const { data, error } = useSWR<ProjectType[]>('/api/projects', fetcher);
+  name: '',
+  date: {
+    start_month: '',
+    start_year: '',
+    end_month: '',
+    end_year: '',
+  },
 
-  const [collections, setCollections] = useState<Array<CollectionType>>([]);
-  const [newCollection, setNewCollection] = useState<string>('');
+  client: '',
+  client_url: '',
+  short: '',
+  info: '',
+
+  tech: [],
+  photos: [],
+  github_url: '',
+};
+
+export default function Home({ }) {
+
+  const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
+
   const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
-  const [currentProjectId, setCurrentProjectId] = useState<string>();
-  const [projects, setProjects] = useState<ProjectType[]>();
+  const [collections, setCollections] = useState<CollectionType[]>([]);
+  const [currentProject, setCurrentProject] = useState<ProjectType>();
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     if (data) {
-      console.log('app load', data)
-      getCollections()
-        .then((collectionData) => {
-          setCollections(collectionData);
+      setCollections(data);
+      getProjects(currentCollection._id)
+        .then((projectsData) => {
+          setProjects(projectsData);
         })
-        .catch((error) => (console.log(error)));
-      setProjects(data);
+        .catch(error => console.error(error));
     }
   }, [data]);
 
-  // Functions to handle Projects
-  async function createProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    console.log(currentCollection.name)
+  // COLLECTIONS CRUDS
+  async function createCollection(collectionName: string) {
     try {
-      const response = await axios.post('/api/projects', { name: 'default name', collection_name: currentCollection.name });
-      const projects = await getProjects();
-      setProjects(projects);
-      return response;
+      const response = await axios.post('/api/collections', { name: collectionName });
+      await updateCollections();
+      return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
 
-  async function getProjects() {
+  function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
 
-    if (currentCollection) {
-      try {
-        const response = axios.get(`/api/projects?collection=${currentCollection.name}`);
-        const projects = await response;
-        console.log('got projects', projects.data)
-        return projects.data;
-      } catch (error) {
-        console.log(error)
-        return error;
+    const { value } = event.currentTarget;
+    let _collection = defaultCollection;
+    if (value) {
+      for (let collection of collections) {
+        if (collection._id === value) {
+          _collection = collection;
+        }
       }
     }
-    try {
-      const response = axios.get(`/api/projects`);
-      const projects = await response;
-      console.log('got projects', projects.data)
-      return projects.data;
-    } catch (error) {
-      console.log(error)
-      return error;
-    }
 
+    setCurrentCollection(_collection);
+    getProjects(_collection._id)
+      .then((projectsData) => {
+        setProjects(projectsData)
+      })
+      .catch(error => console.error(error));
+
+    return;
   };
 
-  async function getProject(event: React.SyntheticEvent) {
-    event.preventDefault();
-    const id = event.currentTarget.getAttribute('data-proj-id');
-    setCurrentProjectId(id); // lookup error
-  };
-
-  async function saveProject(projectData: ProjectType) {
+  async function updateCollections() {
     try {
-      const response = await axios.put('/api/projects', { doc: projectData });
-      const data = await response.data;
-      const projects = await getProjects();
-      setProjects(projects);
+      const _collections = await getCollections();
+      setCollections(_collections);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
 
-  async function deleteProject(event: React.SyntheticEvent) {
+  async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const id = event.currentTarget.getAttribute('data-project-id');
+    const { name, value } = event.currentTarget;
+
+    if (!currentCollection._id) {
+      return false;
+    }
+
     try {
-      const response = await axios.delete(`/api/projects?id=${id}`);
-      const data = await response.data;
-      const projects = await getProjects();
-      setProjects(projects);
-      setCurrentProjectId('')
+      const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
+      const _collections = await getCollections();
+      const _projects = await getProjects(defaultCollection._id);
+      setCurrentCollection(defaultCollection)
+      setCollections(_collections);
+      setProjects(_projects);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
@@ -129,119 +145,132 @@ export default function Home() {
       document.body.removeChild(link);
       URL.revokeObectURL(href);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
 
-  // Functions to handle Collections
-  async function addCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
+  // PROJECTS CRUDS
+  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
 
-    console.log('add cat', newCollection)
-    // return;
+    // Create random project name as default
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    let randomName = '';
+    for (let i = 0; i < 8; i++) {
+      randomName += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
     try {
-      const response = await axios.post('/api/collections', { name: newCollection });
-      const collections = await getCollections();
-      setCollections(collections);
-      setNewCollection('');
+      await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id, collection_name: currentCollection.name });
+      await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
 
-  async function getCollections() {
-    try {
-      const response = axios.get('api/collections');
-      const collections = await response;
-      return collections.data;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
-  // Could probably be merged with updateTextInput?
-  function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
+  function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-    setNewCollection(value);
+    axios.get(`api/projects/${value}`)
+      .then((response) => {
+        const _project = response.data;
+        setCurrentProject(_project);
+      })
+      .catch(error => console.error(error));
   };
 
-  async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    // const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-project-id');
-    console.log('deleteing', id)
+  async function updateProjects(collectionId: string) {
     try {
-      const response = axios.delete(`api/collections?id=${id}`);
-      // const collections = await response;
-      const collections = await getCollections();
-      setCollections(collections);
-      setNewCollection('');
+      const _projects = await getProjects(currentCollection._id);
+      setProjects(_projects);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
 
-  async function selectCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    // const { name, value } = event.currentTarget;
-    const id = event.currentTarget.getAttribute('data-folder-id');
-    console.log('selecting', id)
+  async function saveProject(projectData: ProjectType) {
     try {
-      const response = await axios.get(`api/collections/${id}`);
-      const collection = await response.data;
-      setCurrentCollection(collection);
-      const projects = await getProjects();
-      setProjects(projects);
-      setCurrentProjectId('');
+      const response = await axios.put('/api/projects', { doc: projectData });
+      const data = await response.data;
+      // const _projects = await getProjects();
+      // setProjects(_projects);
+      await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return error;
+    }
+  };
+
+  function closeProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    setCurrentProject(undefined); // better way to do this?
+  };
+
+  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { id } = event.currentTarget;
+    try {
+      const response = await axios.delete(`/api/projects?id=${id}`);
+      await updateProjects(currentCollection._id);
+      // reset current project
+      setCurrentProject(undefined); // better way to do this?
+      return true;
+    } catch (error) {
+      console.error(error);
       return error;
     }
   };
 
   return (
-    <>
-      <div className='menu-div'>
-        {
-          <Menu
-            newCollection={newCollection}
-            collections={collections}
-            addCollectionHandler={addCollection}
-            updateNewCollectionHandler={updateNewCollection}
-            deleteCollectionHandler={deleteCollection}
-            selectCollectionHandler={selectCollection}
-          />
-        }
+    <div className='project-div'>
+      <div className='project-dashboard'>
+        <>
+          {
+            collections ?
+              <Collections
+                currentCollection={currentCollection}
+                collections={collections}
+                selectCollection={selectCollection}
+                createCollection={createCollection}
+                deleteCollection={deleteCollection}
+              />
+              : <></>
+          }
+        </>
+
+        <>
+          {
+            projects ?
+              <Projects
+                currentCollection={currentCollection}
+                projects={projects}
+                createProject={createProject}
+                selectProject={selectProject}
+              />
+              : <></>
+          }
+        </>
       </div>
 
-      <div className='project-div'>
+      <div className='project-form'>
         {
-          currentCollection ?
-            <Dashboard
-              currentCollection={currentCollection}
-              projects={projects ? projects : []}
-              clickHandler={getProject}
-              createHandler={createProject}
-              downloadHandler={downloadCollection}
-            />
-            : <></>
-        }
-        {
-          currentProjectId ?
-            <Form
-              id={currentProjectId}
-              saveProjectHandler={saveProject}
-              deleteProjectHandler={deleteProject}
+          currentProject ?
+            <ProjectForm
+              id={currentProject._id}
+              collections={collections}
+              project={currentProject}
+              saveProject={saveProject}
+              deleteProject={deleteProject}
+              closeProject={closeProject}
             />
             : <></>
         }
       </div>
-    </>
+    </div>
   )
-}
+};

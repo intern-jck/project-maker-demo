@@ -1,73 +1,73 @@
 import { useState, useEffect } from 'react';
-import useSWR from 'swr';
-import { TextInput, TextArea, DateInput, PhotoInput, TagInput } from './Inputs';
-import { MdSave, MdDelete } from "react-icons/md";
-import { fetcher } from '@/common/modules/utils';
-import type ProjectType from '@/common/types/ProjectType';
-import styles from '@/styles/components/Form.module.scss';
+import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
+import { MdSave, MdDelete, MdClose } from "react-icons/md";
+
+import type { ProjectType, CollectionType } from '@/common/types';
+import type DateType from '@/common/types/DateType';
+
+import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
   id: string,
-  saveProjectHandler: Function,
-  deleteProjectHandler: React.MouseEventHandler,
+  collections: CollectionType[],
+  project: ProjectType,
+  saveProject: Function,
+  deleteProject: React.MouseEventHandler,
+  closeProject: React.MouseEventHandler,
 };
 
-type UpdatedDateType = {
-  name: string,
-  value: string,
-}
+export default function ProjectForm({
+  id,
+  collections,
+  project,
+  saveProject,
+  deleteProject,
+  closeProject
+}: Props) {
 
-const formDefaults: ProjectType = {
-  _id: '',
-  link: '',
+  console.log('Project Form', project.collection_name)
 
-  name: '',
-  collection_name: '',
-  date: {
-    start_month: '',
-    start_year: '',
-    end_month: '',
-    end_year: '',
-  },
-
-  client: '',
-  client_url: '',
-  short: '',
-  info: '',
-
-  tech: [],
-  photos: [],
-  github_url: '',
-};
-
-export default function Form({ id, saveProjectHandler, deleteProjectHandler }: Props) {
-
-  const { data, error } = useSWR<ProjectType>(`/api/projects/${id}`, fetcher);
-  const [formData, setFormData] = useState<ProjectType>(formDefaults);
+  const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
-    if (data) {
-      setFormData(data);
-    }
-  }, [data]);
+    setFormData(project);
+  }, [project]);
 
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
     const updatedInput = { [name]: value };
+
+    // TODO: Google this error....
     setFormData((formData) => ({
       ...formData,
       ...updatedInput
     }));
   };
 
-  function updateDate(event: React.ChangeEvent<HTMLInputElement>) {
+  function updateCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.currentTarget;
+    console.log('collection', name, value);
+    console.log('current', formData.collection_id);
+    const updatedCollectionName = { collection_name: name };
+    const updatedCollectionId = { collection_id: value };
+
+    setFormData((formData) => ({
+      ...formData,
+      ...updatedCollectionName,
+      ...updatedCollectionId
+    }));
+
+
+  };
+
+  function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
     console.log(name, value)
     const currentDate = formData.date;
-    currentDate[name] = value; // lookup error
+    currentDate[name as keyof DateType] = value;
     setFormData((formData) => ({
       ...formData,
       ...currentDate,
@@ -96,7 +96,7 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
     if (index) {
-      photos.splice(index, 1); // lookup error
+      photos.splice(parseInt(index), 1);
       setFormData((formData) => ({
         ...formData,
         photos: photos,
@@ -126,79 +126,112 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
     const index = event.currentTarget.getAttribute('data-tag-index');
     const { tech } = formData;
     if (index) {
-      tech.splice(index, 1); // lookup error
+      tech.splice(parseInt(index), 1); // lookup error
       setFormData((formData) => ({
         ...formData,
         tech: tech,
       }))
     };
-
   };
 
-  function saveProject(event: React.FormEvent) {
-    saveProjectHandler(formData);
-  }
+  // FUNCTIONS
+  function saveProjectHandler(event: React.FormEvent) {
+    event.preventDefault();
+    saveProject(formData);
+  };
 
   return (
     <>
       {
         formData ?
-          <form className={styles.form} onSubmit={saveProject}>
+          <form id={styles.form} onSubmit={saveProjectHandler}>
 
             <div className={styles.formMenu}>
-              <h1>NAME: {formData.name}</h1>
-              <h2>ID: {formData._id}</h2>
+              <h1>NAME: <span>{formData.name}</span></h1>
+              <h2>COLLECTION: <span>{formData.collection_name}</span></h2>
               <button type='submit'>
-                <MdSave size={40} />
+                <MdSave />
               </button>
-              <button onClick={deleteProjectHandler} data-project-id={id}>
-                <MdDelete size={40} />
+              <button id={formData._id} onClick={deleteProject}>
+                <MdDelete />
+              </button>
+              <button onClick={closeProject}>
+                <MdClose />
               </button>
             </div>
 
             <div className={styles.formRow}>
+
               <TextInput
-                name={'name'}
+                className={styles.textInput}
+                inputName={'name'}
                 value={formData.name}
                 changeHandler={updateTextInput}
               />
-              <TextInput
-                name={'collection'}
+
+              {/* <SelectInput
+                className={styles.selectInput}
+                inputName={'collections'}
                 value={formData.collection_name}
-                changeHandler={updateTextInput}
-              />
+                options={collectionNames}
+                changeHandler={updateCollection}
+              /> */}
+
+              <select
+                className={styles.selectInput}
+                name={'collection'}
+                onChange={updateCollection}
+                value={formData.collection_id}
+              >
+                <option key={0} value=''>collections</option>
+                {
+                  collections.map((collection, i) => (
+                    <option key={i + 1} value={collection._id} >{collection.name}</option>
+                  ))
+                }
+              </select>
+
               <DateInput
+                className={styles.dateInput}
                 date={formData.date}
                 changeHandler={updateDate}
               />
+
             </div>
 
             <div className={styles.formRow}>
-              <div className={styles.formCol}>
+
+              <div className={styles.links}>
                 <TextInput
-                  name={'client'}
+                  className={styles.textInput}
+                  inputName={'client'}
                   value={formData.client}
                   changeHandler={updateTextInput}
                 />
                 <TextInput
-                  name={'client_url'}
+                  className={styles.textInput}
+                  inputName={'client_url'}
                   value={formData.client_url}
                   changeHandler={updateTextInput}
                 />
                 <TextInput
-                  name={'github_url'}
+                  className={styles.textInput}
+                  inputName={'github_url'}
                   value={formData.github_url}
                   changeHandler={updateTextInput}
                 />
               </div>
-              <div className={styles.formCol}>
+
+              <div className={styles.info}>
                 <TextInput
-                  name={'short'}
+                  className={styles.textInput}
+                  inputName={'short'}
                   value={formData.short}
                   changeHandler={updateTextInput}
                 />
                 <TextArea
-                  name={'info'}
+                  className={styles.textArea}
+                  inputName={'info'}
                   value={formData.info}
                   changeHandler={updateTextInput}
                 />
@@ -207,7 +240,8 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
 
             <div className={styles.formRow}>
               <PhotoInput
-                name='photos'
+                className={styles.photoInput}
+                inputName='photos'
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
@@ -215,7 +249,8 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
                 deleteHandler={deletePhoto}
               />
               <TagInput
-                name='tags'
+                className={styles.tagInput}
+                inputName='tags'
                 value={newTag}
                 tags={formData.tech}
                 changeHandler={updateTag}
@@ -223,6 +258,7 @@ export default function Form({ id, saveProjectHandler, deleteProjectHandler }: P
                 deleteHandler={deleteTag}
               />
             </div>
+
           </form>
           : null
       }

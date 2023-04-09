@@ -6,7 +6,7 @@ import type CollectionType from '@/common/types/CollectionType';
 // Mongo DB Schema for a document
 const CollectionSchema = new Schema<CollectionType>({
   name: { type: String, default: '' },
-  count: { type: Number, default: 0 },
+  projects: [],
 });
 
 // Create a model using document type and schema
