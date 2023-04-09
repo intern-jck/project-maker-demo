@@ -161,47 +161,35 @@ export default function ProjectForm({
             </div>
 
             <div className={styles.formRow}>
+              <div className={styles.stats}>
 
-              <TextInput
-                className={styles.textInput}
-                inputName={'name'}
-                value={formData.name}
-                changeHandler={updateTextInput}
-              />
+                <TextInput
+                  className={styles.textInput}
+                  inputName={'name'}
+                  value={formData.name}
+                  changeHandler={updateTextInput}
+                />
 
-              {/* <SelectInput
-                className={styles.selectInput}
-                inputName={'collections'}
-                value={formData.collection_name}
-                options={collectionNames}
-                changeHandler={updateCollection}
-              /> */}
+                <select
+                  className={styles.selectInput}
+                  name={'collection'}
+                  onChange={updateCollection}
+                  value={formData.collection_id}
+                >
+                  <option key={0} value=''>collections</option>
+                  {
+                    collections.map((collection, i) => (
+                      <option key={i + 1} value={collection._id} >{collection.name}</option>
+                    ))
+                  }
+                </select>
 
-              <select
-                className={styles.selectInput}
-                name={'collection'}
-                onChange={updateCollection}
-                value={formData.collection_id}
-              >
-                <option key={0} value=''>collections</option>
-                {
-                  collections.map((collection, i) => (
-                    <option key={i + 1} value={collection._id} >{collection.name}</option>
-                  ))
-                }
-              </select>
+                <DateInput
+                  className={styles.dateInput}
+                  date={formData.date}
+                  changeHandler={updateDate}
+                />
 
-              <DateInput
-                className={styles.dateInput}
-                date={formData.date}
-                changeHandler={updateDate}
-              />
-
-            </div>
-
-            <div className={styles.formRow}>
-
-              <div className={styles.links}>
                 <TextInput
                   className={styles.textInput}
                   inputName={'client'}
@@ -222,7 +210,7 @@ export default function ProjectForm({
                 />
               </div>
 
-              <div className={styles.info}>
+              <div className={styles.description}>
                 <TextInput
                   className={styles.textInput}
                   inputName={'short'}
