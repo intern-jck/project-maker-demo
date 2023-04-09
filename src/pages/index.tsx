@@ -49,17 +49,14 @@ export default function Home({ }) {
   const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
-
     if (data) {
       setCollections(data);
-
       getProjects(currentCollection._id)
         .then((projectsData) => {
           setProjects(projectsData);
         })
         .catch(error => console.error(error));
     }
-
   }, [data]);
 
   // COLLECTIONS CRUDS
@@ -229,7 +226,6 @@ export default function Home({ }) {
     }
   };
 
-
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
@@ -266,7 +262,7 @@ export default function Home({ }) {
           currentProject ?
             <ProjectForm
               id={currentProject._id}
-              // collections={collections}
+              collections={collections}
               project={currentProject}
               saveProject={saveProject}
               deleteProject={deleteProject}

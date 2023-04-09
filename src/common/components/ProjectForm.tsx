@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
 import { MdSave, MdDelete, MdClose } from "react-icons/md";
 
-import type ProjectType from '@/common/types/ProjectType';
+import type { ProjectType, CollectionType } from '@/common/types';
 import type DateType from '@/common/types/DateType';
 
 import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
   id: string,
-  collectionNames: string[],
+  collections: CollectionType[],
   project: ProjectType,
   saveProject: Function,
   deleteProject: React.MouseEventHandler,
@@ -18,14 +18,12 @@ type Props = {
 
 export default function ProjectForm({
   id,
-  collectionNames,
+  collections,
   project,
   saveProject,
   deleteProject,
   closeProject
 }: Props) {
-
-  // console.log('ProjectFrom', project)
 
   const [formData, setFormData] = useState<ProjectType>(project);
   const [newPhoto, setNewPhoto] = useState<string>('');
@@ -147,19 +145,34 @@ export default function ProjectForm({
                 <MdClose />
               </button>
             </div>
-            MdClose
             <div className={styles.formRow}>
               <TextInput
                 name={'name'}
                 value={formData.name}
                 changeHandler={updateTextInput}
               />
+
+
               {/* <SelectInput
                 name={'collections'}
                 value={formData.collection_name}
                 options={collectionNames}
                 changeHandler={updateCollection}
               /> */}
+
+              <select
+                name={'collection'}
+                onChange={updateCollection}
+                value={formData.collection_id}
+              >
+                <option key={0} value=''>collections</option>
+                {
+                  collections.map((collection, i) => (
+                    <option key={i + 1} value={collection._id} >{collection.name}</option>
+                  ))
+                }
+              </select>
+
               {/* <DateInput
                 date={formData.date}
                 changeHandler={updateDate}
