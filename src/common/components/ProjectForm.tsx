@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from './Inputs';
-import { MdSave, MdDelete } from "react-icons/md";
+import { MdSave, MdDelete, MdClose } from "react-icons/md";
 
 import type ProjectType from '@/common/types/ProjectType';
 import type DateType from '@/common/types/DateType';
@@ -12,7 +12,8 @@ type Props = {
   collectionNames: string[],
   project: ProjectType,
   saveProject: Function,
-  deleteProjectHandler: React.MouseEventHandler,
+  deleteProject: React.MouseEventHandler,
+  closeProject: React.MouseEventHandler,
 };
 
 export default function ProjectForm({
@@ -20,7 +21,8 @@ export default function ProjectForm({
   collectionNames,
   project,
   saveProject,
-  deleteProjectHandler
+  deleteProject,
+  closeProject
 }: Props) {
 
   console.log('ProjectFrom', project)
@@ -30,9 +32,7 @@ export default function ProjectForm({
   const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
-    // if (project) {
     setFormData(project);
-    // }
   }, [project]);
 
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -140,11 +140,14 @@ export default function ProjectForm({
               <button type='submit'>
                 <MdSave />
               </button>
-              <button id={formData._id} onClick={deleteProjectHandler}>
+              <button id={formData._id} onClick={deleteProject}>
                 <MdDelete />
               </button>
+              <button onClick={closeProject}>
+                <MdClose />
+              </button>
             </div>
-
+            MdClose
             <div className={styles.formRow}>
               <TextInput
                 name={'name'}

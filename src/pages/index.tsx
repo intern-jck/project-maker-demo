@@ -51,12 +51,12 @@ export default function Home({ }) {
   useEffect(() => {
 
     if (data) {
-      console.log('render', data)
+      console.log('first render collections', data)
       setCollections(data);
 
       getProjects(currentCollection._id)
         .then((projectsData) => {
-          console.log('render', projectsData)
+          console.log('first render projects', projectsData)
           setProjects(projectsData);
         })
         .catch(error => console.error(error));
@@ -77,12 +77,9 @@ export default function Home({ }) {
   };
 
   function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
+
     const { value } = event.currentTarget;
-
-    // console.log('selected', value ? value : 'ALL');
-
     let _collection = defaultCollection;
-
     if (value) {
       for (let collection of collections) {
         if (collection._id === value) {
@@ -91,11 +88,9 @@ export default function Home({ }) {
       }
     }
 
-    // console.log(_collection)
     setCurrentCollection(_collection);
     getProjects(_collection._id)
       .then((projectsData) => {
-        // console.log('collection projects: ', projectsData)
         setProjects(projectsData)
       })
       .catch(error => console.error(error));
@@ -232,6 +227,11 @@ export default function Home({ }) {
     }
   };
 
+  function closeProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    setCurrentProject(undefined); // better way to do this?
+  };
+
   return (
     <div className='project-div'>
       <div className='project-dashboard'>
@@ -254,9 +254,9 @@ export default function Home({ }) {
             projects ?
               <Projects
                 currentCollection={currentCollection}
-                selectProject={selectProject}
-                createProject={createProject}
                 projects={projects}
+                createProject={createProject}
+                selectProject={selectProject}
               />
               : <></>
           }
@@ -271,7 +271,8 @@ export default function Home({ }) {
               // collections={collections}
               project={currentProject}
               saveProject={saveProject}
-              deleteProjectHandler={deleteProject}
+              deleteProject={deleteProject}
+              closeProject={closeProject}
             />
             : <></>
         }
