@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { CgAddR, CgTrash } from 'react-icons/cg';
-
 import { TextInput } from '@/common/components/Inputs';
+import type CollectionType from '@/common/types/CollectionType';
 import styles from '@/styles/components/Collections.module.scss';
 
-import type CollectionType from '@/common/types/CollectionType';
 
 type Props = {
   currentCollection: CollectionType,
@@ -27,20 +26,21 @@ export default function Collections({
   function updateNewCollection(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.currentTarget;
     setNewCollection(value);
-  }
+  };
 
   function createCollectionHandler(event: React.MouseEvent<HTMLButtonElement>) {
     if (newCollection) {
       createCollection(newCollection);
       setNewCollection('');
     }
-  }
+  };
 
   return (
     <div className={styles.collections}>
       <div className={styles.collectionInput}>
         <TextInput
-          name={'new_collection'}
+          className={styles.textInput}
+          inputName={'new_collection'}
           value={newCollection}
           changeHandler={updateNewCollection}
         />
@@ -49,7 +49,6 @@ export default function Collections({
         </button>
       </div>
       <div className={styles.collectionSelect}>
-
         <select
           name={'select_collection'}
           onChange={selectCollection}
@@ -62,7 +61,6 @@ export default function Collections({
             ))
           }
         </select>
-
         <button name={'delete_collection'} onClick={deleteCollection}>
           <CgTrash />
         </button>

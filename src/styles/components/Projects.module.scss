@@ -1,16 +1,14 @@
 .projects {
-  border: $border-test-orange;
-  padding: $padding-stock;
+  border: $border-thin;
+  padding: $padding-thin;
   display: flex;
   flex-direction: column;
   height: 100%;
 
   .projectControls {
-    border: $border-test-blue;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 
     button {
       border: none;
@@ -24,7 +22,7 @@
     }
 
     h2 {
-      font-size: 1.4rem;
+      font-size: $font-size-large;
       margin: 0;
       margin-right: auto;
       padding-left: $padding-stock;
@@ -32,8 +30,9 @@
   }
 
   .projectsList {
-    border: $border-test-blue;
-    padding: $padding-stock;
+    border: $border-thin;
+    padding: $padding-thin;
+    padding-top: $padding-stock;
     height: 100%;
     overflow-y: scroll;
     display: flex;
@@ -41,9 +40,9 @@
     gap: 0.5rem;
 
     button {
-      border: $border-test-green;
+      border: $border-thin;
       padding: $padding-thin;
-      font-size: 1.2rem;
+      font-size: $font-size-stock;
       width: 100%;
       display: flex;
       align-items: center;

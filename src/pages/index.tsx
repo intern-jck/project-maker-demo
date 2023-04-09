@@ -9,6 +9,9 @@ import ProjectForm from '@/common/components/ProjectForm';
 import { fetcher, getProjects, getCollections } from '@/common/modules/utils';
 import { CollectionType, ProjectType } from '@/common/types';
 
+const COLLECTION_LIMIT = 5;
+const PROJECT_LIMIT = 20;
+
 const defaultCollection: CollectionType = {
   _id: '',
   name: '',
@@ -62,6 +65,10 @@ export default function Home({ }) {
   // COLLECTIONS CRUDS
   async function createCollection(collectionName: string) {
     try {
+      if (collections.length >= COLLECTION_LIMIT) {
+        window.alert('Collection limit reached!');
+        return false;
+      }
       const response = await axios.post('/api/collections', { name: collectionName });
       await updateCollections();
       return true;
@@ -126,24 +133,33 @@ export default function Home({ }) {
     }
   };
 
-  async function downloadCollection() {
+  async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
+    // Somewhat hacky, but works.
     try {
-      const projects = await getProjects();
+      // Get all the projects for the current collection,
+      const projects = await getProjects(currentCollection._id);
       const collectionName = currentCollection.name;
       const projectData = {
         [collectionName]: projects,
       };
-      const filename = `${collectionName}`;
+
+      // then create the json file,
+      const filename = `project-maker-${collectionName ? collectionName : 'all'}`;
       const json = JSON.stringify(projectData, null, 2);
+
+      // then create blob to download from json file,
       const blob = new Blob([json], { type: 'application/json' })
       const href: string = URL.createObjectURL(blob);
+
+      // then create anchor link with href and click to download, 
+      // then remove link from DOM.
       const link = document.createElement('a');
       link.href = href;
       link.download = filename + '.json';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObectURL(href);
+      URL.revokeObjectURL(href);
     } catch (error) {
       console.error(error);
       return error;
@@ -161,6 +177,10 @@ export default function Home({ }) {
     }
 
     try {
+      if (projects.length >= PROJECT_LIMIT) {
+        window.alert('Project limit reached!');
+        return false;
+      }
       await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id, collection_name: currentCollection.name });
       await updateProjects(currentCollection._id);
       return true;
@@ -251,6 +271,7 @@ export default function Home({ }) {
                 projects={projects}
                 createProject={createProject}
                 selectProject={selectProject}
+                downloadProjects={downloadProjects}
               />
               : <></>
           }

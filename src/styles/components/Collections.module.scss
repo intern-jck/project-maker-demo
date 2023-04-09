@@ -1,8 +1,16 @@
 .collections {
-  border: $border-test-orange;
-  padding: $padding-stock;
+  border: $border-thin;
+  padding: $padding-thin;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+
+  .collectionInput,
+  .collectionSelect {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 
   label {
     display: none;
@@ -10,8 +18,9 @@
 
   input,
   select {
-    border: $border-test-red;
     width: 14rem;
+    height: 2rem;
+    font-size: $font-size-stock;
   }
 
   button {
@@ -25,13 +34,6 @@
     // svg {}
   }
 
-  .collectionInput,
-  .collectionSelect {
-    border: $border-test-blue;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
 }
 
 @media screen and (orientation:landscape) and (max-width: $screen-break-m) {

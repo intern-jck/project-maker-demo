@@ -6,12 +6,6 @@
   flex-direction: column;
   gap: 0.5rem;
 
-  input:hover,
-  textarea:hover,
-  select:hover {
-    cursor: pointer;
-    color: green;
-  }
 
   label {
     display: flex;

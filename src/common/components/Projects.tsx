@@ -9,13 +9,15 @@ type Props = {
   projects: ProjectType[],
   selectProject: React.MouseEventHandler,
   createProject: React.MouseEventHandler,
+  downloadProjects: React.MouseEventHandler,
 };
 
 export default function Projects({
   currentCollection,
   projects,
   selectProject,
-  createProject
+  createProject,
+  downloadProjects
 }: Props) {
 
   return (
@@ -30,7 +32,7 @@ export default function Projects({
         <button name='create-project' onClick={createProject}>
           <GoFileMedia />
         </button>
-        <button name='download-projects' onClick={clickHandlerTest}>
+        <button name='download-projects' onClick={downloadProjects}>
           <GoDesktopDownload />
         </button>
         {/* </div> */}
