@@ -12,19 +12,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET':
         try {
           const { collectionId } = query;
-          console.log(query)
           if (collectionId) {
-            console.log('getting projects for', collectionId)
             const connection = await connectMongo();
             const response = await ProjectModel.find({ collection_id: collectionId }).exec();
-            console.log(response.length)
+            console.log('getting projects for', collectionId, response.length)
             res.status(200).json(response);
             return;
           }
-          console.log('getting all projects')
           const connection = await connectMongo();
           const response = await ProjectModel.find().exec();
-          console.log(response.length)
+          // console.log(response.length)
+          console.log('getting all projects', response.length)
           res.status(200).json(response);
           return;
 
@@ -35,6 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'POST':
+
+        // console.log('creating project')
         try {
           const doc = body ? body : {};
           const response = await ProjectModel.create(doc);
@@ -46,13 +46,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
 
       case 'PUT':
-        console.log('saving project')
         const doc = body ? body.doc : {};
         const filter = { '_id': doc._id };
         const update = {
           ...doc,
         };
         const options = { 'upsert': true };
+        // console.log('saving project')
         try {
           const response = await ProjectModel.findOneAndUpdate(filter, update, options);
           res.status(200).send(response);
@@ -64,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'DELETE':
         const { id } = query;
-        console.log(id)
+        console.log('deleting project', id)
         try {
           const project = await ProjectModel.deleteOne({ _id: id }).exec();
           res.status(200).json(project);

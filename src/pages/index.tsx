@@ -118,11 +118,15 @@ export default function Home({ }) {
       return false;
     }
 
+    console.log('deleting ', currentCollection._id)
+
     try {
       const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
       const _collections = await getCollections();
-      setCollections(_collections);
+      const _projects = await getProjects(defaultCollection._id);
       setCurrentCollection(defaultCollection)
+      setCollections(_collections);
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -185,26 +189,12 @@ export default function Home({ }) {
       .catch(error => console.error(error));
   };
 
-  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    const { id } = event.currentTarget;
-    console.log('deleting', id)
-    try {
-      const response = await axios.delete(`/api/projects?id=${id}`);
-      await updateProjects(currentCollection._id);
-      // reset current project
-      setCurrentProject(undefined); // better way to do this?
-      return true;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-
   async function updateProjects(collectionId: string) {
+    console.log('getting projects for', collectionId)
     try {
       const _projects = await getProjects(currentCollection._id);
       setProjects(_projects);
+      console.log('got projects', _projects)
       return true;
     } catch (error) {
       console.error(error);
@@ -231,6 +221,23 @@ export default function Home({ }) {
     event.preventDefault();
     setCurrentProject(undefined); // better way to do this?
   };
+
+  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { id } = event.currentTarget;
+    console.log('deleting', id)
+    try {
+      const response = await axios.delete(`/api/projects?id=${id}`);
+      await updateProjects(currentCollection._id);
+      // reset current project
+      setCurrentProject(undefined); // better way to do this?
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
 
   return (
     <div className='project-div'>

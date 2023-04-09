@@ -2,7 +2,9 @@ import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
 import type { CollectionType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/Projects.module.scss';
-import { clickHandlerTest } from '@/common/modules/utils';
+import { fetcher, clickHandlerTest } from '@/common/modules/utils';
+import axios from 'axios';
+import useSWR from 'swr';
 
 type Props = {
   currentCollection: CollectionType,
@@ -17,8 +19,6 @@ export default function Projects({
   selectProject,
   createProject
 }: Props) {
-
-  // console.log('Projects', currentCollection)
 
   return (
     <div className={styles.projects}>

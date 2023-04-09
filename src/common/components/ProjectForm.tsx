@@ -25,7 +25,7 @@ export default function ProjectForm({
   closeProject
 }: Props) {
 
-  console.log('ProjectFrom', project)
+  // console.log('ProjectFrom', project)
 
   const [formData, setFormData] = useState<ProjectType>(project);
   const [newPhoto, setNewPhoto] = useState<string>('');

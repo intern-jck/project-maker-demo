@@ -9,6 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const connection = await connectMongo();
     switch (method) {
       case 'GET':
+        console.log('getting collections')
         try {
           const response = await CollectionModel.find().exec();
           res.status(200).json(response);
@@ -47,6 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'DELETE':
         const { id } = query;
+        console.log('deleting collection', id)
         try {
           const response = await CollectionModel.deleteOne({ _id: id }).exec();
           res.status(200).json(response);
