@@ -2,7 +2,8 @@ import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 
 type Props = {
-  name: string,
+  className: string,
+  inputName: string,
   value: string,
   tags: string[],
   changeHandler: React.ChangeEventHandler,
@@ -10,18 +11,18 @@ type Props = {
   deleteHandler: React.MouseEventHandler,
 };
 
-export default function TagInput({ name, value, tags, changeHandler, addHandler, deleteHandler }: Props) {
+export default function TagInput({ className, inputName, value, tags, changeHandler, addHandler, deleteHandler }: Props) {
   return (
-    <div className='tagInput'>
+    <div className={className}>
 
       <div className='tagName'>
         <TextInput
-          name={name}
+          inputName={inputName}
           value={value}
           changeHandler={changeHandler}
         />
         <button onClick={addHandler}>
-          <CgAddR size={30} />
+          <CgAddR />
         </button>
       </div>
 

@@ -25,6 +25,8 @@ export default function ProjectForm({
   closeProject
 }: Props) {
 
+  console.log('Project Form', project.collection_name)
+
   const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
@@ -37,6 +39,8 @@ export default function ProjectForm({
     event.preventDefault();
     const { name, value } = event.currentTarget;
     const updatedInput = { [name]: value };
+
+    // TODO: Google this error....
     setFormData((formData) => ({
       ...formData,
       ...updatedInput
@@ -45,7 +49,18 @@ export default function ProjectForm({
 
   function updateCollection(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
-    console.log(name, value);
+    console.log('collection', name, value);
+    console.log('current', formData.collection_id);
+    const updatedCollectionName = { collection_name: name };
+    const updatedCollectionId = { collection_id: value };
+
+    setFormData((formData) => ({
+      ...formData,
+      ...updatedCollectionName,
+      ...updatedCollectionId
+    }));
+
+
   };
 
   function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -186,7 +201,7 @@ export default function ProjectForm({
 
             <div className={styles.formRow}>
 
-              <div className={styles.formCol}>
+              <div className={styles.links}>
                 <TextInput
                   className={styles.textInput}
                   inputName={'client'}
@@ -207,23 +222,25 @@ export default function ProjectForm({
                 />
               </div>
 
-              <div className={styles.formCol}>
+              <div className={styles.info}>
                 <TextInput
                   className={styles.textInput}
                   inputName={'short'}
                   value={formData.short}
                   changeHandler={updateTextInput}
                 />
-                {/* <TextArea
+                <TextArea
+                  className={styles.textArea}
                   inputName={'info'}
                   value={formData.info}
                   changeHandler={updateTextInput}
-                /> */}
+                />
               </div>
             </div>
 
-            {/* <div className={styles.formRow}>
+            <div className={styles.formRow}>
               <PhotoInput
+                className={styles.photoInput}
                 inputName='photos'
                 value={newPhoto}
                 photos={formData.photos}
@@ -232,6 +249,7 @@ export default function ProjectForm({
                 deleteHandler={deletePhoto}
               />
               <TagInput
+                className={styles.tagInput}
                 inputName='tags'
                 value={newTag}
                 tags={formData.tech}
@@ -239,7 +257,7 @@ export default function ProjectForm({
                 addHandler={addTag}
                 deleteHandler={deleteTag}
               />
-            </div> */}
+            </div>
 
           </form>
           : null

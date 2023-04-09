@@ -1,15 +1,18 @@
 type Props = {
-  name: string,
+  className?: string,
+  inputName?: string,
   value: string,
   changeHandler: React.ChangeEventHandler,
 };
 
-export default function TextArea({ name, value, changeHandler }: Props) {
+export default function TextArea({ className, inputName, value, changeHandler }: Props) {
   return (
-    <label className='TextArea'>
-      {name.toUpperCase()}
+    <label className={className}>
+      <label htmlFor={inputName}>
+        {inputName ? inputName.toUpperCase() : ''}
+      </label>
       <textarea
-        name={name}
+        name={inputName}
         value={value}
         onChange={changeHandler}
       />

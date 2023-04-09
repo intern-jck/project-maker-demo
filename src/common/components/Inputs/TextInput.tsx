@@ -6,7 +6,6 @@ type Props = {
 };
 
 export default function TextInput({ className, inputName, value, changeHandler }: Props) {
-  console.log('Text Input', className, inputName, value)
   return (
     <div className={className}>
       <label htmlFor={inputName}>
