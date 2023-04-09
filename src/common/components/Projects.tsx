@@ -1,10 +1,8 @@
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import Folder from './Folder';
 import type { CollectionType, ProjectType } from '@/common/types';
+import { clickHandlerTest } from '@/common/modules/utils';
 import styles from '@/styles/components/Projects.module.scss';
-import { fetcher, clickHandlerTest } from '@/common/modules/utils';
-import axios from 'axios';
-import useSWR from 'swr';
 
 type Props = {
   currentCollection: CollectionType,

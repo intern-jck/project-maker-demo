@@ -51,12 +51,10 @@ export default function Home({ }) {
   useEffect(() => {
 
     if (data) {
-      console.log('first render collections', data)
       setCollections(data);
 
       getProjects(currentCollection._id)
         .then((projectsData) => {
-          console.log('first render projects', projectsData)
           setProjects(projectsData);
         })
         .catch(error => console.error(error));
@@ -114,11 +112,8 @@ export default function Home({ }) {
     const { name, value } = event.currentTarget;
 
     if (!currentCollection._id) {
-      console.log('no collection selected')
       return false;
     }
-
-    console.log('deleting ', currentCollection._id)
 
     try {
       const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
@@ -153,7 +148,7 @@ export default function Home({ }) {
       document.body.removeChild(link);
       URL.revokeObectURL(href);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
@@ -190,11 +185,9 @@ export default function Home({ }) {
   };
 
   async function updateProjects(collectionId: string) {
-    console.log('getting projects for', collectionId)
     try {
       const _projects = await getProjects(currentCollection._id);
       setProjects(_projects);
-      console.log('got projects', _projects)
       return true;
     } catch (error) {
       console.error(error);
@@ -206,13 +199,12 @@ export default function Home({ }) {
     try {
       const response = await axios.put('/api/projects', { doc: projectData });
       const data = await response.data;
-      console.log('saving', data)
       // const _projects = await getProjects();
       // setProjects(_projects);
       await updateProjects(currentCollection._id);
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };
@@ -225,7 +217,6 @@ export default function Home({ }) {
   async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const { id } = event.currentTarget;
-    console.log('deleting', id)
     try {
       const response = await axios.delete(`/api/projects?id=${id}`);
       await updateProjects(currentCollection._id);
@@ -233,7 +224,7 @@ export default function Home({ }) {
       setCurrentProject(undefined); // better way to do this?
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return error;
     }
   };

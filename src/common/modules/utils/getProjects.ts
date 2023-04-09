@@ -6,7 +6,7 @@ export default async function getProjects(collectionId: string = '') {
     const _projects = await response;
     return _projects.data;
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return error;
   }
 };
