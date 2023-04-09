@@ -1,6 +1,6 @@
 type Props = {
-  className: string,
-  inputName: string,
+  className?: string,
+  inputName?: string,
   value: string,
   options: string[],
   changeHandler: React.ChangeEventHandler,
@@ -8,9 +8,9 @@ type Props = {
 
 export default function Select({ className, inputName, value, options, changeHandler }: Props) {
   return (
-    <div className={className}>
+    <>
       <label htmlFor={inputName}>
-        {inputName.toUpperCase()}
+        {inputName ? inputName.toUpperCase() : ''}
       </label>
       <select
         name={inputName}
@@ -24,6 +24,6 @@ export default function Select({ className, inputName, value, options, changeHan
           ))
         }
       </select>
-    </div>
+    </>
   );
 };

@@ -74,15 +74,43 @@
     border: 2px solid black;
   }
 
-  .selectInput {}
+  .selectInput {
+    border: 2px solid black;
+  }
 
-  .textArea {}
+  .textArea {
+    border: 2px solid black;
+  }
 
-  .dateInput {}
+  .dateInput {
+    border: 2px solid black;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
 
-  .photoInput {}
+    div {
+      display: flex;
+      gap: 1rem;
 
-  .tagInput {}
+      label {
+        display: none;
+      }
+
+      select {
+        width: 6rem;
+      }
+    }
+
+  }
+
+  .photoInput {
+    border: 2px solid black;
+  }
+
+  .tagInput {
+    border: 2px solid black;
+  }
 
   input:hover,
   select:hover {
@@ -90,19 +118,7 @@
     color: green;
   }
 
-  .dateInput {
-    font-size: 1rem;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
 
-    .dateRow {
-      display: flex;
-      gap: 1rem;
-    }
-
-  }
 
   .photoInput {
     border: 2px solid black;
@@ -197,6 +213,12 @@
 
 
 }
+
+
+
+
+
+
 
 @media screen and (orientation:landscape) and (max-width: 1024px) {}
 

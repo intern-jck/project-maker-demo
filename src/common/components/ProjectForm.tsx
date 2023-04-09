@@ -134,7 +134,6 @@ export default function ProjectForm({
             <div className={styles.formMenu}>
               <h1>NAME: <span>{formData.name}</span></h1>
               <h2>COLLECTION: <span>{formData.collection_name}</span></h2>
-
               <button type='submit'>
                 <MdSave />
               </button>
@@ -145,6 +144,7 @@ export default function ProjectForm({
                 <MdClose />
               </button>
             </div>
+
             <div className={styles.formRow}>
 
               <TextInput
@@ -155,13 +155,15 @@ export default function ProjectForm({
               />
 
               {/* <SelectInput
-                name={'collections'}
+                className={styles.selectInput}
+                inputName={'collections'}
                 value={formData.collection_name}
                 options={collectionNames}
                 changeHandler={updateCollection}
               /> */}
 
-              {/* <select
+              <select
+                className={styles.selectInput}
                 name={'collection'}
                 onChange={updateCollection}
                 value={formData.collection_id}
@@ -172,14 +174,72 @@ export default function ProjectForm({
                     <option key={i + 1} value={collection._id} >{collection.name}</option>
                   ))
                 }
-              </select> */}
+              </select>
 
-              {/* <DateInput
+              <DateInput
+                className={styles.dateInput}
                 date={formData.date}
                 changeHandler={updateDate}
-              /> */}
+              />
+
             </div>
 
+            <div className={styles.formRow}>
+
+              <div className={styles.formCol}>
+                <TextInput
+                  className={styles.textInput}
+                  inputName={'client'}
+                  value={formData.client}
+                  changeHandler={updateTextInput}
+                />
+                <TextInput
+                  className={styles.textInput}
+                  inputName={'client_url'}
+                  value={formData.client_url}
+                  changeHandler={updateTextInput}
+                />
+                <TextInput
+                  className={styles.textInput}
+                  inputName={'github_url'}
+                  value={formData.github_url}
+                  changeHandler={updateTextInput}
+                />
+              </div>
+
+              <div className={styles.formCol}>
+                <TextInput
+                  className={styles.textInput}
+                  inputName={'short'}
+                  value={formData.short}
+                  changeHandler={updateTextInput}
+                />
+                {/* <TextArea
+                  inputName={'info'}
+                  value={formData.info}
+                  changeHandler={updateTextInput}
+                /> */}
+              </div>
+            </div>
+
+            {/* <div className={styles.formRow}>
+              <PhotoInput
+                inputName='photos'
+                value={newPhoto}
+                photos={formData.photos}
+                changeHandler={updatePhoto}
+                addHandler={addPhoto}
+                deleteHandler={deletePhoto}
+              />
+              <TagInput
+                inputName='tags'
+                value={newTag}
+                tags={formData.tech}
+                changeHandler={updateTag}
+                addHandler={addTag}
+                deleteHandler={deleteTag}
+              />
+            </div> */}
 
           </form>
           : null
