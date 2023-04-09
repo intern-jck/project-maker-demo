@@ -25,7 +25,7 @@ export default function ProjectForm({
   closeProject
 }: Props) {
 
-  const [formData, setFormData] = useState<ProjectType>(project);
+  const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
@@ -146,12 +146,13 @@ export default function ProjectForm({
               </button>
             </div>
             <div className={styles.formRow}>
+
               <TextInput
-                name={'name'}
+                className={styles.textInput}
+                inputName={'name'}
                 value={formData.name}
                 changeHandler={updateTextInput}
               />
-
 
               {/* <SelectInput
                 name={'collections'}
@@ -160,7 +161,7 @@ export default function ProjectForm({
                 changeHandler={updateCollection}
               /> */}
 
-              <select
+              {/* <select
                 name={'collection'}
                 onChange={updateCollection}
                 value={formData.collection_id}
@@ -171,7 +172,7 @@ export default function ProjectForm({
                     <option key={i + 1} value={collection._id} >{collection.name}</option>
                   ))
                 }
-              </select>
+              </select> */}
 
               {/* <DateInput
                 date={formData.date}

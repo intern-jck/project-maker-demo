@@ -49,6 +49,7 @@ export default function Collections({
         </button>
       </div>
       <div className={styles.collectionSelect}>
+
         <select
           name={'select_collection'}
           onChange={selectCollection}
@@ -61,6 +62,7 @@ export default function Collections({
             ))
           }
         </select>
+
         <button name={'delete_collection'} onClick={deleteCollection}>
           <CgTrash />
         </button>

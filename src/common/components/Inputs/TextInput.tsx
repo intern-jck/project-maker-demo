@@ -1,20 +1,22 @@
 type Props = {
-  name: string,
+  className: string,
+  inputName: string,
   value: string,
   changeHandler: React.ChangeEventHandler,
 };
 
-export default function TextInput({ name, value, changeHandler }: Props) {
+export default function TextInput({ className, inputName = '', value, changeHandler }: Props) {
+  console.log('Text Input', className, inputName, value)
   return (
-    <div className='text-input'>
-      <label htmlFor={name}>
-        {name.toUpperCase()}
+    <div className={className}>
+      <label htmlFor={inputName}>
+        {inputName.toUpperCase()}
       </label>
       <input
         type='text'
-        name={name}
+        name={inputName}
         value={value}
-        placeholder={name}
+        placeholder={inputName}
         onChange={changeHandler}
       />
     </div>
