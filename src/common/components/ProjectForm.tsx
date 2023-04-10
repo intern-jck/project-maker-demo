@@ -51,7 +51,7 @@ export default function ProjectForm({
 
   console.log('Project Form', project.collection_name)
 
-  const [formData, setFormData] = useState<ProjectType>(formDefaults);
+  const [formData, setFormData] = useState<ProjectType>(formDefault);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
