@@ -1,16 +1,17 @@
 // import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-// import Folder from './Folder';
-// import type { CollectionType, ProjectType } from '@/common/types';
+import Project from './Project';
+import type { ProjectType } from '@/common/types';
 // import { clickHandlerTest } from '@/common/modules/utils';
 import styles from '@/styles/components/Projects.module.scss';
 
-// type Props = {
+type Props = {
 //   currentCollection: CollectionType,
-//   projects: ProjectType[],
+  projects: ProjectType[],
 //   selectProject: React.MouseEventHandler,
 //   createProject: React.MouseEventHandler,
 //   downloadProjects: React.MouseEventHandler,
-// };
+};
+
 // {
 //   // currentCollection,
 //   // projects,
@@ -19,11 +20,12 @@ import styles from '@/styles/components/Projects.module.scss';
 //   // downloadProjects
 // }: Props
 
-export default function Projects() {
+export default function Projects({
+  projects
+}: Props) {
 
   return (
     <div className={styles.projects}>
-      <h3>PROJECTS</h3>
 
       {/* Create/Download Projects */}
       {/* <div className={styles.projectControls}>
@@ -37,22 +39,20 @@ export default function Projects() {
       </div> */}
 
       {/* Project Folder List */}
-      {/* <div className={styles.projectsList}>
+      {/* <div className={styles.projectsList}> */}
         {
-          projects.length > 0 ?
-            projects.map((project, i) => {
-              return (
-                <Folder
-                  key={project._id}
-                  id={project._id}
-                  name={project.name}
-                  clickHandler={selectProject}
-                />
-              )
-            })
-            : null
+          projects.map((project, i) => {
+            return (
+              <Project
+                key={project._id}
+                id={project._id ? project._id : ''}
+                name={project.name ? project.name : ''}
+                // clickHandler={selectProject}
+              />
+            )
+          })
         }
-      </div> */}
+      {/* </div> */}
 
     </div>
   );
