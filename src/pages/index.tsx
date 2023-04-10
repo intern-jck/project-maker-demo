@@ -18,7 +18,7 @@ const defaultCollection: CollectionType = {
   projects: [],
 };
 
-const formDefault: ProjectType = {
+const formDefaults: ProjectType = {
   _id: '',
   link: '',
   collection_name: '',

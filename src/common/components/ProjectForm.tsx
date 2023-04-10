@@ -7,7 +7,7 @@ import type DateType from '@/common/types/DateType';
 
 import styles from '@/styles/components/ProjectForm.module.scss';
 
-const formDefault: ProjectType = {
+const formDefaults: ProjectType = {
   _id: '',
   link: '',
   collection_name: '',
@@ -204,7 +204,7 @@ export default function ProjectForm({
                 <TextInput
                   className={styles.textInput}
                   inputName={'name'}
-                  value={formData.name ? formData.name : ''}
+                  value={formData.name}
                   changeHandler={updateTextInput}
                 />
 
@@ -222,33 +222,28 @@ export default function ProjectForm({
                   }
                 </select>
 
-                {/* <DateInput
+                <DateInput
                   className={styles.dateInput}
-                  date={formData.date ? formData.date : {
-                    start_month: '',
-                    start_year: '',
-                    end_month: '',
-                    end_year: '',
-                  }}
+                  date={formData.date}
                   changeHandler={updateDate}
-                /> */}
+                />
 
                 <TextInput
                   className={styles.textInput}
                   inputName={'client'}
-                  value={formData.client ? formData.client : ''}
+                  value={formData.client}
                   changeHandler={updateTextInput}
                 />
                 <TextInput
                   className={styles.textInput}
                   inputName={'client_url'}
-                  value={formData.client_url ? formData.client_url : ''}
+                  value={formData.client_url}
                   changeHandler={updateTextInput}
                 />
                 <TextInput
                   className={styles.textInput}
                   inputName={'github_url'}
-                  value={formData.github_url ? formData.github_url : ''}
+                  value={formData.github_url}
                   changeHandler={updateTextInput}
                 />
               </div>
@@ -257,13 +252,13 @@ export default function ProjectForm({
                 <TextInput
                   className={styles.textInput}
                   inputName={'short'}
-                  value={formData.short ? formData.short : ''}
+                  value={formData.short}
                   changeHandler={updateTextInput}
                 />
                 <TextArea
                   className={styles.textArea}
                   inputName={'info'}
-                  value={formData.info ? formData.info : ''}
+                  value={formData.info}
                   changeHandler={updateTextInput}
                 />
               </div>
@@ -274,7 +269,7 @@ export default function ProjectForm({
                 className={styles.photoInput}
                 inputName='photos'
                 value={newPhoto}
-                photos={formData.photos ? formData.photos : []}
+                photos={formData.photos}
                 changeHandler={updatePhoto}
                 addHandler={addPhoto}
                 deleteHandler={deletePhoto}
@@ -283,7 +278,7 @@ export default function ProjectForm({
                 className={styles.tagInput}
                 inputName='tags'
                 value={newTag}
-                tags={formData.tech ? formData.tech : []}
+                tags={formData.tech}
                 changeHandler={updateTag}
                 addHandler={addTag}
                 deleteHandler={deleteTag}
