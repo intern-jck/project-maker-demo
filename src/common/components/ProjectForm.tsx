@@ -7,6 +7,30 @@ import type DateType from '@/common/types/DateType';
 
 import styles from '@/styles/components/ProjectForm.module.scss';
 
+const formDefaults: ProjectType = {
+  _id: '',
+  link: '',
+  collection_name: '',
+  collection_id: '',
+
+  name: '',
+  date: {
+    start_month: '',
+    start_year: '',
+    end_month: '',
+    end_year: '',
+  },
+
+  client: '',
+  client_url: '',
+  short: '',
+  info: '',
+
+  tech: [],
+  photos: [],
+  github_url: '',
+};
+
 type Props = {
   id: string,
   collections: CollectionType[],
@@ -27,7 +51,7 @@ export default function ProjectForm({
 
   console.log('Project Form', project.collection_name)
 
-  const [formData, setFormData] = useState<ProjectType>();
+  const [formData, setFormData] = useState<ProjectType>(formDefaults);
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
@@ -40,11 +64,15 @@ export default function ProjectForm({
     const { name, value } = event.currentTarget;
     const updatedInput = { [name]: value };
 
+    // const _formData = formData;
+    // _formData[name] = value;
+
     // TODO: Google this error....
     setFormData((formData) => ({
       ...formData,
       ...updatedInput
     }));
+
   };
 
   function updateCollection(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -65,9 +93,11 @@ export default function ProjectForm({
 
   function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
-    console.log(name, value)
     const currentDate = formData.date;
-    currentDate[name as keyof DateType] = value;
+    if (currentDate) {
+      currentDate[name as keyof DateType] = value;
+    }
+
     setFormData((formData) => ({
       ...formData,
       ...currentDate,
@@ -83,7 +113,9 @@ export default function ProjectForm({
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
     const { photos } = formData;
     if (newPhoto) {
-      photos.push(newPhoto);
+      if (photos) {
+        photos.push(newPhoto);
+      }
       setNewPhoto('');
       setFormData((formData) => ({
         ...formData,
@@ -96,7 +128,9 @@ export default function ProjectForm({
     const index = event.currentTarget.getAttribute('data-photo-index');
     const { photos } = formData;
     if (index) {
-      photos.splice(parseInt(index), 1);
+      if (photos) {
+        photos.splice(parseInt(index), 1);
+      }
       setFormData((formData) => ({
         ...formData,
         photos: photos,
@@ -113,7 +147,9 @@ export default function ProjectForm({
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
     const { tech } = formData;
     if (newTag) {
-      tech.push(newTag);
+      if (tech) {
+        tech.push(newTag);
+      }
       setNewPhoto('');
       setFormData((formData) => ({
         ...formData,
@@ -126,7 +162,9 @@ export default function ProjectForm({
     const index = event.currentTarget.getAttribute('data-tag-index');
     const { tech } = formData;
     if (index) {
-      tech.splice(parseInt(index), 1); // lookup error
+      if (tech) {
+        tech.splice(parseInt(index), 1); // lookup error
+      }
       setFormData((formData) => ({
         ...formData,
         tech: tech,

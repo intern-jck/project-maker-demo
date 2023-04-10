@@ -54,7 +54,7 @@ export default function Home({ }) {
   useEffect(() => {
     if (data) {
       setCollections(data);
-      getProjects(currentCollection._id)
+      getProjects('')
         .then((projectsData) => {
           setProjects(projectsData);
         })
