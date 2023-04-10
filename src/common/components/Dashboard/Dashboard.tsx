@@ -4,19 +4,25 @@ import { CgAddR, CgTrash } from 'react-icons/cg';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 import type { FolderType, ProjectType } from '@/common/types';
-
 import { defaultFolder, defaultProject } from '@/common/defaults';
 
 import styles from '@/styles/components/Dashboard.module.scss';
 
-import Projects from './Projects';
+type Props = {
+  currentFolder: FolderType,
+  folders: FolderType[],
+  createProject: React.FormEventHandler,
+  downloadProjects: React.MouseEventHandler,
+}
 
-export default function DashboardComponent() {
+export default function DashboardComponent({
+  currentFolder,
+  folders,
+  createProject,
+  downloadProjects
+}: Props) {
 
   const [ newFolder, setNewFolder ] = useState<string>('');
-  const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  const [ folders, setFolders ] = useState<Array<FolderType>>([]);
-  const [ projects, setProjects ] = useState<Array<ProjectType>>([defaultProject]);
   
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -31,12 +37,6 @@ export default function DashboardComponent() {
     // call to api
   };
 
-  async function deleteProject(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    console.log('delete folder');
-    // call to api
-  };
-
   function selectFolder(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     console.log('select folder');
@@ -44,19 +44,12 @@ export default function DashboardComponent() {
     // setCurrentFolder(value)
   };
 
-  async function createProject(event: React.FormEvent<HTMLFormElement>) {
+  async function deleteFolder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log('create project');
+    console.log('delete folder');
     // call to api
   };
 
-  async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    console.log('download projects');
-    // call to api
-    // create blob and download all projects
-  };
-  
   return (
     <div className={styles.dashboard}>
 
@@ -71,7 +64,7 @@ export default function DashboardComponent() {
             <CgAddR />
           </button>
         </form>
-        <form className={styles.selectFolderForm} onSubmit={deleteProject}>
+        <form className={styles.selectFolderForm} onSubmit={deleteFolder}>
           <SelectInput
             inputName={'folders-select'}
             value={currentFolder._id}
@@ -92,14 +85,6 @@ export default function DashboardComponent() {
           </button>
         </form>
       </div>
-
-    {
-      projects.length ?
-      <Projects 
-        projects={projects}
-      />
-      : <></>
-    }
 
     </div>
   );

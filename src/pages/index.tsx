@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import {Dashboard} from '@/common/components/Dashboard';
 import {ProjectForm} from '@/common/components/ProjectForm';
+import {Projects} from '@/common/components/Projects';
+
+import {FolderType, ProjectType} from '@/common/types';
+import {defaultFolder, defaultProject } from '@/common/defaults';
 
 // import axios from 'axios';
 // import useSWR from 'swr';
@@ -13,27 +17,58 @@ const COLLECTION_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
+  
+  const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
+  const [ folders, setFolders ] = useState<Array<FolderType>>([defaultFolder]);
+  const [ currentProject, setCurrentProject ] = useState<ProjectType>(defaultProject);
+  const [ projects, setProjects ] = useState<Array<ProjectType>>([defaultProject]);
 
-  // const { data, error } = useSWR<CollectionType[]>('/api/collections', fetcher);
-  // const [currentCollection, setCurrentCollection] = useState<CollectionType>(defaultCollection);
-  // const [collections, setCollections] = useState<CollectionType[]>([]);
-  // const [currentProject, setCurrentProject] = useState<ProjectType>();
-  // const [projects, setProjects] = useState<ProjectType[]>([]);
-  // useEffect(() => {
-  //   if (data) {
-  //     setCollections(data);
-  //     getProjects('')
-  //       .then((projectsData) => {
-  //         setProjects(projectsData);
-  //       })
-  //       .catch(error => console.error(error));
-  //   }
-  // }, [data]);
+  async function createProject(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log('create project');
+    // call to api
+  };
+
+  function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const {name, value} = event.currentTarget;
+    console.log('select project', name, value);
+    setCurrentProject(value)
+  };
+
+  async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    console.log('download projects');
+    // call to api
+    // create blob and download all projects
+  };
+
 
   return (
     <>
-      <Dashboard />
-      <ProjectForm />
+
+      <div className={'side-panel'}>
+        <Dashboard
+          currentFolder={currentFolder}
+          folders={folders}
+          createProject={createProject}
+          downloadProjects={downloadProjects}
+        />
+        {
+          projects.length ?
+          <Projects
+            currentFolder={currentFolder}
+            projects={projects}
+            selectProject={selectProject}
+          />
+          : <></>
+        }
+      </div>
+
+      <div className={'project-panel'}>
+        <ProjectForm />
+      </div>
+
       {/* <div className='dashboard'> */}
 
         {/* <>

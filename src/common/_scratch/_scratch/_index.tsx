@@ -2,8 +2,8 @@
 import axios from 'axios';
 import useSWR from 'swr';
 
-import Collections from '@/common/components/Dashboard/Folders';
-import Projects from '@/common/components/Dashboard/Projects';
+import Collections from '@/common/_scratch/Folders';
+import Projects from '@/common/components/Projects/Projects';
 import ProjectForm from '@/common/components/ProjectForm/ProjectForm';
 
 import { fetcher, getProjects, getCollections } from '@/common/modules/utils';

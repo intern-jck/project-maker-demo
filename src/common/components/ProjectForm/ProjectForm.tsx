@@ -31,8 +31,7 @@ const formDefaults: ProjectType = {
 };
 
 type Props = {
-  id: string,
-  collections: CollectionType[],
+  folders: CollectionType[],
   project: ProjectType,
   saveProject: Function,
   deleteProject: React.MouseEventHandler,
@@ -40,8 +39,7 @@ type Props = {
 };
 
 export default function ProjectForm({
-  // id,
-  // collections,
+  // folders,
   // project,
   // saveProject,
   // deleteProject,
