@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import { CgAddR, CgTrash } from 'react-icons/cg';
 import { TextInput } from '@/common/components/Inputs';
-import type CollectionType from '@/common/types/CollectionType';
+import type { FolderType } from '@/common/types';
 import styles from '@/styles/components/Collections.module.scss';
 
-
 type Props = {
-  currentCollection: CollectionType,
-  collections: CollectionType[],
+  currentCollection: FolderType,
+  collections: FolderType[],
   createCollection: Function,
   selectCollection: React.ChangeEventHandler,
   deleteCollection: React.MouseEventHandler,
 };
 
-export default function Collections({
+export default function FoldersComponent({
   currentCollection,
   collections,
   createCollection,

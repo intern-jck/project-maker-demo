@@ -1,7 +1,5 @@
 import { Schema, model, models } from 'mongoose';
-
-// Type for a single document
-import type ProjectType from '@/common/types/ProjectType';
+import type { ProjectType } from '@/common/types';
 
 // Mongo DB Schema for a document
 const ProjectSchema = new Schema<ProjectType>({

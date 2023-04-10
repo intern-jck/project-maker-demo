@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import CollectionModel from '@/common/modules/mongoAtlas/CollectionModel';
+import CollectionModel from '@/common/modules/mongoAtlas/FolderModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req;

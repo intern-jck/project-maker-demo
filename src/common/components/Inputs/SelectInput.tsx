@@ -1,12 +1,21 @@
-type Props = {
-  className?: string,
-  inputName?: string,
+type OptionsType = {
+  name: string,
   value: string,
-  options: string[],
+};
+
+type Props = {
+  inputName: string,
+  value: string,
+  options: OptionsType[],
   changeHandler: React.ChangeEventHandler,
 };
 
-export default function Select({ className, inputName, value, options, changeHandler }: Props) {
+export default function Select({ 
+  inputName, 
+  value, 
+  options, 
+  changeHandler 
+}: Props) {
   return (
     <>
       <label htmlFor={inputName}>
@@ -20,7 +29,7 @@ export default function Select({ className, inputName, value, options, changeHan
         <option key={0} value=''>{inputName}</option>
         {
           options.map((option, i) => (
-            <option key={i + 1} value={option} >{option}</option>
+            <option key={i + 1} value={option.value} >{option.name}</option>
           ))
         }
       </select>
