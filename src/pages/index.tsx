@@ -9,7 +9,7 @@ import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
 import { fetcher, getProjects, getFolders } from '@/common/modules/utils';
 
-const FOLDER_LIMIT = 10;
+const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
@@ -22,9 +22,7 @@ export default function Home({ }) {
   const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
 
   useEffect(() => {
-    console.log('render')
       if (data) {
-        console.log(data)
         setFolders(data);
         getProjects('')
           .then((projectsData) => {
@@ -82,6 +80,28 @@ export default function Home({ }) {
     } catch(error) {
       console.error(error);
       return false;
+    }
+  };
+
+  async function deleteFolder(folderId: string) {
+
+    console.log('delete folder', folderId);
+
+    if (!currentFolder._id) {
+      return false;
+    }
+
+    try {
+      const response = await axios.delete(`/api/folders?id=${folderId}`);
+      const _folders = await getFolders();
+      const _projects = await getProjects(defaultFolder._id);
+      setCurrentFolder(defaultFolder)
+      setFolders(_folders);
+      setProjects(_projects);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
     }
   };
 
@@ -151,6 +171,7 @@ export default function Home({ }) {
             folders={folders}
             createFolder={createFolder}
             selectFolder={selectFolder}
+            deleteFolder={deleteFolder}
             createProject={createProject}
             downloadProjects={downloadProjects}
           />

@@ -3,28 +3,6 @@
 
 
 
-  async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    const { name, value } = event.currentTarget;
-
-    if (!currentCollection._id) {
-      return false;
-    }
-
-    try {
-      const response = await axios.delete(`/api/collections?id=${currentCollection._id}`);
-      const _collections = await getCollections();
-      const _projects = await getProjects(defaultCollection._id);
-      setCurrentCollection(defaultCollection)
-      setCollections(_collections);
-      setProjects(_projects);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
-
   async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
     // Somewhat hacky, but works.
     try {

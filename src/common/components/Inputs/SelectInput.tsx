@@ -17,7 +17,6 @@ export default function Select({
   changeHandler 
 }: Props) {
 
-  console.log('Select Input', options)
   return (
     <>
       <label htmlFor={inputName}>

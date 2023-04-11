@@ -11,6 +11,7 @@ type Props = {
   createFolder: Function,
   selectFolder: Function,
   createProject: Function,
+  deleteFolder: Function,
   downloadProjects: React.MouseEventHandler,
 }
 
@@ -19,11 +20,10 @@ export default function DashboardComponent({
   folders,
   createFolder,
   selectFolder,
+  deleteFolder,
   createProject,
   downloadProjects
 }: Props) {
-
-  console.log('Dashboard', currentFolder);
 
   const [ newFolder, setNewFolder ] = useState<string>('');
   
@@ -47,7 +47,7 @@ export default function DashboardComponent({
 
   function deleteFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log('delete folder');
+    deleteFolder(currentFolder._id);
   };
 
   function createProjectHandler(event: React.FormEvent<HTMLFormElement>) {
