@@ -220,7 +220,6 @@ export default function ProjectForm({
             </div>
             <div className={styles.formRow}>
               <PhotoInput
-                className={styles.photoInput}
                 inputName='photos'
                 value={newPhoto}
                 photos={formData.photos}
@@ -229,7 +228,6 @@ export default function ProjectForm({
                 deleteHandler={deletePhoto}
               />
               <TagInput
-                className={styles.tagInput}
                 inputName='tags'
                 value={newTag}
                 tags={formData.tech}
