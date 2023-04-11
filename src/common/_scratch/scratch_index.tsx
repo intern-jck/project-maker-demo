@@ -1,52 +1,7 @@
 
   // COLLECTIONS CRUDS
-  async function createCollection(collectionName: string) {
-    try {
-      if (collections.length >= COLLECTION_LIMIT) {
-        window.alert('Collection limit reached!');
-        return false;
-      }
-      const response = await axios.post('/api/collections', { name: collectionName });
-      await updateCollections();
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
 
-  function selectCollection(event: React.ChangeEvent<HTMLSelectElement>) {
 
-    const { value } = event.currentTarget;
-    let _collection = defaultCollection;
-    if (value) {
-      for (let collection of collections) {
-        if (collection._id === value) {
-          _collection = collection;
-        }
-      }
-    }
-
-    setCurrentCollection(_collection);
-    getProjects(_collection._id)
-      .then((projectsData) => {
-        setProjects(projectsData)
-      })
-      .catch(error => console.error(error));
-
-    return;
-  };
-
-  async function updateCollections() {
-    try {
-      const _collections = await getCollections();
-      setCollections(_collections);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
 
   async function deleteCollection(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -103,29 +58,6 @@
     }
   };
 
-  // PROJECTS CRUDS
-  async function createProject(event: React.MouseEvent<HTMLButtonElement>) {
-
-    // Create random project name as default
-    const letters = 'abcdefghijklmnopqrstuvwxyz';
-    let randomName = '';
-    for (let i = 0; i < 8; i++) {
-      randomName += letters.charAt(Math.floor(Math.random() * letters.length));
-    }
-
-    try {
-      if (projects.length >= PROJECT_LIMIT) {
-        window.alert('Project limit reached!');
-        return false;
-      }
-      await axios.post('/api/projects', { name: `proj-${randomName}`, collection_id: currentCollection._id, collection_name: currentCollection.name });
-      await updateProjects(currentCollection._id);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
 
   function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -138,16 +70,6 @@
       .catch(error => console.error(error));
   };
 
-  async function updateProjects(collectionId: string) {
-    try {
-      const _projects = await getProjects(currentCollection._id);
-      setProjects(_projects);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
 
   async function saveProject(projectData: ProjectType) {
     try {

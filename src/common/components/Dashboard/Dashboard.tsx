@@ -2,25 +2,28 @@ import { useState } from 'react';
 import { TextInput, SelectInput } from '@/common/components/Inputs';
 import { CgAddR, CgTrash } from 'react-icons/cg';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-
-import type { FolderType, ProjectType } from '@/common/types';
-import { defaultFolder, defaultProject } from '@/common/defaults';
-
+import type { FolderType } from '@/common/types';
 import styles from '@/styles/components/Dashboard.module.scss';
 
 type Props = {
   currentFolder: FolderType,
   folders: FolderType[],
-  createProject: React.FormEventHandler,
+  createFolder: Function,
+  selectFolder: Function,
+  createProject: Function,
   downloadProjects: React.MouseEventHandler,
 }
 
 export default function DashboardComponent({
   currentFolder,
   folders,
+  createFolder,
+  selectFolder,
   createProject,
   downloadProjects
 }: Props) {
+
+  console.log('Dashboard', currentFolder);
 
   const [ newFolder, setNewFolder ] = useState<string>('');
   
@@ -31,30 +34,38 @@ export default function DashboardComponent({
     setNewFolder(value);
   };
 
-  async function createNewFolder(event: React.FormEvent<HTMLFormElement>) {
+  function createFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log('create new folder');
-    // call to api
+    createFolder(newFolder);
   };
 
-  function selectFolder(event: React.ChangeEvent<HTMLSelectElement>) {
+  function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
-    console.log('select folder');
     const {name, value} = event.currentTarget;
-    // setCurrentFolder(value)
+    selectFolder(value);
   };
 
-  async function deleteFolder(event: React.FormEvent<HTMLFormElement>) {
+  function deleteFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log('delete folder');
-    // call to api
+  };
+
+  function createProjectHandler(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log('create project');
+    createProject();
+  };
+
+
+  function formatOptions() {
+
   };
 
   return (
     <div className={styles.dashboard}>
 
       <div className={styles.dashboardMenu}>
-        <form className={styles.newFolderForm} onSubmit={createNewFolder}>
+        <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
           <TextInput 
               inputName={'new-folder-input'}
               value={newFolder} 
@@ -64,19 +75,19 @@ export default function DashboardComponent({
             <CgAddR />
           </button>
         </form>
-        <form className={styles.selectFolderForm} onSubmit={deleteFolder}>
+        <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
           <SelectInput
             inputName={'folders-select'}
             value={currentFolder._id}
-            options={folders.map((folder) => ({name: folder.name, value: folder._id}))}
-            changeHandler={selectFolder}
+            options={folders}
+            changeHandler={selectFolderHandler}
           />
           <button type={'submit'}>
             <CgTrash />
           </button>
         </form>
-        <form className={styles.createProjectForm} onSubmit={createProject}>
-          FOLDER: FOLDER_NAME
+        <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
+          FOLDER: {currentFolder.name}
           <button type={'submit'}>
             <GoFileMedia />
           </button>

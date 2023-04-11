@@ -6,7 +6,7 @@ type OptionsType = {
 type Props = {
   inputName: string,
   value: string,
-  options: OptionsType[],
+  options: [],
   changeHandler: React.ChangeEventHandler,
 };
 
@@ -16,6 +16,8 @@ export default function Select({
   options, 
   changeHandler 
 }: Props) {
+
+  console.log('Select Input', options)
   return (
     <>
       <label htmlFor={inputName}>
@@ -29,7 +31,7 @@ export default function Select({
         <option key={0} value=''>{inputName}</option>
         {
           options.map((option, i) => (
-            <option key={i + 1} value={option.value} >{option.name}</option>
+            <option key={i + 1} value={option._id} >{option.name}</option>
           ))
         }
       </select>
