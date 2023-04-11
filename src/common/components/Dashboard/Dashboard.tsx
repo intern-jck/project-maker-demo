@@ -5,6 +5,8 @@ import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import type { FolderType } from '@/common/types';
 import styles from '@/styles/components/Dashboard.module.scss';
 
+import { getProjects } from '@/common/modules/utils';
+
 type Props = {
   currentFolder: FolderType,
   folders: FolderType[],
@@ -12,7 +14,7 @@ type Props = {
   selectFolder: Function,
   createProject: Function,
   deleteFolder: Function,
-  downloadProjects: React.MouseEventHandler,
+  // downloadProjects: React.MouseEventHandler,
 }
 
 export default function DashboardComponent({
@@ -22,7 +24,7 @@ export default function DashboardComponent({
   selectFolder,
   deleteFolder,
   createProject,
-  downloadProjects
+  // downloadProjects
 }: Props) {
 
   const [ newFolder, setNewFolder ] = useState<string>('');
@@ -56,9 +58,40 @@ export default function DashboardComponent({
     createProject();
   };
 
+  async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    console.log('download projects');
+    // call to api
+    // create blob and download all projects
+      try {
+      // Get all the projects for the current collection,
+      const projects = await getProjects(currentFolder._id);
+      const collectionName = currentFolder.name;
+      const projectData = {
+        [collectionName]: projects,
+      };
 
-  function formatOptions() {
+      // then create the json file,
+      const filename = `project-maker-${collectionName ? collectionName : 'all'}`;
+      const json = JSON.stringify(projectData, null, 2);
 
+      // then create blob to download from json file,
+      const blob = new Blob([json], { type: 'application/json' })
+      const href: string = URL.createObjectURL(blob);
+
+      // then create anchor link with href and click to download, 
+      // then remove link from DOM.
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = filename + '.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(href);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
   return (

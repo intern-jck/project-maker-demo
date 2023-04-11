@@ -153,11 +153,19 @@ export default function Home({ }) {
     // setCurrentProject(value)
   };
 
-  async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
+  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    console.log('download projects');
-    // call to api
-    // create blob and download all projects
+    const { id } = event.currentTarget;
+    try {
+      const response = await axios.delete(`/api/projects?id=${id}`);
+      await updateProjects(currentCollection._id);
+      // reset current project
+      setCurrentProject(undefined); // better way to do this?
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
   return (
@@ -173,7 +181,7 @@ export default function Home({ }) {
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}
             createProject={createProject}
-            downloadProjects={downloadProjects}
+            // downloadProjects={downloadProjects}
           />
           : <></>
         }
