@@ -9,7 +9,7 @@ import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
   folders: FolderType[],
-  project: ProjectType,
+  project?: ProjectType,
   saveProject: Function,
   deleteProject: Function,
   closeProject: Function,
@@ -23,27 +23,31 @@ export default function ProjectForm({
   closeProject
 }: Props) {
 
-  console.log('Project Form', project)
-
-  const [formData, setFormData] = useState<ProjectType>(defaultProject);
+  const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
 
   useEffect(() => {
-    setFormData(project);
+    if (project) {
+      setFormData(project);
+    }
   }, [project]);
 
 
   function saveProjectHandler(event: React.FormEvent<HTMLFormElement>) {
-
+    event.preventDefault();
+    saveProject(formData);
   };
 
   function deleteProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
-
+    event.preventDefault();
+    console.log('delete', formData)
+    deleteProject(formData._id);
   };
 
   function closeProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
-
+    event.preventDefault();
+    closeProject();
   };
   
   function updateTextInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -162,7 +166,7 @@ export default function ProjectForm({
               <button type='submit'>
                 <MdSave />
               </button>
-              <button id={formData._id} onClick={deleteProjectHandler}>
+              <button onClick={deleteProjectHandler}>
                 <MdDelete />
               </button>
               <button onClick={closeProjectHandler}>

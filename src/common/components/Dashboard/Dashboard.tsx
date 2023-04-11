@@ -37,6 +37,7 @@ export default function DashboardComponent({
   function createFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     createFolder(newFolder);
+    setNewFolder('');
   };
 
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {

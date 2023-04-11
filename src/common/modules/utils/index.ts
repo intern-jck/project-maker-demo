@@ -3,7 +3,7 @@ import getProject from './getProject';
 import getProjects from './getProjects';
 import getFolders from './getFolders';
 import getCollectionNames from './getCollectionNames';
-import saveProject from './saveProject';
+import putProject from './putProject';
 import clickHandlerTest from './clickHandlerTest';
 import changeHandlerTest from './changeHandlerTest';
 
@@ -13,7 +13,7 @@ export {
   getProjects, 
   getFolders, 
   getCollectionNames, 
-  saveProject, 
+  putProject, 
   clickHandlerTest, 
   changeHandlerTest
 };

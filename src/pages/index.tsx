@@ -7,7 +7,7 @@ import {Projects} from '@/common/components/Projects';
 
 import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
-import { fetcher, getProject, getProjects, getFolders } from '@/common/modules/utils';
+import { fetcher, getProject, getProjects, getFolders, putProject } from '@/common/modules/utils';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
@@ -147,27 +147,36 @@ export default function Home({ }) {
   };
 
   async function selectProject(projectId: string) {
-    console.log('select project', projectId);
-    // setCurrentProject(value)
     try {
       const _project = await getProject(projectId);
-      console.log('selected project', _project)
       setCurrentProject(_project);
       return true;
     } catch(error) {
       console.error(error);
       return false;
     }
-
   };
 
-  async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    const { id } = event.currentTarget;
+  
+  async function saveProject(projectData: ProjectType) {
     try {
-      const response = await axios.delete(`/api/projects?id=${id}`);
+      // const response = await axios.put('/api/projects', { doc: projectData });
+      // const data = await response.data;
+      await putProject(projectData);
       await updateProjects(currentFolder._id);
-      // reset current project
+      return true;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+
+  async function deleteProject(projectId: string) {
+    try {
+      console.log('deleting', projectId)
+      const response = await axios.delete(`/api/projects?id=${projectId}`);
+      await updateProjects(currentFolder._id);
       setCurrentProject(undefined); // better way to do this?
       return true;
     } catch (error) {
@@ -176,9 +185,12 @@ export default function Home({ }) {
     }
   };
 
+  function closeProject() {
+    setCurrentProject(undefined);
+  };
+
   return (
     <>
-
       <div className={'side-panel'}>
         {
           folders ?
@@ -204,9 +216,19 @@ export default function Home({ }) {
       </div>
 
       <div className={'project-panel'}>
-        <ProjectForm 
-          project={currentProject}
-        />
+        {
+          currentProject ?
+          <ProjectForm 
+            folders={folders}
+            project={currentProject}
+            saveProject={saveProject}
+            deleteProject={deleteProject}
+            closeProject={closeProject}
+          />
+          : <></>
+        }
+
+
       </div>
 
     </>

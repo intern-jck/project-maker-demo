@@ -49,20 +49,6 @@
   // };
 
 
-  async function saveProject(projectData: ProjectType) {
-    try {
-      const response = await axios.put('/api/projects', { doc: projectData });
-      const data = await response.data;
-      // const _projects = await getProjects();
-      // setProjects(_projects);
-      await updateProjects(currentCollection._id);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  };
-
   function closeProject(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     setCurrentProject(undefined); // better way to do this?
