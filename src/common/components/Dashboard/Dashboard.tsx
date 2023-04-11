@@ -14,7 +14,6 @@ type Props = {
   selectFolder: Function,
   createProject: Function,
   deleteFolder: Function,
-  // downloadProjects: React.MouseEventHandler,
 }
 
 export default function DashboardComponent({
@@ -24,7 +23,6 @@ export default function DashboardComponent({
   selectFolder,
   deleteFolder,
   createProject,
-  // downloadProjects
 }: Props) {
 
   const [ newFolder, setNewFolder ] = useState<string>('');

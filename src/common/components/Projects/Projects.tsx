@@ -5,7 +5,7 @@ import styles from '@/styles/components/Projects.module.scss';
 type Props = {
   currentFolder: FolderType,
   projects: ProjectType[],
-  selectProject: React.MouseEventHandler,
+  selectProject: Function,
 };
 
 export default function Projects({
@@ -15,6 +15,12 @@ export default function Projects({
 }: Props) {
 
   console.log('Projects', currentFolder);
+
+  function selectProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const { value } = event.currentTarget;
+    selectProject(value);
+  };
 
   return (
     <div className={styles.projects}>
@@ -27,7 +33,7 @@ export default function Projects({
                 key={project._id}
                 id={project._id ? project._id : ''}
                 name={project.name ? project.name : ''}
-                clickHandler={selectProject}
+                clickHandler={selectProjectHandler}
               />
             )
           })

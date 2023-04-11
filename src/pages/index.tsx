@@ -7,7 +7,7 @@ import {Projects} from '@/common/components/Projects';
 
 import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
-import { fetcher, getProjects, getFolders } from '@/common/modules/utils';
+import { fetcher, getProject, getProjects, getFolders } from '@/common/modules/utils';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
@@ -18,7 +18,7 @@ export default function Home({ }) {
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ folders, setFolders ] = useState<Array<FolderType>>([]);
-  const [ currentProject, setCurrentProject ] = useState<ProjectType>(defaultProject);
+  const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
 
   useEffect(() => {
@@ -146,11 +146,19 @@ export default function Home({ }) {
     }
   };
 
-  function selectProject(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    const {name, value} = event.currentTarget;
-    console.log('select project', name, value);
+  async function selectProject(projectId: string) {
+    console.log('select project', projectId);
     // setCurrentProject(value)
+    try {
+      const _project = await getProject(projectId);
+      console.log('selected project', _project)
+      setCurrentProject(_project);
+      return true;
+    } catch(error) {
+      console.error(error);
+      return false;
+    }
+
   };
 
   async function deleteProject(event: React.MouseEvent<HTMLButtonElement>) {
@@ -158,7 +166,7 @@ export default function Home({ }) {
     const { id } = event.currentTarget;
     try {
       const response = await axios.delete(`/api/projects?id=${id}`);
-      await updateProjects(currentCollection._id);
+      await updateProjects(currentFolder._id);
       // reset current project
       setCurrentProject(undefined); // better way to do this?
       return true;
@@ -181,7 +189,6 @@ export default function Home({ }) {
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}
             createProject={createProject}
-            // downloadProjects={downloadProjects}
           />
           : <></>
         }
@@ -197,7 +204,9 @@ export default function Home({ }) {
       </div>
 
       <div className={'project-panel'}>
-        <ProjectForm />
+        <ProjectForm 
+          project={currentProject}
+        />
       </div>
 
     </>
