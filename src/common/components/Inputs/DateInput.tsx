@@ -21,7 +21,6 @@ export default function DateInput({ className, date, changeHandler }: Props) {
 
       <div className='dateRow'>
         <SelectInput
-          className={'dateSelect'}
           inputName='start_month'
           value={date['start_month']}
           options={MONTHS}
