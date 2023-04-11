@@ -1,7 +1,7 @@
 type Props = {
   inputName: string,
   value: string,
-  options: string[],
+  options: [],
   changeHandler: React.ChangeEventHandler,
 };
 

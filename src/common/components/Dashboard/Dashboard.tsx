@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextInput, SelectInput } from '@/common/components/Inputs';
+import { TextInput, FolderSelect } from '@/common/components/Inputs';
 import { CgAddR, CgTrash } from 'react-icons/cg';
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 import type { FolderType } from '@/common/types';
@@ -108,7 +108,7 @@ export default function DashboardComponent({
           </button>
         </form>
         <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
-          <SelectInput
+          <FolderSelect
             inputName={'folders-select'}
             value={currentFolder._id}
             options={folders}
