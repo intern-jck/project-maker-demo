@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import CollectionModel from '@/common/modules/mongoAtlas/CollectionModel';
+import FolderModel from '@/common/modules/mongoAtlas/FolderModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { query } = req;
-  const { collectionId } = query;
+  const { folderId } = req.query;
   try {
     const connection = await connectMongo();
-    const response = await CollectionModel.findById({ _id: collectionId }).exec();
+    const response = await FolderModel.findById({ _id: folderId }).exec();
     res.status(200).json(response);
   } catch (error) {
     console.error('Mongo findById', error);

@@ -1,12 +1,9 @@
-type OptionsType = {
-  name: string,
-  value: string,
-};
+import { FolderType } from '@/common/types';
 
 type Props = {
   inputName: string,
   value: string,
-  options: [],
+  options: FolderType[],
   changeHandler: React.ChangeEventHandler,
 };
 

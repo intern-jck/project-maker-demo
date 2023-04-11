@@ -9,10 +9,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
-          const { collectionId } = query;
-          if (collectionId) {
+          const { folderId } = query;
+          if (folderId) {
             const connection = await connectMongo();
-            const response = await ProjectModel.find({ collection_id: collectionId }).exec();
+            const response = await ProjectModel.find({ folder_id: folderId }).exec();
             res.status(200).json(response);
             return;
           }

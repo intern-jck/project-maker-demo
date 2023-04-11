@@ -1,11 +1,19 @@
 import fetcher from './fetcher';
+import getProject from './getProject';
 import getProjects from './getProjects';
-import getCollections from './getCollections';
+import getFolders from './getFolders';
 import getCollectionNames from './getCollectionNames';
-import saveProject from './saveProject';
+import putProject from './putProject';
 import clickHandlerTest from './clickHandlerTest';
 import changeHandlerTest from './changeHandlerTest';
 
 export {
-  fetcher, getProjects, getCollections, getCollectionNames, saveProject, clickHandlerTest, changeHandlerTest
+  fetcher, 
+  getProject, 
+  getProjects, 
+  getFolders, 
+  getCollectionNames, 
+  putProject, 
+  clickHandlerTest, 
+  changeHandlerTest
 };

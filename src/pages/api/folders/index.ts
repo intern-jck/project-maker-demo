@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import CollectionModel from '@/common/modules/mongoAtlas/CollectionModel'
+import FolderModel from '@/common/modules/mongoAtlas/FolderModel'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
       case 'GET':
         try {
-          const response = await CollectionModel.find().exec();
+          const response = await FolderModel.find().exec();
           res.status(200).json(response);
         } catch (error) {
           console.error('Mongo find', error)
@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'POST':
         try {
           const doc = body ? body : {};
-          const response = await CollectionModel.create(doc);
+          const response = await FolderModel.create(doc);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo create', error)
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
         const options = { 'upsert': true };
         try {
-          const response = await CollectionModel.findOneAndUpdate(filter, update, options);
+          const response = await FolderModel.findOneAndUpdate(filter, update, options);
           res.status(200).send(response);
         } catch (error) {
           console.error('Mongo update', error)
@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'DELETE':
         const { id } = query;
         try {
-          const response = await CollectionModel.deleteOne({ _id: id }).exec();
+          const response = await FolderModel.deleteOne({ _id: id }).exec();
           res.status(200).json(response);
         } catch (error) {
           console.error('Mongo delete', error)

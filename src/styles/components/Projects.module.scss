@@ -1,52 +1,20 @@
 .projects {
-  border: $border-thin;
+  border: $border-stock;
   padding: $padding-thin;
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-y: scroll;
 
-  .projectControls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    button {
-      border: none;
-      margin-left: 0.25rem;
-      margin-right: 0.5rem;
-      display: flex;
-      font-size: 2rem;
-
-      // Reminder, you can style the icon svg
-      // svg {}
-    }
-
-    h2 {
-      font-size: $font-size-large;
-      margin: 0;
-      margin-right: auto;
-      padding-left: $padding-stock;
-    }
-  }
-
-  .projectsList {
+  button {
     border: $border-thin;
     padding: $padding-thin;
-    padding-top: $padding-stock;
-    height: 100%;
-    overflow-y: scroll;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    button {
-      border: $border-thin;
-      padding: $padding-thin;
-      font-size: $font-size-stock;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    padding-left: $padding-thin;
+    font-size: 1rem;
+    
+    span {
+      padding-left: $padding-stock;
     }
   }
 }

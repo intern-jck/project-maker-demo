@@ -1,0 +1,51 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    margin: 0;
+  }
+
+  input, select {
+    width: 80%;
+  }
+
+  button {
+    border: none;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    display: flex;
+    font-size: 2rem;
+  }
+
+  .dashboardMenu {
+    border: $border-thin;
+    padding: $padding-thin;
+  }
+
+  .newFolderForm {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+
+    label {
+      display: none;
+    }
+  }
+
+  .selectFolderForm {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    
+    label {
+      display: none;
+    }
+  }
+
+  .createProjectForm {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+}

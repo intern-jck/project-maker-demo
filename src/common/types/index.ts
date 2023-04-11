@@ -1,5 +1,5 @@
-import CollectionType from './CollectionType';
-import DateType from './DateType';
 import ProjectType from './ProjectType';
+import DateType from './DateType';
+import FolderType from './FolderType';
 
-export type { CollectionType, DateType, ProjectType, };
+export type { ProjectType, DateType, FolderType };
