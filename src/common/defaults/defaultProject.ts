@@ -4,8 +4,8 @@ const defaultForm: ProjectType = {
   _id: '',
   link: '',
   
-  collection_name: '',
-  collection_id: '',
+  folder_name: '',
+  folder_id: '',
 
   name: '',
   date: {
