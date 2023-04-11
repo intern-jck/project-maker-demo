@@ -1,5 +1,4 @@
 .dashboard {
-  border: $border-stock;
   display: flex;
   flex-direction: column;
 
@@ -20,12 +19,11 @@
   }
 
   .dashboardMenu {
-    border: $border-test-blue;
-    padding: 0.5rem;
+    border: $border-thin;
+    padding: $padding-thin;
   }
 
   .newFolderForm {
-    border: $border-test-green;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -36,7 +34,6 @@
   }
 
   .selectFolderForm {
-    border: $border-test-green;
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -47,7 +44,6 @@
   }
 
   .createProjectForm {
-    border: $border-test-green;
     font-size: 1rem;
     display: flex;
     align-items: center;

@@ -9,9 +9,12 @@
   button {
     border: $border-thin;
     padding: $padding-thin;
-
+    display: flex;
+    padding-left: $padding-thin;
+    font-size: 1rem;
+    
     span {
-      font-size: 0.5rem;
+      padding-left: $padding-stock;
     }
   }
 }

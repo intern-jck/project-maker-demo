@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { TextInput, TextArea, SelectInput, DateInput, PhotoInput, TagInput } from '../Inputs';
+import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput } from '../Inputs';
 import { MdSave, MdDelete, MdClose } from "react-icons/md";
 import type { ProjectType, FolderType } from '@/common/types';
 import type DateType from '@/common/types/DateType';
-
-import {defaultFolder, defaultProject } from '@/common/defaults';
 import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
@@ -33,7 +31,6 @@ export default function ProjectForm({
     }
   }, [project]);
 
-
   function saveProjectHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     saveProject(formData);
@@ -42,7 +39,7 @@ export default function ProjectForm({
   function deleteProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     console.log('delete', formData)
-    deleteProject(formData._id);
+    deleteProject(formData ? formData._id : '');
   };
 
   function closeProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
@@ -57,23 +54,24 @@ export default function ProjectForm({
     setFormData((formData) => ({
       ...formData,
       ...updatedInput
-    }));
+    }) as ProjectType);
   };
 
   function updateFolder(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
-    const updatedFolderName = { folder_name: name };
     const updatedFolderId = { folder_id: value };
+    const updatedFolderName = { folder_name: name };
     setFormData((formData) => ({
       ...formData,
+      ...updatedFolderId,
       ...updatedFolderName,
-      ...updatedFolderId
-    }));
+    }) as ProjectType);
   };
 
   function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
     const { name, value } = event.currentTarget;
-    const currentDate = formData.date;
+    const currentDate = formData ? formData.date : undefined;
+
     if (currentDate) {
       currentDate[name as keyof DateType] = value;
     }
@@ -81,7 +79,7 @@ export default function ProjectForm({
     setFormData((formData) => ({
       ...formData,
       ...currentDate,
-    }));
+    }) as ProjectType);
   };
 
   // Could probably be merged with updateTextInput?
@@ -91,7 +89,7 @@ export default function ProjectForm({
   };
 
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
-    const { photos } = formData;
+    const photos = formData ? formData.photos : undefined;
     if (newPhoto) {
       if (photos) {
         photos.push(newPhoto);
@@ -100,13 +98,14 @@ export default function ProjectForm({
       setFormData((formData) => ({
         ...formData,
         photos: photos,
-      }))
+      }) as ProjectType)
     }
   };
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
     const index = event.currentTarget.getAttribute('data-photo-index');
-    const { photos } = formData;
+    const photos = formData ? formData.photos : undefined;
+
     if (index) {
       if (photos) {
         photos.splice(parseInt(index), 1);
@@ -114,7 +113,7 @@ export default function ProjectForm({
       setFormData((formData) => ({
         ...formData,
         photos: photos,
-      }))
+      }) as ProjectType)
     }
   };
 
@@ -125,7 +124,8 @@ export default function ProjectForm({
   };
 
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
-    const { tech } = formData;
+    const tech = formData ? formData.tech : undefined;
+
     if (newTag) {
       if (tech) {
         tech.push(newTag);
@@ -134,13 +134,14 @@ export default function ProjectForm({
       setFormData((formData) => ({
         ...formData,
         tech: tech,
-      }))
+      }) as ProjectType)
     }
   };
 
   function deleteTag(event: React.MouseEvent<HTMLButtonElement>) {
     const index = event.currentTarget.getAttribute('data-tag-index');
-    const { tech } = formData;
+    const tech = formData ? formData.tech : undefined;
+
     if (index) {
       if (tech) {
         tech.splice(parseInt(index), 1); // lookup error
@@ -148,18 +149,15 @@ export default function ProjectForm({
       setFormData((formData) => ({
         ...formData,
         tech: tech,
-      }))
+      }) as ProjectType)
     };
   };
 
-
   return (
     <>
-
       {
         formData ?
           <form className={styles.projectForm} onSubmit={saveProjectHandler}>
-
             <div className={styles.formMenu}>
               <h1>NAME: <span>{formData.name}</span></h1>
               <h2>COLLECTION: <span>{formData.folder_name}</span></h2>
@@ -173,29 +171,24 @@ export default function ProjectForm({
                 <MdClose />
               </button>
             </div>
-
             <div className={styles.formRow}>
               <div className={styles.stats}>
-
                 <TextInput
                   inputName={'name'}
                   value={formData.name}
                   changeHandler={updateTextInput}
                 />
-
-                <SelectInput
+                <FolderSelect
                   inputName={'folders-select'}
                   value={formData.folder_id}
-                  options={folders ? folders : []}
+                  options={folders}
                   changeHandler={updateFolder}
                 />
-
                 <DateInput
                   className={styles.dateInput}
                   date={formData.date}
                   changeHandler={updateDate}
                 />
-
                 <TextInput
                   inputName={'client'}
                   value={formData.client}
@@ -212,7 +205,6 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
               </div>
-
               <div className={styles.description}>
                 <TextInput
                   inputName={'short'}
@@ -226,7 +218,6 @@ export default function ProjectForm({
                 />
               </div>
             </div>
-
             <div className={styles.formRow}>
               <PhotoInput
                 className={styles.photoInput}
@@ -247,7 +238,6 @@ export default function ProjectForm({
                 deleteHandler={deleteTag}
               />
             </div>
-
           </form>
           : null
       }

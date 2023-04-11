@@ -156,12 +156,9 @@ export default function Home({ }) {
       return false;
     }
   };
-
   
   async function saveProject(projectData: ProjectType) {
     try {
-      // const response = await axios.put('/api/projects', { doc: projectData });
-      // const data = await response.data;
       await putProject(projectData);
       await updateProjects(currentFolder._id);
       return true;
@@ -170,7 +167,6 @@ export default function Home({ }) {
       return error;
     }
   };
-
 
   async function deleteProject(projectId: string) {
     try {

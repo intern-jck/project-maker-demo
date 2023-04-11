@@ -1,6 +1,6 @@
 type ProjectType = {
-  _id: string,
-  link: string,
+  _id?: string,
+  link?: string,
   folder_id: string,
   folder_name: string,
   name: string,
