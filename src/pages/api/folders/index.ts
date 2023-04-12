@@ -7,10 +7,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const connection = await connectMongo();
+    console.log('mongo connected!', connection)
     switch (method) {
       case 'GET':
+        console.log('getting folders')
         try {
           const response = await FolderModel.find().exec();
+          console.log('got folders', response)
           res.status(200).json(response);
         } catch (error) {
           console.error('Mongo find', error)
