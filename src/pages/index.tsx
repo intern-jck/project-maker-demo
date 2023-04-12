@@ -7,40 +7,43 @@ import {Projects} from '@/common/components/Projects';
 
 import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
-import { fetcher, getProject, getProjects, getFolders, putProject } from '@/common/modules/utils';
+// import { fetcher, getProject, getProjects, getFolders, putProject } from '@/common/modules/utils';
+import { fetcher } from '@/common/modules/utils';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
 
-  const { data, error } = useSWR<FolderType[]>('/api/folders', fetcher);
+  const { data, error, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  const [ folders, setFolders ] = useState<Array<FolderType>>([]);
+  const [ folders, setFolders ] = useState<Array<FolderType>>(data);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
 
-  useEffect(() => {
-      if (data) {
-        setFolders(data);
-        getProjects('')
-          .then((projectsData) => {
-            setProjects(projectsData);
-          })
-          .catch(error => console.error(error));
-      }
-    }, [data]);
+  // useEffect(() => {
+  //     if (data) {
+  //       setFolders(data);
+  //       getProjects('')
+  //         .then((projectsData) => {
+  //           setProjects(projectsData);
+  //         })
+  //         .catch(error => console.error(error));
+  //     }
+  //   }, [data]);
 
   // FOLDERS FUNCTIONS
-
-  async function updateFolders() {
+  async function getFolders() {
     try {
-      const _collections = await getFolders();
-      setFolders(_collections);
+      // const _collections = await getFolders();
+      // setFolders(_collections);
+      const response = await axios.get('api/folders');
+      const _collections = await response.data;
+      mutate(_collections);
       return true;
     } catch (error) {
-      console.error(error);
+      console.error('getFolders:', error);
       return error;
     }
   };
@@ -51,34 +54,30 @@ export default function Home({ }) {
         window.alert('Folder limit reached!');
         return false;
       }
-      console.log('create new folder');
       const response = await axios.post('/api/folders', { name: folderName });
-      await updateFolders();
+      await getFolders();
       return true;
     } catch (error) {
-      console.error(error);
+      console.error('create folder', error);
       return error;
     }
   };
 
   async function selectFolder(folderId:string) {
-    console.log('select folder', folderId);
-
     let _folder = defaultFolder;
     if (folderId) {
-      for (let folder of folders) {
+      for (let folder of data) {
         if (folder._id === folderId) {
           _folder = folder;
         }
       }
     }
-
     setCurrentFolder(_folder);
     try {
-      await updateProjects(folderId);
+      await getProjects(folderId);
       return true;
     } catch(error) {
-      console.error(error);
+      console.error('select folder', error);
       return false;
     }
   };
@@ -93,11 +92,11 @@ export default function Home({ }) {
 
     try {
       const response = await axios.delete(`/api/folders?id=${folderId}`);
-      const _folders = await getFolders();
-      const _projects = await getProjects(defaultFolder._id);
+      await getFolders();
       setCurrentFolder(defaultFolder)
-      setFolders(_folders);
-      setProjects(_projects);
+      // const _projects = await getProjects(defaultFolder._id);
+      // setFolders(_folders);
+      // setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -106,16 +105,24 @@ export default function Home({ }) {
   };
 
   // PROJECTS FUNCTIONS
-  async function updateProjects(folderId: string) {
+  async function getProjects(folderId: string) {
     try {
-      const _projects = await getProjects(folderId);
-      setProjects(_projects);
-      console.log('update projects', _projects)
-      return true;
+      const response = axios.get(`/api/projects?folderId=${folderId}`);
+      const _projects = await response;
+      return _projects.data;
     } catch (error) {
-      console.error(error);
+      console.error(error)
       return error;
     }
+    // try {
+    //   const _projects = await getProjects(folderId);
+    //   setProjects(_projects);
+    //   console.log('update projects', _projects)
+    //   return true;
+    // } catch (error) {
+    //   console.error(error);
+    //   return error;
+    // }
   };
 
   async function createProject() {
@@ -138,7 +145,7 @@ export default function Home({ }) {
         folder_name: currentFolder.name
       }
       await axios.post('/api/projects', body);
-      await updateProjects(currentFolder._id);
+      await getProjects(currentFolder._id);
       return true;
     } catch (error) {
       console.error(error);
@@ -147,20 +154,31 @@ export default function Home({ }) {
   };
 
   async function selectProject(projectId: string) {
+
     try {
-      const _project = await getProject(projectId);
+      const response = await axios.get(`/api/projects/${projectId}`);
+      const _project = await response.data;
       setCurrentProject(_project);
       return true;
-    } catch(error) {
-      console.error(error);
-      return false;
+    } catch (error) {
+      console.error(error)
+      return error;
     }
+
+    // try {
+    //   const _project = await getProject(projectId);
+    //   setCurrentProject(_project);
+    //   return true;
+    // } catch(error) {
+    //   console.error(error);
+    //   return false;
+    // }
   };
   
   async function saveProject(projectData: ProjectType) {
     try {
-      await putProject(projectData);
-      await updateProjects(currentFolder._id);
+      const response = await axios.put('/api/projects', { doc: projectData });
+      await getProjects(currentFolder._id);
       return true;
     } catch (error) {
       console.error(error);
@@ -170,9 +188,8 @@ export default function Home({ }) {
 
   async function deleteProject(projectId: string) {
     try {
-      console.log('deleting', projectId)
       const response = await axios.delete(`/api/projects?id=${projectId}`);
-      await updateProjects(currentFolder._id);
+      await getProjects(currentFolder._id);
       setCurrentProject(undefined); // better way to do this?
       return true;
     } catch (error) {
@@ -189,10 +206,10 @@ export default function Home({ }) {
     <>
       <div className={'side-panel'}>
         {
-          folders ?
+          data ?
           <Dashboard
             currentFolder={currentFolder}
-            folders={folders}
+            folders={data}
             createFolder={createFolder}
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}

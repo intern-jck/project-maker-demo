@@ -14,13 +14,6 @@ export default function Select({
   changeHandler 
 }: Props) {
 
-  console.log('folder select', value, options)
-
-  function changeTest(event: React.ChangeEvent<HTMLSelectElement>) {
-    const { name, value } = event.currentTarget;
-    console.log('select change test', name, value)
-  }
-
   return (
     <>
       <label htmlFor={inputName}>
