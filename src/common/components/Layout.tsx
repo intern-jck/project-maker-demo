@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
         <title>Project Maker</title>
         <meta name="description" content="Project Maker App" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main>
         {children}
