@@ -8,16 +8,19 @@ import {Projects} from '@/common/components/Projects';
 import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
 import { fetcher } from '@/common/modules/utils';
+import { useFolders, useProjects, useProject } from '@/common/hooks';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
 
-  const { data, error, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
+  // const { data, error, isLoading, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
+  const { data, error, isLoading, mutate } = useFolders();
+
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
+  // const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
 
@@ -25,8 +28,8 @@ export default function Home({ }) {
   async function getFolders() {
     try {
       const response = await axios.get('api/folders');
-      const _collections = await response.data;
-      mutate(_collections);
+      const _folders = await response.data;
+      mutate(_folders);
       return true;
     } catch (error) {
       console.error('getFolders:', error);
@@ -36,7 +39,7 @@ export default function Home({ }) {
 
   async function createFolder(folderName: string) {
     try {
-      if (folders.length >= FOLDER_LIMIT) {
+      if (data.length >= FOLDER_LIMIT) {
         window.alert('Folder limit reached!');
         return false;
       }
@@ -71,9 +74,6 @@ export default function Home({ }) {
   };
 
   async function deleteFolder(folderId: string) {
-
-    console.log('delete folder', folderId);
-
     if (!currentFolder._id) {
       return false;
     }
@@ -92,9 +92,10 @@ export default function Home({ }) {
   // PROJECTS FUNCTIONS
   async function getProjects(folderId: string) {
     try {
-      const response = axios.get(`/api/projects?folderId=${folderId}`);
-      const _projects = await response;
-      return _projects.data;
+      const response = await axios.get(`/api/projects?folderId=${folderId}`);
+      const _projects = await response.data;
+      setProjects(_projects);
+      return true;
     } catch (error) {
       console.error(error)
       return error;
@@ -169,6 +170,9 @@ export default function Home({ }) {
     setCurrentProject(undefined);
   };
 
+  if (error) return <div>Failed to fetch users.</div>
+  if (isLoading) return <h2>Loading...</h2>
+
   return (
     <>
       <div className={'side-panel'}>
@@ -199,7 +203,7 @@ export default function Home({ }) {
         {
           currentProject ?
           <ProjectForm 
-            folders={folders}
+            folders={data ? data : []}
             project={currentProject}
             saveProject={saveProject}
             deleteProject={deleteProject}
