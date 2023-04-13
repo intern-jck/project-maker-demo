@@ -3,6 +3,7 @@ import { CgAddR, CgCloseR } from 'react-icons/cg';
 import Image from 'next/image';
 
 type Props = {
+  className: string,
   inputName: string,
   value: string,
   photos: string[],
@@ -11,9 +12,9 @@ type Props = {
   deleteHandler: React.MouseEventHandler,
 }
 
-export default function PhotoInput({ inputName, value, photos, changeHandler, addHandler, deleteHandler }: Props) {
+export default function PhotoInput({ className, inputName, value, photos, changeHandler, addHandler, deleteHandler }: Props) {
   return (
-    <div>
+    <div className={className}>
 
       <div className='photoURL'>
         <TextInput

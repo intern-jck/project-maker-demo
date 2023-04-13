@@ -25,6 +25,8 @@ export default function DashboardComponent({
   createProject,
 }: Props) {
 
+  console.log('Dashboard', folders);
+
   const [ newFolder, setNewFolder ] = useState<string>('');
   
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {

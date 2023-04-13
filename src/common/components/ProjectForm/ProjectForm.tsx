@@ -58,14 +58,22 @@ export default function ProjectForm({
   };
 
   function updateFolder(event: React.ChangeEvent<HTMLSelectElement>) {
-    const { name, value } = event.currentTarget;
-    const updatedFolderId = { folder_id: value };
-    const updatedFolderName = { folder_name: name };
-    setFormData((formData) => ({
-      ...formData,
-      ...updatedFolderId,
-      ...updatedFolderName,
-    }) as ProjectType);
+    const { value } = event.currentTarget;
+    console.log('setting project folder to', name, value);
+
+    for (let i in folders) {
+      console.log(folders[i]);
+      if (folders[i]._id === value) {
+        const updatedFolderId = { folder_id: value };
+        const updatedFolderName = { folder_name: folders[i].name };
+        setFormData((formData) => ({
+          ...formData,
+          ...updatedFolderId,
+          ...updatedFolderName,
+        }) as ProjectType);
+      }
+    }
+
   };
 
   function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -130,7 +138,7 @@ export default function ProjectForm({
       if (tech) {
         tech.push(newTag);
       }
-      setNewPhoto('');
+      setNewTag('');
       setFormData((formData) => ({
         ...formData,
         tech: tech,
@@ -158,6 +166,7 @@ export default function ProjectForm({
       {
         formData ?
           <form className={styles.projectForm} onSubmit={saveProjectHandler}>
+
             <div className={styles.formMenu}>
               <h1>NAME: <span>{formData.name}</span></h1>
               <h2>COLLECTION: <span>{formData.folder_name}</span></h2>
@@ -171,6 +180,7 @@ export default function ProjectForm({
                 <MdClose />
               </button>
             </div>
+
             <div className={styles.formRow}>
               <div className={styles.stats}>
                 <TextInput
@@ -179,7 +189,7 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
                 <FolderSelect
-                  inputName={'folders-select'}
+                  inputName={'folders'}
                   value={formData.folder_id}
                   options={folders}
                   changeHandler={updateFolder}
@@ -218,9 +228,11 @@ export default function ProjectForm({
                 />
               </div>
             </div>
+
             <div className={styles.formRow}>
               <PhotoInput
-                inputName='photos'
+                className={styles.photoInput}
+                inputName='photo url'
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
@@ -228,6 +240,7 @@ export default function ProjectForm({
                 deleteHandler={deletePhoto}
               />
               <TagInput
+                className={styles.tagInput}
                 inputName='tags'
                 value={newTag}
                 tags={formData.tech}
@@ -236,6 +249,7 @@ export default function ProjectForm({
                 deleteHandler={deleteTag}
               />
             </div>
+
           </form>
           : null
       }
