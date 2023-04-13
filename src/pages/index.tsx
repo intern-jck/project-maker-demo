@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import {Dashboard} from '@/common/components/Dashboard';
@@ -7,7 +7,6 @@ import {Projects} from '@/common/components/Projects';
 
 import {FolderType, ProjectType} from '@/common/types';
 import {defaultFolder, defaultProject } from '@/common/defaults';
-// import { fetcher, getProject, getProjects, getFolders, putProject } from '@/common/modules/utils';
 import { fetcher } from '@/common/modules/utils';
 
 const FOLDER_LIMIT = 5;
@@ -18,26 +17,13 @@ export default function Home({ }) {
   const { data, error, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  const [ folders, setFolders ] = useState<Array<FolderType>>(data);
+  const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
-
-  // useEffect(() => {
-  //     if (data) {
-  //       setFolders(data);
-  //       getProjects('')
-  //         .then((projectsData) => {
-  //           setProjects(projectsData);
-  //         })
-  //         .catch(error => console.error(error));
-  //     }
-  //   }, [data]);
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
     try {
-      // const _collections = await getFolders();
-      // setFolders(_collections);
       const response = await axios.get('api/folders');
       const _collections = await response.data;
       mutate(_collections);
@@ -65,13 +51,15 @@ export default function Home({ }) {
 
   async function selectFolder(folderId:string) {
     let _folder = defaultFolder;
+
     if (folderId) {
-      for (let folder of data) {
+      for (let folder of data ? data : []) {
         if (folder._id === folderId) {
           _folder = folder;
         }
       }
     }
+
     setCurrentFolder(_folder);
     try {
       await getProjects(folderId);
@@ -94,9 +82,6 @@ export default function Home({ }) {
       const response = await axios.delete(`/api/folders?id=${folderId}`);
       await getFolders();
       setCurrentFolder(defaultFolder)
-      // const _projects = await getProjects(defaultFolder._id);
-      // setFolders(_folders);
-      // setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -114,15 +99,6 @@ export default function Home({ }) {
       console.error(error)
       return error;
     }
-    // try {
-    //   const _projects = await getProjects(folderId);
-    //   setProjects(_projects);
-    //   console.log('update projects', _projects)
-    //   return true;
-    // } catch (error) {
-    //   console.error(error);
-    //   return error;
-    // }
   };
 
   async function createProject() {
@@ -164,15 +140,6 @@ export default function Home({ }) {
       console.error(error)
       return error;
     }
-
-    // try {
-    //   const _project = await getProject(projectId);
-    //   setCurrentProject(_project);
-    //   return true;
-    // } catch(error) {
-    //   console.error(error);
-    //   return false;
-    // }
   };
   
   async function saveProject(projectData: ProjectType) {
