@@ -7,9 +7,9 @@ export default function useFolders() {
   const { data, error, isLoading, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
 
   return {
-    data,
-    isLoading,
-    error,
-    mutate
+    folders: data,
+    foldersLoading: isLoading,
+    foldersError: error,
+    mutateFolders: mutate
   }
 };

@@ -16,20 +16,24 @@ const PROJECT_LIMIT = 20;
 export default function Home({ }) {
 
   // const { data, error, isLoading, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
-  const { data, error, isLoading, mutate } = useFolders();
+  const { folders, foldersError, foldersLoading, mutateFolders } = useFolders();
+  const { projects, projectsError, projectsLoading, mutateProjects } = useProjects();
+  // const { project, projectError, projectLoading, mutateProject } = useProject();
+
+
 
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  // const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
-  const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
+  // const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
+  // const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
     try {
       const response = await axios.get('api/folders');
       const _folders = await response.data;
-      mutate(_folders);
+      mutateFolders(_folders);
       return true;
     } catch (error) {
       console.error('getFolders:', error);
@@ -39,7 +43,7 @@ export default function Home({ }) {
 
   async function createFolder(folderName: string) {
     try {
-      if (data.length >= FOLDER_LIMIT) {
+      if (folders && folders.length >= FOLDER_LIMIT) {
         window.alert('Folder limit reached!');
         return false;
       }
@@ -55,8 +59,8 @@ export default function Home({ }) {
   async function selectFolder(folderId:string) {
     let _folder = defaultFolder;
 
-    if (folderId) {
-      for (let folder of data ? data : []) {
+    if (folderId && folders) {
+      for (let folder of folders) {
         if (folder._id === folderId) {
           _folder = folder;
         }
@@ -94,7 +98,7 @@ export default function Home({ }) {
     try {
       const response = await axios.get(`/api/projects?folderId=${folderId}`);
       const _projects = await response.data;
-      setProjects(_projects);
+      mutateProjects(_projects);
       return true;
     } catch (error) {
       console.error(error)
@@ -112,7 +116,7 @@ export default function Home({ }) {
     }
 
     try {
-      if (projects.length >= PROJECT_LIMIT) {
+      if (projects && projects.length >= PROJECT_LIMIT) {
         window.alert('Project limit reached!');
         return false;
       }
@@ -170,17 +174,17 @@ export default function Home({ }) {
     setCurrentProject(undefined);
   };
 
-  if (error) return <div>Failed to fetch users.</div>
-  if (isLoading) return <h2>Loading...</h2>
+  if (foldersError) return <div>Failed to fetch users.</div>
+  if (foldersLoading) return <h2>Loading...</h2>
 
   return (
     <>
       <div className={'side-panel'}>
         {
-          data ?
+          folders ?
           <Dashboard
             currentFolder={currentFolder}
-            folders={data}
+            folders={folders}
             createFolder={createFolder}
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}
@@ -189,7 +193,7 @@ export default function Home({ }) {
           : <></>
         }
         {
-          projects.length ?
+          projects ?
           <Projects
             currentFolder={currentFolder}
             projects={projects}
@@ -203,7 +207,7 @@ export default function Home({ }) {
         {
           currentProject ?
           <ProjectForm 
-            folders={data ? data : []}
+            folders={folders ? folders : []}
             project={currentProject}
             saveProject={saveProject}
             deleteProject={deleteProject}
