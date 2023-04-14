@@ -121,7 +121,7 @@ export default function DashboardComponent({
           </button>
         </form>
         <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
-          FOLDER: {currentFolder.name}
+          <span>FOLDER: {currentFolder.name}</span>
           <button type={'submit'}>
             <GoFileMedia />
           </button>
