@@ -8,16 +8,7 @@
     margin: 0;
   }
 
-  button {
-    border: none;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    display: flex;
-    font-size: 2rem;
-  }
-
   form {
-
     display: flex;
     align-items: center;
 
@@ -29,17 +20,35 @@
       width: 100%;
     }
 
+    button {
+      border: none;
+      margin-left: $margin-stock;
+      margin-right: $margin-stock;
+      font-size: $font-size-xxlarge;
+      display: flex;
+    }
+
+    button:hover {
+      color: $color-active;
+    }
+
     input,
     select {
+      border: $border-input;  
       width: 100%;
-      font-size: 1.2rem;
-      border: 2px solid black;  
+      font-size: $font-size-large;
+    }
+
+    input:hover,
+    select:hover {
+      border: $border-input-hover;
     }
 
     input:focus,
     select:focus {
-      border: 2px solid blue;
+      border: $border-input-focus;
       outline: none;
     }
   }
+
 }

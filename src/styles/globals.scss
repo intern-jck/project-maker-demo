@@ -30,16 +30,12 @@ button {
   }
 }
 
-
 button:hover,
 select:hover {
   cursor: pointer;
-  color: $color-active;
 }
 
-
 main {
-  // padding: $padding-thin;
   height: 100%;
   display: flex;
   gap: 0.5rem;
@@ -56,9 +52,7 @@ main {
 
 .project-panel {
   display: none;
-  // border: $border-stock;
   padding: $padding-thin;
-  // width: 75vw;
   display: flex;
   flex-direction: column;
 }

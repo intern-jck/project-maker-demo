@@ -20,7 +20,7 @@
     width: 20rem;
     display: flex;
     padding-left: $padding-thin;
-    font-size: 1rem;
+    font-size: $font-size-large;
     
     span {
       padding-left: $padding-stock;
@@ -29,5 +29,6 @@
 
   button:hover {
     scale: 104%;
+    border: $border-input-hover;
   }
 }
