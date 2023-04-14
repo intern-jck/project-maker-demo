@@ -25,8 +25,6 @@ export default function DashboardComponent({
   createProject,
 }: Props) {
 
-  console.log('Dashboard', folders);
-
   const [ newFolder, setNewFolder ] = useState<string>('');
   
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {
@@ -97,40 +95,36 @@ export default function DashboardComponent({
 
   return (
     <div className={styles.dashboard}>
-
-      <div className={styles.dashboardMenu}>
-        <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
-          <TextInput 
-              inputName={'new-folder-input'}
-              value={newFolder} 
-              changeHandler={updateNewFolder}
-          />
-          <button type={'submit'}>
-            <CgAddR />
-          </button>
-        </form>
-        <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
-          <FolderSelect
-            inputName={'folders-select'}
-            value={currentFolder._id}
-            options={folders}
-            changeHandler={selectFolderHandler}
-          />
-          <button type={'submit'}>
-            <CgTrash />
-          </button>
-        </form>
-        <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
-          <span>FOLDER: {currentFolder.name}</span>
-          <button type={'submit'}>
-            <GoFileMedia />
-          </button>
-          <button name='download-projects' onClick={downloadProjects}>
-            <GoDesktopDownload />
-          </button>
-        </form>
-      </div>
-
+      <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
+        <TextInput 
+            inputName={'new-folder-input'}
+            value={newFolder} 
+            changeHandler={updateNewFolder}
+        />
+        <button type={'submit'}>
+          <CgAddR />
+        </button>
+      </form>
+      <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
+        <FolderSelect
+          inputName={'folders-select'}
+          value={currentFolder._id}
+          options={folders}
+          changeHandler={selectFolderHandler}
+        />
+        <button type={'submit'}>
+          <CgTrash />
+        </button>
+      </form>
+      <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
+        <span>FOLDER: {currentFolder.name}</span>
+        <button type={'submit'}>
+          <GoFileMedia />
+        </button>
+        <button name='download-projects' onClick={downloadProjects}>
+          <GoDesktopDownload />
+        </button>
+      </form>
     </div>
   );
 };

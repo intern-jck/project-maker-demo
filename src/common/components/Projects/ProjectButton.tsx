@@ -6,7 +6,7 @@ type Props = {
   clickHandler: React.MouseEventHandler
 };
 
-export default function Project({
+export default function ProjectButton({
   id,
   name, 
   clickHandler

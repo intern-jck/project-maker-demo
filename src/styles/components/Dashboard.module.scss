@@ -1,6 +1,5 @@
 .dashboard {
-  border: $border-test-orange;
-  margin: $margin-thin;
+  border: $border-thin;
   padding: $padding-thin;
   display: flex;
   flex-direction: column;
@@ -17,11 +16,6 @@
     font-size: 2rem;
   }
 
-  .dashboardMenu {
-    border: $border-thin;
-    padding: $padding-thin;
-  }
-
   form {
 
     display: flex;
@@ -31,11 +25,15 @@
       display: none;
     }
 
+    span {
+      width: 100%;
+    }
+
     input,
     select {
       width: 100%;
       font-size: 1.2rem;
-      border: 2px solid black;
+      border: 2px solid black;  
     }
 
     input:focus,

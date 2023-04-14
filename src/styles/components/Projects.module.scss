@@ -1,14 +1,23 @@
 .projects {
-  border: $border-stock;
+  border: $border-thin;
   padding: $padding-thin;
-  display: flex;
-  flex-direction: column;
   height: 100%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $gap-thin;
+
+  h2 {
+    margin: 0;
+    margin-left: $margin-thin;
+    margin-right: auto;
+  }
 
   button {
     border: $border-thin;
     padding: $padding-thin;
+    width: 20rem;
     display: flex;
     padding-left: $padding-thin;
     font-size: 1rem;
@@ -16,5 +25,9 @@
     span {
       padding-left: $padding-stock;
     }
+  }
+
+  button:hover {
+    scale: 104%;
   }
 }
