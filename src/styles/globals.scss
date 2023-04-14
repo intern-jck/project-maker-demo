@@ -51,7 +51,7 @@ main {
 }
 
 .project-panel {
-  display: none;
+  border: $border-stock;
   padding: $padding-thin;
   display: flex;
   flex-direction: column;

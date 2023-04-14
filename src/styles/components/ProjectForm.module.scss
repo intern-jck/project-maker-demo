@@ -1,7 +1,7 @@
 .projectForm {
-  border: $border-stock;
   display: flex;
   flex-direction: column;
+  gap: $gap-stock;
 
   h1 {
     margin: 0;
@@ -13,13 +13,24 @@
     flex-direction: column;
   }
 
+
+  button:hover {
+    color: $color-active;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border: $border-input-hover;
+  }
+
   .dateInput {
     display: flex;
     flex-direction: column;
 
     div {
       display: flex;
-      gap: 1rem;
+      gap: $gap-stock;
 
       label {
         display: none;
@@ -32,14 +43,6 @@
 
   }
 
-  .formRow {
-    border: $border-thin;
-    padding: $padding-stock;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
   .formMenu {
     border: $border-thin;
     padding: $padding-thin;
@@ -47,11 +50,11 @@
     align-items: center;
     flex-wrap: wrap;
 
-    h1 {
+    .formName {
       margin: 0;
-      margin-right: 0.5rem;
-      margin-left: 0.5rem;
-      font-size: 1rem;
+      margin-right: $margin-stock;
+      margin-left: $margin-stock;
+      font-size: $font-size-large;
       font-weight: bold;
 
       span {
@@ -59,11 +62,11 @@
       }
     }
 
-    h2 {
+    .formCollection {
       margin: 0;
       margin-right: auto;
-      margin-left: 0.5rem;
-      font-size: 1rem;
+      margin-left: $margin-stock;
+      font-size: $font-size-large;
       font-weight: bold;
 
       span {
@@ -73,15 +76,18 @@
 
     button {
       border: none;
-      margin-left: 0.25rem;
-      margin-right: 0.5rem;
+      margin-left: $margin-thin;
+      margin-right: $margin-thin;
+      font-size: $font-size-xxlarge;
       display: flex;
-      font-size: 2rem;
-
-      // Reminder, you can style the icon svg
-      // svg {}
     }
 
+  }
+
+  .formRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap-stock;
   }
 
   .stats {
@@ -93,8 +99,8 @@
 
     input,
     select {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
+      font-size: $font-size-large;
+      margin-bottom: $margin-thin;
     }
 
     .dateInput {
@@ -112,13 +118,11 @@
     flex-direction: column;
 
     input {
-      border: $border-thin;
       width: 100%;
-      margin-bottom: 0.5rem;
+      margin-bottom: $margin-thin;
     }
 
     textarea {
-      border: $border-thin;
       height: 16rem;
     }
   }
@@ -127,18 +131,17 @@
     width: 30rem;
     display: flex;
     flex-direction: column;
-    // gap: 0.5rem;
 
     [class~="photoURL"] {
       border: $border-thin;
       padding: $padding-thin;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: $gap-stock;
 
       button {
         border: none;
-        font-size: 1.6rem;
+        font-size: $font-size-xxlarge;
       }
 
       input {
@@ -154,12 +157,11 @@
       flex-direction: row;
       flex-wrap: wrap;
       align-content: flex-start;
-      gap: 0.4rem;
+      gap: $gap-stock;
 
       [class~="photoThumb"] {
         border: $border-thin;
         position: relative;
-        // display: inline-block;
 
         width: 4rem;
         height: 4rem;
@@ -196,11 +198,11 @@
       padding: $padding-thin;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: $gap-stock;
 
       button {
         border: none;
-        font-size: 1.6rem;
+        font-size: $font-size-xxlarge;
       }
     }
 
@@ -212,15 +214,15 @@
       flex-direction: row;
       flex-wrap: wrap;
       align-content: flex-start;
-      gap: 0.4rem;
+      gap: $gap-stock;
 
       [class~="tag"] {
         border: 2px solid black;
         position: relative;
         display: flex;
-        padding-left: 1rem;
-        padding-right: 2rem;
-        font-size: 1rem;
+        padding-left: $padding-stock;
+        padding-right: $padding-stock;
+        font-size: $font-size-large;
         font-weight: bold;
 
         button {

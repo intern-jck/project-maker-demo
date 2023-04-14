@@ -168,8 +168,9 @@ export default function ProjectForm({
           <form className={styles.projectForm} onSubmit={saveProjectHandler}>
 
             <div className={styles.formMenu}>
-              <h1>NAME: <span>{formData.name}</span></h1>
-              <h2>COLLECTION: <span>{formData.folder_name}</span></h2>
+              <h2 className={styles.formName}>NAME: <span>{formData.name}</span></h2>
+              <h2 className={styles.formCollection}>COLLECTION: <span>{formData.folder_name}</span></h2>
+
               <button type='submit'>
                 <MdSave />
               </button>
