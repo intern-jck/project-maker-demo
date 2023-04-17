@@ -24,9 +24,10 @@ $border-input-hover: 2px solid blue;
 $border-input-focus: 2px solid blue;
 
 $border-color: black;
-$border-thick: 6px solid black;
-$border-stock: 4px solid black;
+
 $border-thin: 2px solid black;
+$border-stock: 4px solid black;
+$border-thick: 6px solid black;
 
 $border-test-orange: 2px solid orange;
 $border-test-blue: 2px solid blue;
@@ -37,18 +38,18 @@ $padding-thin: 0.25rem;
 $padding-stock: 0.5rem;
 $padding-thick: 1.0rem;
 
-$margin-thick: 1.0rem;
-$margin-stock: 0.5rem;
 $margin-thin: 0.25rem;
+$margin-stock: 0.5rem;
+$margin-thick: 1.0rem;
 
-$gap-thick: 1.0rem;
-$gap-stock: 0.5rem;
 $gap-thin: 0.25rem;
+$gap-stock: 0.5rem;
+$gap-thick: 1.0rem;
 
-$screen-break-xxl: 1900px;
-$screen-break-xl: 1600px;
-$screen-break-l: 1400px;
-$screen-break-m: 1200px;
-$screen-break-s: 900px;
-$screen-break-xs: 600px;
 $screen-break-xxs: 400px;
+$screen-break-xs: 600px;
+$screen-break-s: 900px;
+$screen-break-m: 1200px;
+$screen-break-l: 1400px;
+$screen-break-xl: 1600px;
+$screen-break-xxl: 1900px;
