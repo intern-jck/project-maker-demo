@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET':
         try {
           const { folderId } = query;
+          console.log('getting projects for', folderId)
           if (folderId) {
             const connection = await connectMongo();
             const response = await ProjectModel.find({ folder_id: folderId }).exec();
