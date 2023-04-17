@@ -1,34 +1,63 @@
 $page-font: 'Courier New', Courier, monospace;
 
-$primary: black;
+$primary: blue;
 $secondary: grey;
-$background-color: white;
-$active-color: green;
+
+$color-background: #dddddd;
+$color-panel-background: #ffffff;
+
+$color-input-background: #ffffff;
+
+$color-button-background: #444422;
+
+$color-active: blue;
+$color-primary: blue;
+$color-secondary: grey;
 
 $font-color: black;
 
-$font-size-small: 0.6rem;
+$font-size-xsmall: 0.6rem;
+$font-size-small: 0.8rem;
 $font-size-stock: 1rem;
-$font-size-large: 1.4rem;
+$font-size-large: 1.2rem;
+$font-size-xlarge: 1.4rem;
+$font-size-xxlarge: 1.8rem;
+
+$border-input: 2px solid black;
+$border-input-hover: 2px solid blue;
+$border-input-focus: 2px solid blue;
 
 $border-color: black;
-$border-thick: 6px solid black;
-$border-stock: 4px solid black;
+
 $border-thin: 2px solid black;
+$border-stock: 4px solid black;
+$border-thick: 6px solid black;
 
 $border-test-orange: 2px solid orange;
 $border-test-blue: 2px solid blue;
 $border-test-green: 2px solid green;
 $border-test-red: 2px solid red;
 
-$padding-thick: 1.0rem;
-$padding-stock: 0.5rem;
-$padding-thin: 0.25rem;
+$border-radius-small: 0.2rem;
+$border-radius-stock: 0.4rem;
+$border-radius-large: 0.6rem;
 
-$screen-break-xxl: 1900px;
-$screen-break-xl: 1600px;
-$screen-break-l: 1400px;
-$screen-break-m: 1200px;
-$screen-break-s: 900px;
-$screen-break-xs: 600px;
+$padding-thin: 0.25rem;
+$padding-stock: 0.5rem;
+$padding-thick: 1.0rem;
+
+$margin-thin: 0.25rem;
+$margin-stock: 0.5rem;
+$margin-thick: 1.0rem;
+
+$gap-thin: 0.25rem;
+$gap-stock: 0.5rem;
+$gap-thick: 1.0rem;
+
 $screen-break-xxs: 400px;
+$screen-break-xs: 600px;
+$screen-break-s: 900px;
+$screen-break-m: 1200px;
+$screen-break-l: 1400px;
+$screen-break-xl: 1600px;
+$screen-break-xxl: 1900px;

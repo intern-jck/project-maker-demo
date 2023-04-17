@@ -22,8 +22,9 @@ body {
 }
 
 button {
-  background-color: $background-color;
+  border: none;
   padding: 0;
+  display: flex;
 
   svg {
     pointer-events: none;
@@ -31,31 +32,40 @@ button {
 }
 
 button:hover,
-input:hover,
-textarea:hover,
 select:hover {
   cursor: pointer;
-  color: $active-color;
 }
 
+
 main {
-  padding: $padding-thin;
+  background-color: $color-background;
   height: 100%;
+  padding: 10px;
   display: flex;
+  gap: $gap-stock;
 }
 
 .side-panel {
-  border: $border-thin;
+  background-color: $color-panel-background;
+  border: $border-stock;
   padding: $padding-thin;
-  width: 25%;
+  width: 25rem;
+  display: flex;
+  flex-direction: column;
+  gap: $gap-thin;
+}
+
+.project-panel {
+  background-color: $color-panel-background;
+  border: $border-stock;
+  padding: $padding-thin;
+  width: 75rem;
   display: flex;
   flex-direction: column;
 }
 
-.project-panel {
-  border: $border-thin;
-  padding: $padding-thin;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+@media screen and (max-width: $screen-break-l) {
+
 }
+
+@media screen and (orientation:portrait) {}

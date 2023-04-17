@@ -1,20 +1,19 @@
-import Project from './Project';
+import ProjectButton from './ProjectButton';
+
 import type { FolderType, ProjectType } from '@/common/types';
 import styles from '@/styles/components/Projects.module.scss';
 
 type Props = {
-  currentFolder: FolderType,
   projects: ProjectType[],
   selectProject: Function,
 };
 
 export default function Projects({
-  currentFolder,
   projects,
   selectProject,
 }: Props) {
 
-  console.log('Projects', currentFolder);
+  console.log('projects', projects)
 
   function selectProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -24,12 +23,10 @@ export default function Projects({
 
   return (
     <div className={styles.projects}>
-      Projects
-      {currentFolder.name}
         {
           projects.map((project, i) => {
             return (
-              <Project
+              <ProjectButton
                 key={project._id}
                 id={project._id ? project._id : ''}
                 name={project.name ? project.name : ''}

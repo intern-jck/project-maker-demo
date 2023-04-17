@@ -7,7 +7,7 @@ export default function useFolders() {
   const { data, error, isLoading, mutate } = useSWR<ProjectType[]>('/api/projects', fetcher);
 
   return {
-    projects: data,
+    projectsData: data,
     projectsLoading: isLoading,
     projectsError: error,
     mutateProjects: mutate

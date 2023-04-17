@@ -7,6 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const connection = await connectMongo();
+    if (connection) {
+      console.log('mongo connected!')
+    }
     switch (method) {
       case 'GET':
         try {

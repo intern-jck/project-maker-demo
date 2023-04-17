@@ -1,43 +1,42 @@
 .projectForm {
-  border: $border-stock;
   display: flex;
   flex-direction: column;
-
-  h1 {
-    margin: 0;
-  }
+  gap: $gap-thick;
 
   label {
+    font-size: $font-size-large;
     display: flex;
     font-weight: bold;
     flex-direction: column;
   }
 
-  .dateInput {
-    display: flex;
-    flex-direction: column;
-
-    div {
-      display: flex;
-      gap: 1rem;
-
-      label {
-        display: none;
-      }
-
-      select {
-        width: 6rem;
-      }
-    }
-
+  button {
+    background: none;
   }
 
-  .formRow {
+  button:hover {
+    color: $color-active;
+  }
+
+  input,
+  select,
+  textarea {
     border: $border-thin;
-    padding: $padding-stock;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    border-radius: $border-radius-stock;
+    font-size: $font-size-large;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border: $border-input-hover;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border: $border-input-focus;
+    outline: none;
   }
 
   .formMenu {
@@ -47,11 +46,11 @@
     align-items: center;
     flex-wrap: wrap;
 
-    h1 {
+    .formName {
       margin: 0;
-      margin-right: 0.5rem;
-      margin-left: 0.5rem;
-      font-size: 1rem;
+      margin-right: $margin-stock;
+      margin-left: $margin-stock;
+      font-size: $font-size-large;
       font-weight: bold;
 
       span {
@@ -59,11 +58,11 @@
       }
     }
 
-    h2 {
+    .formCollection {
       margin: 0;
       margin-right: auto;
-      margin-left: 0.5rem;
-      font-size: 1rem;
+      margin-left: $margin-stock;
+      font-size: $font-size-large;
       font-weight: bold;
 
       span {
@@ -72,53 +71,64 @@
     }
 
     button {
-      border: none;
-      margin-left: 0.25rem;
-      margin-right: 0.5rem;
-      display: flex;
-      font-size: 2rem;
-
-      // Reminder, you can style the icon svg
-      // svg {}
+      margin-left: $margin-thin;
+      margin-right: $margin-thin;
+      font-size: $font-size-xxlarge;
     }
 
   }
 
+  .formRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap-stock;
+  }
+
   .stats {
     border: $border-thin;
-    padding: $padding-thin;
-    width: 20rem;
+    padding: $padding-stock;
+    width: 25rem;
     display: flex;
     flex-direction: column;
 
     input,
     select {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: $margin-thick;
     }
 
     .dateInput {
-      select {
-        width: 8rem;
+      display: flex;
+      flex-direction: column;
+
+      div {
+        display: flex;
+        gap: $gap-stock;
+
+        label {
+          display: none;
+        }
+
+        select {
+          width: 8rem;
+        }
       }
     }
+
   }
 
   .description {
     border: $border-thin;
-    padding: $padding-thin;
+    padding: $padding-stock;
     width: 40rem;
     display: flex;
     flex-direction: column;
 
     input {
-      border: $border-thin;
       width: 100%;
-      margin-bottom: 0.5rem;
+      margin-bottom: $margin-thick;
     }
 
     textarea {
-      border: $border-thin;
       height: 16rem;
     }
   }
@@ -127,18 +137,17 @@
     width: 30rem;
     display: flex;
     flex-direction: column;
-    // gap: 0.5rem;
 
     [class~="photoURL"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: $gap-stock;
 
       button {
         border: none;
-        font-size: 1.6rem;
+        font-size: $font-size-xxlarge;
       }
 
       input {
@@ -148,21 +157,21 @@
 
     [class~="photoList"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       align-content: flex-start;
-      gap: 0.4rem;
+      gap: $gap-stock;
 
       [class~="photoThumb"] {
         border: $border-thin;
+        border-radius: $border-radius-stock;
         position: relative;
-        // display: inline-block;
 
-        width: 4rem;
-        height: 4rem;
+        width: 8rem;
+        height: 8rem;
 
         img {
           object-fit: contain;
@@ -182,6 +191,10 @@
           }
         }
 
+        button:hover {
+          scale: 150%;
+        }
+
       }
     }
   }
@@ -193,41 +206,40 @@
 
     [class~="tagName"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: $gap-stock;
 
       button {
         border: none;
-        font-size: 1.6rem;
+        font-size: $font-size-xxlarge;
       }
     }
 
     [class="tagList"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       align-content: flex-start;
-      gap: 0.4rem;
+      gap: $gap-stock;
 
       [class~="tag"] {
-        border: 2px solid black;
+        border: $border-thin;
+        border-radius: $border-radius-stock;
         position: relative;
         display: flex;
-        padding-left: 1rem;
-        padding-right: 2rem;
-        font-size: 1rem;
+        padding-left: $padding-thick;
+        padding-right: $padding-thick;
+        font-size: $font-size-large;
         font-weight: bold;
 
         button {
-          border: none;
           color: red;
           padding: 0;
-          background: none;
           position: absolute;
           right: 2px;
           top: 2px;
@@ -235,6 +247,10 @@
           svg {
             stroke-width: 0.02rem;
           }
+        }
+       
+        button:hover {
+          scale: 150%;
         }
       }
     }

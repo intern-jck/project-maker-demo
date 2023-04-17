@@ -20,6 +20,7 @@ export default function ProjectForm({
   deleteProject,
   closeProject
 }: Props) {
+  console.log('project form', project)
 
   const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
@@ -58,25 +59,30 @@ export default function ProjectForm({
   };
 
   function updateFolder(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
     const { value } = event.currentTarget;
-    console.log('setting project folder to', name, value);
+    console.log('setting project folder to', value);
+
+    let updatedFolderId = { folder_id: '' };
+    let updatedFolderName = { folder_name: '' };
 
     for (let i in folders) {
-      console.log(folders[i]);
       if (folders[i]._id === value) {
-        const updatedFolderId = { folder_id: value };
-        const updatedFolderName = { folder_name: folders[i].name };
-        setFormData((formData) => ({
-          ...formData,
-          ...updatedFolderId,
-          ...updatedFolderName,
-        }) as ProjectType);
+        updatedFolderId.folder_id = value;
+        updatedFolderName.folder_name = folders[i].name;
       }
     }
+
+    setFormData((formData) => ({
+      ...formData,
+      ...updatedFolderId,
+      ...updatedFolderName,
+    }) as ProjectType);
 
   };
 
   function updateDate(event: React.ChangeEvent<HTMLSelectElement>) {
+    event.preventDefault();
     const { name, value } = event.currentTarget;
     const currentDate = formData ? formData.date : undefined;
 
@@ -92,11 +98,13 @@ export default function ProjectForm({
 
   // Could probably be merged with updateTextInput?
   function updatePhoto(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
     const { value } = event.currentTarget;
     setNewPhoto(value);
   };
 
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const photos = formData ? formData.photos : undefined;
     if (newPhoto) {
       if (photos) {
@@ -111,6 +119,7 @@ export default function ProjectForm({
   };
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const index = event.currentTarget.getAttribute('data-photo-index');
     const photos = formData ? formData.photos : undefined;
 
@@ -127,11 +136,13 @@ export default function ProjectForm({
 
   // Could probably be merged with updateTextInput?
   function updateTag(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
     const { value } = event.currentTarget;
     setNewTag(value);
   };
 
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const tech = formData ? formData.tech : undefined;
 
     if (newTag) {
@@ -147,6 +158,7 @@ export default function ProjectForm({
   };
 
   function deleteTag(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const index = event.currentTarget.getAttribute('data-tag-index');
     const tech = formData ? formData.tech : undefined;
 
@@ -168,8 +180,9 @@ export default function ProjectForm({
           <form className={styles.projectForm} onSubmit={saveProjectHandler}>
 
             <div className={styles.formMenu}>
-              <h1>NAME: <span>{formData.name}</span></h1>
-              <h2>COLLECTION: <span>{formData.folder_name}</span></h2>
+              <h2 className={styles.formName}>NAME: <span>{formData.name}</span></h2>
+              <h2 className={styles.formCollection}>COLLECTION: <span>{formData.folder_name}</span></h2>
+
               <button type='submit'>
                 <MdSave />
               </button>
@@ -189,7 +202,7 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
                 <FolderSelect
-                  inputName={'folders'}
+                  inputName={'folder'}
                   value={formData.folder_id}
                   options={folders}
                   changeHandler={updateFolder}
@@ -232,7 +245,7 @@ export default function ProjectForm({
             <div className={styles.formRow}>
               <PhotoInput
                 className={styles.photoInput}
-                inputName='photo url'
+                inputName={'photos'}
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
@@ -241,7 +254,7 @@ export default function ProjectForm({
               />
               <TagInput
                 className={styles.tagInput}
-                inputName='tags'
+                inputName={'tags'}
                 value={newTag}
                 tags={formData.tech}
                 changeHandler={updateTag}

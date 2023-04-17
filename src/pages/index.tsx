@@ -1,32 +1,26 @@
 import { useState } from 'react';
 import axios from 'axios';
-import useSWR from 'swr';
+
 import {Dashboard} from '@/common/components/Dashboard';
 import {ProjectForm} from '@/common/components/ProjectForm';
 import {Projects} from '@/common/components/Projects';
 
 import {FolderType, ProjectType} from '@/common/types';
-import {defaultFolder, defaultProject } from '@/common/defaults';
-import { fetcher } from '@/common/modules/utils';
-import { useFolders, useProjects, useProject } from '@/common/hooks';
+import {defaultFolder } from '@/common/defaults';
+import { useFolders, useProjects } from '@/common/hooks';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
 
-  // const { data, error, isLoading, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
   const { folders, foldersError, foldersLoading, mutateFolders } = useFolders();
-  const { projects, projectsError, projectsLoading, mutateProjects } = useProjects();
-  // const { project, projectError, projectLoading, mutateProject } = useProject();
-
-
-
+  const { projectsData, projectsError, projectsLoading, mutateProjects } = useProjects();
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
-  // const [ folders, setFolders ] = useState<Array<FolderType>>(data ? data : []);
-  // const [ projects, setProjects ] = useState<Array<ProjectType>>([]);
+  
+  const [ projects, setProjects ] = useState<Array<ProjectType>>();
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
@@ -57,6 +51,7 @@ export default function Home({ }) {
   };
 
   async function selectFolder(folderId:string) {
+    console.log('selected folder', folderId)
     let _folder = defaultFolder;
 
     if (folderId && folders) {
@@ -65,7 +60,7 @@ export default function Home({ }) {
           _folder = folder;
         }
       }
-    }
+    };
 
     setCurrentFolder(_folder);
     try {
@@ -81,7 +76,6 @@ export default function Home({ }) {
     if (!currentFolder._id) {
       return false;
     }
-
     try {
       const response = await axios.delete(`/api/folders?id=${folderId}`);
       await getFolders();
@@ -98,7 +92,8 @@ export default function Home({ }) {
     try {
       const response = await axios.get(`/api/projects?folderId=${folderId}`);
       const _projects = await response.data;
-      mutateProjects(_projects);
+      console.log(_projects)
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error)
@@ -114,14 +109,13 @@ export default function Home({ }) {
     for (let i = 0; i < 8; i++) {
       randomName += letters.charAt(Math.floor(Math.random() * letters.length));
     }
-
     try {
-      if (projects && projects.length >= PROJECT_LIMIT) {
+      if (projectsData && projectsData.length >= PROJECT_LIMIT) {
         window.alert('Project limit reached!');
         return false;
       }
       const body = {
-        name: `proj-${randomName}`, 
+        name: `project-${randomName}`, 
         folder_id: currentFolder._id, 
         folder_name: currentFolder.name
       }
@@ -135,7 +129,6 @@ export default function Home({ }) {
   };
 
   async function selectProject(projectId: string) {
-
     try {
       const response = await axios.get(`/api/projects/${projectId}`);
       const _project = await response.data;
@@ -174,8 +167,10 @@ export default function Home({ }) {
     setCurrentProject(undefined);
   };
 
-  if (foldersError) return <div>Failed to fetch users.</div>
-  if (foldersLoading) return <h2>Loading...</h2>
+  if (foldersError) return <div>Failed to fetch folders.</div>
+  if (projectsError) return <div>Failed to fetch projjects.</div>
+  if (foldersLoading) return <h2>Loading folders...</h2>
+  if (projectsLoading) return <h2>Loading projects...</h2>
 
   return (
     <>
@@ -195,14 +190,12 @@ export default function Home({ }) {
         {
           projects ?
           <Projects
-            currentFolder={currentFolder}
             projects={projects}
             selectProject={selectProject}
           />
           : <></>
         }
       </div>
-
       <div className={'project-panel'}>
         {
           currentProject ?
@@ -215,10 +208,7 @@ export default function Home({ }) {
           />
           : <></>
         }
-
-
       </div>
-
     </>
   )
 };

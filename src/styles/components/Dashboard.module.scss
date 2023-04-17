@@ -1,51 +1,56 @@
 .dashboard {
+  border: $border-thin;
+  padding: $padding-stock;
   display: flex;
   flex-direction: column;
+  gap: $gap-stock;
 
   h1 {
     margin: 0;
   }
 
-  input, select {
-    width: 80%;
-  }
-
-  button {
-    border: none;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    display: flex;
-    font-size: 2rem;
-  }
-
-  .dashboardMenu {
-    border: $border-thin;
-    padding: $padding-thin;
-  }
-
-  .newFolderForm {
-    font-size: 1rem;
+  form {
     display: flex;
     align-items: center;
 
     label {
       display: none;
     }
-  }
 
-  .selectFolderForm {
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    
-    label {
-      display: none;
+    h1 {
+      margin: 0;
+      font-size: $font-size-xlarge;
+      width: 100%;
+      span {
+        font-size: $font-size-large;
+      }
+    }
+
+    button {
+      background: none;
+      margin-left: $margin-stock;
+      margin-right: $margin-stock;
+      font-size: $font-size-xxlarge;
+    }
+
+    input,
+    select {
+      border: $border-input;  
+      border-radius: $border-radius-stock;
+      width: 100%;
+      font-size: $font-size-large;
+    }
+
+    input:hover,
+    select:hover {
+      border: $border-input-hover;
+    }
+
+    input:focus,
+    select:focus {
+      border: $border-input-focus;
+      outline: none;
     }
   }
 
-  .createProjectForm {
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-  }
 }
