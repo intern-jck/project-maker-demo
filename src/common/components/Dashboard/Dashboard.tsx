@@ -97,7 +97,7 @@ export default function DashboardComponent({
     <div className={styles.dashboard}>
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
         <TextInput 
-            inputName={'new-folder-input'}
+            inputName={'new-folder'}
             value={newFolder} 
             changeHandler={updateNewFolder}
         />
@@ -107,7 +107,7 @@ export default function DashboardComponent({
       </form>
       <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
         <FolderSelect
-          inputName={'folders-select'}
+          inputName={'folders'}
           value={currentFolder._id}
           options={folders}
           changeHandler={selectFolderHandler}
@@ -117,7 +117,7 @@ export default function DashboardComponent({
         </button>
       </form>
       <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
-        <span>FOLDER: {currentFolder.name}</span>
+        <h1>FOLDER: <span>{currentFolder.name}</span></h1>
         <button type={'submit'}>
           <GoFileMedia />
         </button>

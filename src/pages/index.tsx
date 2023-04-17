@@ -111,7 +111,7 @@ export default function Home({ }) {
         return false;
       }
       const body = {
-        name: `proj-${randomName}`, 
+        name: `project-${randomName}`, 
         folder_id: currentFolder._id, 
         folder_name: currentFolder.name
       }

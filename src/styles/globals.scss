@@ -22,8 +22,9 @@ body {
 }
 
 button {
-  background-color: $background-color;
+  border: none;
   padding: 0;
+  display: flex;
 
   svg {
     pointer-events: none;
@@ -35,24 +36,30 @@ select:hover {
   cursor: pointer;
 }
 
+
 main {
+  background-color: $color-background;
   height: 100%;
+  padding: 10px;
   display: flex;
-  gap: 0.5rem;
+  gap: $gap-stock;
 }
 
 .side-panel {
+  background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
-  width: 24rem;
+  width: 25rem;
   display: flex;
   flex-direction: column;
   gap: $gap-thin;
 }
 
 .project-panel {
+  background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
+  width: 75rem;
   display: flex;
   flex-direction: column;
 }

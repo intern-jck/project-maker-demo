@@ -1,8 +1,9 @@
 .dashboard {
   border: $border-thin;
-  padding: $padding-thin;
+  padding: $padding-stock;
   display: flex;
   flex-direction: column;
+  gap: $gap-stock;
 
   h1 {
     margin: 0;
@@ -16,25 +17,26 @@
       display: none;
     }
 
-    span {
+    h1 {
+      margin: 0;
+      font-size: $font-size-xlarge;
       width: 100%;
+      span {
+        font-size: $font-size-large;
+      }
     }
 
     button {
-      border: none;
+      background: none;
       margin-left: $margin-stock;
       margin-right: $margin-stock;
       font-size: $font-size-xxlarge;
-      display: flex;
-    }
-
-    button:hover {
-      color: $color-active;
     }
 
     input,
     select {
       border: $border-input;  
+      border-radius: $border-radius-stock;
       width: 100%;
       font-size: $font-size-large;
     }

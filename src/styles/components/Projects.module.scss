@@ -12,14 +12,20 @@
     margin: 0;
     margin-left: $margin-thin;
     margin-right: auto;
+    font-size: $font-size-xxlarge;
+    
+    span {
+      font-size: $font-size-large;
+    }
   }
 
   button {
+    background-color: $color-input-background;
     border: $border-thin;
+    border-radius: $border-radius-stock;
     padding: $padding-thin;
-    width: 20rem;
-    display: flex;
     padding-left: $padding-thin;
+    width: 90%;
     font-size: $font-size-large;
     
     span {

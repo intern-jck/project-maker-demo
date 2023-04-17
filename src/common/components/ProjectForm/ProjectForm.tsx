@@ -190,7 +190,7 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
                 <FolderSelect
-                  inputName={'folders'}
+                  inputName={'folder'}
                   value={formData.folder_id}
                   options={folders}
                   changeHandler={updateFolder}
@@ -233,7 +233,7 @@ export default function ProjectForm({
             <div className={styles.formRow}>
               <PhotoInput
                 className={styles.photoInput}
-                inputName='photo url'
+                inputName={'photos'}
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
@@ -242,7 +242,7 @@ export default function ProjectForm({
               />
               <TagInput
                 className={styles.tagInput}
-                inputName='tags'
+                inputName={'tags'}
                 value={newTag}
                 tags={formData.tech}
                 changeHandler={updateTag}

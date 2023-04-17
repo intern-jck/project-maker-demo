@@ -2,11 +2,15 @@ $page-font: 'Courier New', Courier, monospace;
 
 $primary: blue;
 $secondary: grey;
-$background-color: white;
-$active-color: green;
+
+$color-background: #dddddd;
+$color-panel-background: #ffffff;
+
+$color-input-background: #ffffff;
+
+$color-button-background: #444422;
 
 $color-active: blue;
-$color-background: white;
 $color-primary: blue;
 $color-secondary: grey;
 
@@ -33,6 +37,10 @@ $border-test-orange: 2px solid orange;
 $border-test-blue: 2px solid blue;
 $border-test-green: 2px solid green;
 $border-test-red: 2px solid red;
+
+$border-radius-small: 0.2rem;
+$border-radius-stock: 0.4rem;
+$border-radius-large: 0.6rem;
 
 $padding-thin: 0.25rem;
 $padding-stock: 0.5rem;

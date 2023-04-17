@@ -3,18 +3,27 @@
   flex-direction: column;
   gap: $gap-thick;
 
-  h1 {
-    margin: 0;
-  }
-
   label {
+    font-size: $font-size-large;
     display: flex;
     font-weight: bold;
     flex-direction: column;
   }
 
+  button {
+    background: none;
+  }
+
   button:hover {
     color: $color-active;
+  }
+
+  input,
+  select,
+  textarea {
+    border: $border-thin;
+    border-radius: $border-radius-stock;
+    font-size: $font-size-large;
   }
 
   input:hover,
@@ -23,23 +32,11 @@
     border: $border-input-hover;
   }
 
-  .dateInput {
-    display: flex;
-    flex-direction: column;
-
-    div {
-      display: flex;
-      gap: $gap-stock;
-
-      label {
-        display: none;
-      }
-
-      select {
-        width: 6rem;
-      }
-    }
-
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border: $border-input-focus;
+    outline: none;
   }
 
   .formMenu {
@@ -74,11 +71,9 @@
     }
 
     button {
-      border: none;
       margin-left: $margin-thin;
       margin-right: $margin-thin;
       font-size: $font-size-xxlarge;
-      display: flex;
     }
 
   }
@@ -91,27 +86,39 @@
 
   .stats {
     border: $border-thin;
-    padding: $padding-thin;
-    width: 20rem;
+    padding: $padding-stock;
+    width: 25rem;
     display: flex;
     flex-direction: column;
 
     input,
     select {
-      font-size: $font-size-large;
       margin-bottom: $margin-thick;
     }
 
     .dateInput {
-      select {
-        width: 8rem;
+      display: flex;
+      flex-direction: column;
+
+      div {
+        display: flex;
+        gap: $gap-stock;
+
+        label {
+          display: none;
+        }
+
+        select {
+          width: 8rem;
+        }
       }
     }
+
   }
 
   .description {
     border: $border-thin;
-    padding: $padding-thin;
+    padding: $padding-stock;
     width: 40rem;
     display: flex;
     flex-direction: column;
@@ -133,7 +140,7 @@
 
     [class~="photoURL"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       display: flex;
       align-items: center;
       gap: $gap-stock;
@@ -150,7 +157,7 @@
 
     [class~="photoList"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
@@ -160,6 +167,7 @@
 
       [class~="photoThumb"] {
         border: $border-thin;
+        border-radius: $border-radius-stock;
         position: relative;
 
         width: 8rem;
@@ -184,8 +192,7 @@
         }
 
         button:hover {
-          cursor:pointer;
-          scale: 104%;
+          scale: 150%;
         }
 
       }
@@ -199,7 +206,7 @@
 
     [class~="tagName"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       display: flex;
       align-items: center;
       gap: $gap-stock;
@@ -212,7 +219,7 @@
 
     [class="tagList"] {
       border: $border-thin;
-      padding: $padding-thin;
+      padding: $padding-stock;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
@@ -221,19 +228,18 @@
       gap: $gap-stock;
 
       [class~="tag"] {
-        border: 2px solid black;
+        border: $border-thin;
+        border-radius: $border-radius-stock;
         position: relative;
         display: flex;
-        padding-left: $padding-stock;
-        padding-right: $padding-stock;
+        padding-left: $padding-thick;
+        padding-right: $padding-thick;
         font-size: $font-size-large;
         font-weight: bold;
 
         button {
-          border: none;
           color: red;
           padding: 0;
-          background: none;
           position: absolute;
           right: 2px;
           top: 2px;
@@ -241,6 +247,10 @@
           svg {
             stroke-width: 0.02rem;
           }
+        }
+       
+        button:hover {
+          scale: 150%;
         }
       }
     }

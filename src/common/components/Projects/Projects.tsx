@@ -23,7 +23,7 @@ export default function Projects({
 
   return (
     <div className={styles.projects}>
-      <h2>FOLDER: {currentFolder.name ? currentFolder.name : 'ALL'}</h2>
+      {/* <h2>FOLDER: <span>{currentFolder.name ? currentFolder.name : 'ALL'}</span></h2> */}
         {
           projects.map((project, i) => {
             return (
