@@ -43,6 +43,7 @@ export default function DashboardComponent({
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const {name, value} = event.currentTarget;
+    console.log('folder', name, value)
     selectFolder(value);
   };
 

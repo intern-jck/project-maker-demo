@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: $gap-thick;
+  overflow-y: scroll;
 
   label {
     font-size: $font-size-large;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import {Dashboard} from '@/common/components/Dashboard';
@@ -20,7 +20,14 @@ export default function Home({ }) {
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   
-  const [ projects, setProjects ] = useState<Array<ProjectType>>();
+  const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
+
+  // Not sure if this is right, doesn't feel very NextJS
+  useEffect(() => {
+    if (projectsData) {
+      setProjects(projectsData)
+    }
+  }, [projectsData])
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
@@ -63,6 +70,7 @@ export default function Home({ }) {
     };
 
     setCurrentFolder(_folder);
+
     try {
       await getProjects(folderId);
       return true;
@@ -80,6 +88,7 @@ export default function Home({ }) {
       const response = await axios.delete(`/api/folders?id=${folderId}`);
       await getFolders();
       setCurrentFolder(defaultFolder)
+      await getProjects(defaultFolder._id);
       return true;
     } catch (error) {
       console.error(error);
@@ -102,7 +111,6 @@ export default function Home({ }) {
   };
 
   async function createProject() {
-
     // Create random project name as default
     const letters = 'abcdefghijklmnopqrstuvwxyz';
     let randomName = '';
@@ -188,7 +196,7 @@ export default function Home({ }) {
           : <></>
         }
         {
-          projects ?
+          projects.length ?
           <Projects
             projects={projects}
             selectProject={selectProject}
