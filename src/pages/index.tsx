@@ -102,7 +102,6 @@ export default function Home({ }) {
   };
 
   async function createProject() {
-
     // Create random project name as default
     const letters = 'abcdefghijklmnopqrstuvwxyz';
     let randomName = '';
