@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-// import { Dashboard, ProjectForm, Projects } from '@/common/components';
+import { Dashboard, ProjectList, ProjectForm } from "@/common/components";
 
-import { FolderType, ProjectType } from '@/common/types';
-import { defaultFolder } from '@/common/defaults';
-import { useFolders, useProjects } from '@/common/hooks';
+// import { FolderType, ProjectType } from '@/common/types';
+// import { defaultFolder } from '@/common/defaults';
+import { useFolders, useProjects } from "@/common/hooks";
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
-export default function Home({ }) {
+export default function Home({}) {
+  const { folderData, foldersError, foldersLoading, mutateFolders } =
+    useFolders();
+  const { projectsData, projectsError, projectsLoading, mutateProjects } =
+    useProjects();
 
-  // const { folderData, foldersError, foldersLoading, mutateFolders } = useFolders();
-  // const { projectsData, projectsError, projectsLoading, mutateProjects } = useProjects();
   // const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  // const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();  // 
+  // const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
   // const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
 
   // Not sure if this is right, doesn't feel very NextJS
@@ -24,7 +26,7 @@ export default function Home({ }) {
   //     setProjects(projectsData)
   //   }
   // }, [projectsData]);
-  
+
   // FOLDERS FUNCTIONS
   // async function getFolders() {
   //   try {
@@ -118,8 +120,8 @@ export default function Home({ }) {
   //       return false;
   //     }
   //     const body = {
-  //       name: `project-${randomName}`, 
-  //       folder_id: currentFolder._id, 
+  //       name: `project-${randomName}`,
+  //       folder_id: currentFolder._id,
   //       folder_name: currentFolder.name
   //     }
   //     await axios.post('/api/projects', body);
@@ -142,7 +144,7 @@ export default function Home({ }) {
   //     return error;
   //   }
   // };
-  
+
   // async function saveProject(projectData: ProjectType) {
   //   try {
   //     const response = await axios.put('/api/projects', { doc: projectData });
@@ -177,30 +179,30 @@ export default function Home({ }) {
 
   return (
     <>
-      <div className={'side-panel'}>
-        {/* {
-          folderData ?
+      <div className={"side-panel"}>
+        {folderData ? (
           <Dashboard
-            currentFolder={currentFolder}
+            // currentFolder={currentFolder}
             folders={folderData}
             createFolder={createFolder}
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}
             createProject={createProject}
           />
-          : <></>
-        }
-        {
+        ) : (
+          <></>
+        )}
+        {/* {
           projects.length ?
           <Projects
             projects={projects}
             selectProject={selectProject}
           />
           : <></>
-        }
+        } */}
       </div>
-      <div className={'project-panel'}>
-        {
+      <div className={"project-panel"}>
+        {/* {
           currentProject ?
           <ProjectForm 
             folders={folderData ? folderData : []}
@@ -213,5 +215,5 @@ export default function Home({ }) {
         } */}
       </div>
     </>
-  )
-};
+  );
+}

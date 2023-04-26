@@ -16,7 +16,7 @@ type Props = {
   selectFolder: Function,
   createProject: Function,
   deleteFolder: Function,
-}
+};
 
 export default function DashboardComponent({
   currentFolder,

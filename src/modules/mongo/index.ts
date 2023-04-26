@@ -1,6 +1,6 @@
-import connectMongo from './connectMongo';
-import FolderModel from './FolderModel';
-import ProjectModel from './ProjectModel';
+import connectMongo from './utils/connectMongo';
+import FolderModel from './models/FolderModel';
+import ProjectModel from './models/ProjectModel';
 
 export {
   connectMongo,
