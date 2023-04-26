@@ -19,7 +19,8 @@ export default function ProjectList({
   };
 
   return (
-    <div className={styles.projects}>
+    <div className={styles.projectList}>
+      Project List
         {
           projects.map((project, i) => {
             return (

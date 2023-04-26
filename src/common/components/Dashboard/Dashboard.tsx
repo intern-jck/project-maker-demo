@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { TextInput, FolderSelect } from '@/common/components/Inputs';
-import { CgAddR, CgTrash } from 'react-icons/cg';
+import { TextInput, FolderSelect } from "@/common/components/Inputs";
+import { CgAddR, CgTrash } from "react-icons/cg";
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
-import type { FolderType } from '@/common/types';
-import styles from '@/styles/components/Dashboard.module.scss';
+import type { FolderType } from "@/common/types";
+import styles from "@/styles/components/Dashboard.module.scss";
 
 // import { getProjects } from '@/modules/utils';
 
 type Props = {
-  currentFolder: FolderType,
-  folders: FolderType[],
-  createFolder: Function,
-  selectFolder: Function,
-  createProject: Function,
-  deleteFolder: Function,
+  currentFolder: FolderType;
+  folders: FolderType[];
+  createFolder: Function;
+  selectFolder: Function;
+  createProject: Function;
+  deleteFolder: Function;
 };
 
 export default function DashboardComponent({
@@ -26,46 +26,45 @@ export default function DashboardComponent({
   deleteFolder,
   createProject,
 }: Props) {
+  const [newFolder, setNewFolder] = useState<string>("");
 
-  const [ newFolder, setNewFolder ] = useState<string>('');
-  
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    const {name, value} = event.currentTarget;
+    const { name, value } = event.currentTarget;
     console.log(name, value);
     setNewFolder(value);
-  };
+  }
 
   function createFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     createFolder(newFolder);
-    setNewFolder('');
-  };
+    setNewFolder("");
+  }
 
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
-    const {name, value} = event.currentTarget;
-    console.log('folder', name, value)
+    const { name, value } = event.currentTarget;
+    console.log("folder", name, value);
     selectFolder(value);
-  };
+  }
 
   function deleteFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     deleteFolder(currentFolder._id);
-  };
+  }
 
   function createProjectHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log('create project');
+    console.log("create project");
     createProject();
-  };
+  }
 
   async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    console.log('download projects');
+    console.log("download projects");
     // call to api
     // create blob and download all projects
-      try {
+    try {
       // Get all the projects for the current collection,
       const projects = await getProjects(currentFolder._id);
       const collectionName = currentFolder.name;
@@ -74,18 +73,20 @@ export default function DashboardComponent({
       };
 
       // then create the json file,
-      const filename = `project-maker-${collectionName ? collectionName : 'all'}`;
+      const filename = `project-maker-${
+        collectionName ? collectionName : "all"
+      }`;
       const json = JSON.stringify(projectData, null, 2);
 
       // then create blob to download from json file,
-      const blob = new Blob([json], { type: 'application/json' })
+      const blob = new Blob([json], { type: "application/json" });
       const href: string = URL.createObjectURL(blob);
 
-      // then create anchor link with href and click to download, 
+      // then create anchor link with href and click to download,
       // then remove link from DOM.
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = href;
-      link.download = filename + '.json';
+      link.download = filename + ".json";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -94,40 +95,46 @@ export default function DashboardComponent({
       console.error(error);
       return error;
     }
-  };
+  }
 
   return (
     <div className={styles.dashboard}>
+      Dashboard
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
-        <TextInput 
-            inputName={'new-folder'}
-            value={newFolder} 
-            changeHandler={updateNewFolder}
+        <TextInput
+          inputName={"new-folder"}
+          value={newFolder}
+          changeHandler={updateNewFolder}
         />
-        <button type={'submit'}>
+        <button type={"submit"}>
           <CgAddR />
         </button>
       </form>
       <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
         <FolderSelect
-          inputName={'folders'}
+          inputName={"folders"}
           value={currentFolder._id}
           options={folders}
           changeHandler={selectFolderHandler}
         />
-        <button type={'submit'}>
+        <button type={"submit"}>
           <CgTrash />
         </button>
       </form>
-      <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
-        <h1>FOLDER: <span>{currentFolder.name}</span></h1>
-        <button type={'submit'}>
+      <form
+        className={styles.createProjectForm}
+        onSubmit={createProjectHandler}
+      >
+        <h1>
+          FOLDER: <span>{currentFolder.name}</span>
+        </h1>
+        <button type={"submit"}>
           <GoFileMedia />
         </button>
-        <button name='download-projects' onClick={downloadProjects}>
+        <button name="download-projects" onClick={downloadProjects}>
           <GoDesktopDownload />
         </button>
       </form>
     </div>
   );
-};
+}

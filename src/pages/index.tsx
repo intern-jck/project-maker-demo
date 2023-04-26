@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+// import axios from 'axios';
 
-import { Dashboard, ProjectList, ProjectForm } from "@/common/components";
+import { Dashboard, ProjectList, ProjectForm } from '@/common/components';
 
-// import { FolderType, ProjectType } from '@/common/types';
-// import { defaultFolder } from '@/common/defaults';
-import { useFolders, useProjects } from "@/common/hooks";
+import { FolderType, ProjectType } from '@/common/types';
+import { defaultFolder } from '@/common/defaults';
+import { useFolders, useProjects } from '@/common/hooks';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
@@ -16,9 +16,9 @@ export default function Home({}) {
   const { projectsData, projectsError, projectsLoading, mutateProjects } =
     useProjects();
 
-  // const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
-  // const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
-  // const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
+  const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
+  const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
+  const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
 
   // Not sure if this is right, doesn't feel very NextJS
   // useEffect(() => {
@@ -180,29 +180,34 @@ export default function Home({}) {
   return (
     <>
       <div className={"side-panel"}>
-        {folderData ? (
-          <Dashboard
-            // currentFolder={currentFolder}
-            folders={folderData}
-            createFolder={createFolder}
-            selectFolder={selectFolder}
-            deleteFolder={deleteFolder}
-            createProject={createProject}
-          />
-        ) : (
-          <></>
-        )}
-        {/* {
-          projects.length ?
-          <Projects
-            projects={projects}
-            selectProject={selectProject}
-          />
-          : <></>
-        } */}
+        {
+          folderData ? (
+            <Dashboard
+              currentFolder={currentFolder}
+              folders={folderData}
+              // createFolder={createFolder}
+              // selectFolder={selectFolder}
+              // deleteFolder={deleteFolder}
+              // createProject={createProject}
+            />
+          ) : (
+            <></>
+          )
+        }
+        {
+          projectsData ? (
+            <ProjectList
+              projects={projectsData}
+              // selectProject={selectProject}
+            />
+          ) : (
+            <></>
+          )
+        }
       </div>
       <div className={"project-panel"}>
-        {/* {
+        {
+        /* {
           currentProject ?
           <ProjectForm 
             folders={folderData ? folderData : []}
@@ -212,7 +217,8 @@ export default function Home({}) {
             closeProject={closeProject}
           />
           : <></>
-        } */}
+        } */
+        }
       </div>
     </>
   );
