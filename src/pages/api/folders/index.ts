@@ -1,15 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import FolderModel from '@/common/modules/mongoAtlas/FolderModel'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { connectMongo, FolderModel } from '@/common/modules/mongo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
 
   try {
     const connection = await connectMongo();
-    if (connection) {
-      console.log('mongo connected!')
-    }
     switch (method) {
       case 'GET':
         try {
@@ -67,4 +63,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error(method, error)
     res.status(500).json({ method: method, error: error });
   }
-}
+};

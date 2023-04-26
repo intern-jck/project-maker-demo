@@ -2,7 +2,7 @@ import type {ProjectType} from '@/common/types';
 
 const defaultForm: ProjectType = {
   _id: '',
-  link: '',
+  slug: '',
   
   folder_name: '',
   folder_id: '',
@@ -24,6 +24,5 @@ const defaultForm: ProjectType = {
   photos: [],
   github_url: '',
 };
-
 
 export default defaultForm;

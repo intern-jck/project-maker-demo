@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
+import { connectMongo, ProjectModel } from '@/common/modules/mongo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req;

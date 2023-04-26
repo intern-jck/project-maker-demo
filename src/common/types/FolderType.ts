@@ -3,4 +3,4 @@ type FolderType = {
   name: string,
 };
 
-export default FolderType;
+export type { FolderType };

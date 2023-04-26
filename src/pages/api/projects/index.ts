@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import ProjectModel from '@/common/modules/mongoAtlas/ProjectModel';
+import { connectMongo, ProjectModel } from '@/common/modules/mongo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query, body } = req;
@@ -10,7 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET':
         try {
           const { folderId } = query;
-          console.log('getting projects for', folderId)
           if (folderId) {
             const connection = await connectMongo();
             const response = await ProjectModel.find({ folder_id: folderId }).exec();

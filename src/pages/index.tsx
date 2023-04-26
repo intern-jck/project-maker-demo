@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import {Dashboard} from '@/common/components/Dashboard';
-import {ProjectForm} from '@/common/components/ProjectForm';
-import {Projects} from '@/common/components/Projects';
+import { Dashboard } from '@/common/components/Dashboard';
+import { ProjectForm } from '@/common/components/ProjectForm';
+import { Projects } from '@/common/components/Projects';
 
-import {FolderType, ProjectType} from '@/common/types';
-import {defaultFolder } from '@/common/defaults';
+import { FolderType, ProjectType } from '@/common/types';
+import { defaultFolder } from '@/common/defaults';
 import { useFolders, useProjects } from '@/common/hooks';
 
 const FOLDER_LIMIT = 5;
@@ -14,7 +14,7 @@ const PROJECT_LIMIT = 20;
 
 export default function Home({ }) {
 
-  const { folders, foldersError, foldersLoading, mutateFolders } = useFolders();
+  const { folderData, foldersError, foldersLoading, mutateFolders } = useFolders();
   const { projectsData, projectsError, projectsLoading, mutateProjects } = useProjects();
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
@@ -44,7 +44,7 @@ export default function Home({ }) {
 
   async function createFolder(folderName: string) {
     try {
-      if (folders && folders.length >= FOLDER_LIMIT) {
+      if (folderData && folderData.length >= FOLDER_LIMIT) {
         window.alert('Folder limit reached!');
         return false;
       }
@@ -58,11 +58,11 @@ export default function Home({ }) {
   };
 
   async function selectFolder(folderId:string) {
-    console.log('selected folder', folderId)
+
     let _folder = defaultFolder;
 
-    if (folderId && folders) {
-      for (let folder of folders) {
+    if (folderId && folderData) {
+      for (let folder of folderData) {
         if (folder._id === folderId) {
           _folder = folder;
         }
@@ -101,7 +101,6 @@ export default function Home({ }) {
     try {
       const response = await axios.get(`/api/projects?folderId=${folderId}`);
       const _projects = await response.data;
-      console.log(_projects)
       setProjects(_projects);
       return true;
     } catch (error) {
@@ -184,10 +183,10 @@ export default function Home({ }) {
     <>
       <div className={'side-panel'}>
         {
-          folders ?
+          folderData ?
           <Dashboard
             currentFolder={currentFolder}
-            folders={folders}
+            folders={folderData}
             createFolder={createFolder}
             selectFolder={selectFolder}
             deleteFolder={deleteFolder}
@@ -208,7 +207,7 @@ export default function Home({ }) {
         {
           currentProject ?
           <ProjectForm 
-            folders={folders ? folders : []}
+            folders={folderData ? folderData : []}
             project={currentProject}
             saveProject={saveProject}
             deleteProject={deleteProject}

@@ -3,6 +3,6 @@ type DateType = {
   start_year?: string,
   end_month?: string,
   end_year?: string,
-}
+};
 
-export default DateType;
+export type { DateType };

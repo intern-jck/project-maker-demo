@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '@/common/modules/mongoAtlas/connectMongo';
-import FolderModel from '@/common/modules/mongoAtlas/FolderModel';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { connectMongo, FolderModel } from '@/common/modules/mongo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { folderId } = req.query;
@@ -12,4 +11,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error('Mongo findById', error);
     res.status(500).json(error);
   }
-}
+};
