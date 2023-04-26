@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Dashboard } from '@/common/components/Dashboard';
+import { Dashboard } from '@/common/components/Dashboard/Dashboard';
 import { ProjectForm } from '@/common/components/ProjectForm';
 import { Projects } from '@/common/components/Projects';
 
