@@ -1,6 +1,5 @@
 import ProjectButton from './ProjectButton';
-
-import type { FolderType, ProjectType } from '@/common/types';
+import type { ProjectType } from '@/common/types';
 import styles from '@/styles/components/Projects.module.scss';
 
 type Props = {
@@ -8,12 +7,10 @@ type Props = {
   selectProject: Function,
 };
 
-export default function Projects({
+export default function ProjectList({
   projects,
   selectProject,
 }: Props) {
-
-  console.log('projects', projects)
 
   function selectProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -35,7 +32,6 @@ export default function Projects({
             )
           })
         }
-
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput } from '../Inputs';
+import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput } from '@/common/components/Inputs';
 import { MdSave, MdDelete, MdClose } from "react-icons/md";
 import type { ProjectType, FolderType } from '@/common/types';
-import type DateType from '@/common/types/DateType';
+import type { DateType } from '@/common/types';
 import styles from '@/styles/components/ProjectForm.module.scss';
 
 type Props = {
@@ -103,6 +103,7 @@ export default function ProjectForm({
     setNewPhoto(value);
   };
 
+  // update for photo type
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const photos = formData ? formData.photos : undefined;
