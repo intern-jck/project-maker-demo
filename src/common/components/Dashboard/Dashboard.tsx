@@ -26,6 +26,7 @@ export default function DashboardComponent({
   deleteFolder,
   createProject,
 }: Props) {
+
   const [newFolder, setNewFolder] = useState<string>("");
 
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {
@@ -33,31 +34,31 @@ export default function DashboardComponent({
     const { name, value } = event.currentTarget;
     console.log(name, value);
     setNewFolder(value);
-  }
+  };
 
   function createFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     createFolder(newFolder);
     setNewFolder("");
-  }
+  };
 
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
     console.log("folder", name, value);
     selectFolder(value);
-  }
+  };
 
   function deleteFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     deleteFolder(currentFolder._id);
-  }
+  };
 
   function createProjectHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log("create project");
     createProject();
-  }
+  };
 
   async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -95,7 +96,7 @@ export default function DashboardComponent({
       console.error(error);
       return error;
     }
-  }
+  };
 
   return (
     <div className={styles.dashboard}>
