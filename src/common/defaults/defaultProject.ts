@@ -1,13 +1,17 @@
-import type {ProjectType} from '@/common/types';
+import type { ProjectType } from '@/common/types';
 
 const defaultForm: ProjectType = {
   _id: '',
-  slug: '',
   
   folder_name: '',
   folder_id: '',
 
+  slug: '',
   name: '',
+  url: '',
+
+  client: '',
+  client_url: '',
   date: {
     start_month: '',
     start_year: '',
@@ -15,14 +19,12 @@ const defaultForm: ProjectType = {
     end_year: '',
   },
 
-  client: '',
-  client_url: '',
   short: '',
   info: '',
 
-  tech: [],
   photos: [],
-  github_url: '',
+  tech: [],
+  repos: [],
 };
 
 export default defaultForm;

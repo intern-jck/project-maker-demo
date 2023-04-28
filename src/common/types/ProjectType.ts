@@ -1,4 +1,4 @@
-import type { DateType, PhotoType, TechType, ReposType } from '@/common/types';
+import type { DateType, PhotoType, TechType, RepoType } from '@/common/types';
 
 type ProjectType = {
   _id: string,
@@ -12,14 +12,14 @@ type ProjectType = {
 
   client: string,
   client_url: string,
+  date: DateType,
 
   short: string,
   info: string,
-  date: DateType,
 
   photos: PhotoType[],
   tech: TechType[],
-  repos: ReposType[],
+  repos: RepoType[],
 };
 
 export type { ProjectType };
