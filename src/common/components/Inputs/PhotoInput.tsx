@@ -2,15 +2,17 @@ import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
 import Image from 'next/image';
 
+import { PhotoType } from '@/common/types';
+
 type Props = {
   className: string,
   inputName: string,
   value: string,
-  photos: string[],
+  photos: PhotoType[],
   changeHandler: React.ChangeEventHandler,
   addHandler: React.MouseEventHandler,
   deleteHandler: React.MouseEventHandler,
-}
+};
 
 export default function PhotoInput({ className, inputName, value, photos, changeHandler, addHandler, deleteHandler }: Props) {
   return (
@@ -33,7 +35,7 @@ export default function PhotoInput({ className, inputName, value, photos, change
             return (
               <div key={i} className='photoThumb'>
                 <Image
-                  src={photo}
+                  src={photo.url}
                   alt='not found'
                   fill
                 />

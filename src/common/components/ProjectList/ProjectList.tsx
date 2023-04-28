@@ -20,7 +20,6 @@ export default function ProjectList({
 
   return (
     <div className={styles.projectList}>
-      Project List
         {
           projects.map((project, i) => {
             return (

@@ -1,11 +1,12 @@
 import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
+import type { TechType } from '@/common/types';
 
 type Props = {
   className: string,
   inputName: string,
   value: string,
-  tags: string[],
+  tags: TechType[],
   changeHandler: React.ChangeEventHandler,
   addHandler: React.MouseEventHandler,
   deleteHandler: React.MouseEventHandler,
@@ -32,7 +33,7 @@ export default function TagInput({ className, inputName, value, tags, changeHand
             tags.map((tag, i) => {
               return (
                 <div key={i} className='tag'>
-                  {tag}
+                  { tag.name }
                   <button onClick={deleteHandler} data-tag-index={i}>
                     <CgCloseR />
                   </button>

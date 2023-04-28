@@ -1,4 +1,6 @@
 .projectForm {
+  border: $border-thin;
+  padding: $padding-stock;
   display: flex;
   flex-direction: column;
   gap: $gap-thick;
@@ -38,6 +40,24 @@
   textarea:focus {
     border: $border-input-focus;
     outline: none;
+  }
+
+  .dateInput {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      gap: $gap-stock;
+
+      label {
+        display: none;
+      }
+
+      select {
+        width: 8rem;
+      }
+    }
   }
 
   .formMenu {
@@ -85,36 +105,12 @@
     gap: $gap-stock;
   }
 
-  .stats {
+  .formCol {
     border: $border-thin;
     padding: $padding-stock;
-    width: 25rem;
     display: flex;
     flex-direction: column;
-
-    input,
-    select {
-      margin-bottom: $margin-thick;
-    }
-
-    .dateInput {
-      display: flex;
-      flex-direction: column;
-
-      div {
-        display: flex;
-        gap: $gap-stock;
-
-        label {
-          display: none;
-        }
-
-        select {
-          width: 8rem;
-        }
-      }
-    }
-
+    gap: $gap-stock;
   }
 
   .description {
@@ -135,12 +131,14 @@
   }
 
   .photoInput {
-    width: 30rem;
+    border: $border-thin;
+    // width: 30rem;
+    padding: $padding-stock;
     display: flex;
     flex-direction: column;
 
     [class~="photoURL"] {
-      border: $border-thin;
+      // border: $border-thin;
       padding: $padding-stock;
       display: flex;
       align-items: center;
@@ -151,14 +149,15 @@
         font-size: $font-size-xxlarge;
       }
 
-      input {
-        width: 20rem;
-      }
+      // input {
+      //   // width: 20rem;
+      // }
     }
 
     [class~="photoList"] {
       border: $border-thin;
       padding: $padding-stock;
+      max-height: 16rem;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
@@ -201,12 +200,13 @@
   }
 
   .tagInput {
-    width: 30rem;
+    border: $border-thin;
+      padding: $padding-stock;
+    // width: 30rem;
     display: flex;
     flex-direction: column;
 
     [class~="tagName"] {
-      border: $border-thin;
       padding: $padding-stock;
       display: flex;
       align-items: center;
@@ -221,6 +221,7 @@
     [class="tagList"] {
       border: $border-thin;
       padding: $padding-stock;
+      max-height: 16rem;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;

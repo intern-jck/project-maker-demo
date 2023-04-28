@@ -17,8 +17,9 @@ export default function Home({}) {
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
-
   const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
+
+  // const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
@@ -63,7 +64,10 @@ export default function Home({}) {
     setCurrentFolder(_folder);
 
     try {
-      await getProjects(folderId);
+      const _projects = await getProjects(folderId);
+      console.log(_projects)
+      setProjects(_projects);
+
       return true;
     } catch(error) {
       console.error('select folder', error);
@@ -79,7 +83,8 @@ export default function Home({}) {
       const response = await axios.delete(`/api/folders?id=${folderId}`);
       await getFolders();
       setCurrentFolder(defaultFolder)
-      await getProjects(defaultFolder._id);
+      const _projects = await getProjects(defaultFolder._id);      
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -92,8 +97,7 @@ export default function Home({}) {
     try {
       const response = await axios.get(`/api/projects?folderId=${folderId}`);
       const _projects = await response.data;
-      mutateProjects(_projects);
-      return true;
+      return _projects;
     } catch (error) {
       console.error(error)
       return error;
@@ -118,7 +122,8 @@ export default function Home({}) {
         folder_name: currentFolder.name
       }
       await axios.post('/api/projects', body);
-      await getProjects(currentFolder._id);
+      const _projects = await getProjects(currentFolder._id);
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -141,7 +146,8 @@ export default function Home({}) {
   async function saveProject(projectData: ProjectType) {
     try {
       const response = await axios.put('/api/projects', { doc: projectData });
-      await getProjects(currentFolder._id);
+      const _projects = await getProjects(currentFolder._id);
+      setProjects(_projects);
       return true;
     } catch (error) {
       console.error(error);
@@ -152,7 +158,8 @@ export default function Home({}) {
   async function deleteProject(projectId: string) {
     try {
       const response = await axios.delete(`/api/projects?id=${projectId}`);
-      await getProjects(currentFolder._id);
+      const _projects = await getProjects(currentFolder._id);
+      setProjects(_projects);
       setCurrentProject(undefined); // better way to do this?
       return true;
     } catch (error) {
@@ -188,9 +195,9 @@ export default function Home({}) {
           )
         }
         {
-          projectsData ? (
+          projects ? (
             <ProjectList
-              projects={projectsData}
+              projects={projects}
               selectProject={selectProject}
             />
           ) : (

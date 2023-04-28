@@ -45,7 +45,6 @@ export default function DashboardComponent({
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const { name, value } = event.currentTarget;
-    console.log("folder", name, value);
     selectFolder(value);
   };
 
@@ -100,7 +99,6 @@ export default function DashboardComponent({
 
   return (
     <div className={styles.dashboard}>
-      Dashboard
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
         <TextInput
           inputName={"new-folder"}

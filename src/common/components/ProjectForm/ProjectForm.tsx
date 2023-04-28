@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput } from '@/common/components/Inputs';
 import { MdSave, MdDelete, MdClose } from "react-icons/md";
-import type { ProjectType, FolderType } from '@/common/types';
-import type { DateType } from '@/common/types';
-import styles from '@/styles/components/ProjectForm.module.scss';
+import type { ProjectType, FolderType, DateType, PhotoType, TechType, ReposType } from '@/common/types';
+import styles from './ProjectForm.module.scss';
 
 type Props = {
   folders: FolderType[],
-  project?: ProjectType,
+  project: ProjectType,
   saveProject: Function,
   deleteProject: Function,
   closeProject: Function,
@@ -20,7 +19,6 @@ export default function ProjectForm({
   deleteProject,
   closeProject
 }: Props) {
-  console.log('project form', project)
 
   const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
@@ -39,7 +37,6 @@ export default function ProjectForm({
 
   function deleteProjectHandler(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    console.log('delete', formData)
     deleteProject(formData ? formData._id : '');
   };
 
@@ -61,7 +58,6 @@ export default function ProjectForm({
   function updateFolder(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
     const { value } = event.currentTarget;
-    console.log('setting project folder to', value);
 
     let updatedFolderId = { folder_id: '' };
     let updatedFolderName = { folder_name: '' };
@@ -106,28 +102,40 @@ export default function ProjectForm({
   // update for photo type
   function addPhoto(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const photos = formData ? formData.photos : undefined;
-    if (newPhoto) {
-      if (photos) {
-        photos.push(newPhoto);
-      }
+
+    const _photos = formData ? formData.photos : undefined;
+
+    if (newPhoto && _photos) {
+
+      const _photo = {
+        slug: '',
+        url: newPhoto,
+      };
+
+      _photos.push(_photo);
+
       setNewPhoto('');
       setFormData((formData) => ({
         ...formData,
-        photos: photos,
-      }) as ProjectType)
+        photos: _photos,
+      }) as ProjectType);
+
     }
+
   };
 
   function deletePhoto(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+
     const index = event.currentTarget.getAttribute('data-photo-index');
     const photos = formData ? formData.photos : undefined;
 
     if (index) {
+
       if (photos) {
         photos.splice(parseInt(index), 1);
       }
+
       setFormData((formData) => ({
         ...formData,
         photos: photos,
@@ -144,16 +152,23 @@ export default function ProjectForm({
 
   function addTag(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    const tech = formData ? formData.tech : undefined;
 
-    if (newTag) {
-      if (tech) {
-        tech.push(newTag);
-      }
+    const _tech = formData ? formData.tech : undefined;
+
+    if (newTag && _tech) {
+
+      const _tag = {
+        key: newTag.toLowerCase().split(' ').join('-'),
+        name: newTag,
+        url: '',
+      };
+
+      _tech.push(_tag);
+
       setNewTag('');
       setFormData((formData) => ({
         ...formData,
-        tech: tech,
+        tech: _tech,
       }) as ProjectType)
     }
   };
@@ -196,7 +211,8 @@ export default function ProjectForm({
             </div>
 
             <div className={styles.formRow}>
-              <div className={styles.stats}>
+
+              <div className={styles.formCol}>
                 <TextInput
                   inputName={'name'}
                   value={formData.name}
@@ -213,6 +229,9 @@ export default function ProjectForm({
                   date={formData.date}
                   changeHandler={updateDate}
                 />
+              </div>
+
+              <div className={styles.formCol}>
                 <TextInput
                   inputName={'client'}
                   value={formData.client}
@@ -224,11 +243,12 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
                 <TextInput
-                  inputName={'github_url'}
-                  value={formData.github_url}
+                  inputName={'url'}
+                  value={formData.url}
                   changeHandler={updateTextInput}
                 />
               </div>
+
               <div className={styles.description}>
                 <TextInput
                   inputName={'short'}
@@ -241,6 +261,7 @@ export default function ProjectForm({
                   changeHandler={updateTextInput}
                 />
               </div>
+
             </div>
 
             <div className={styles.formRow}>
