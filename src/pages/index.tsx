@@ -17,9 +17,13 @@ export default function Home({}) {
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
-  const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
+  const [ projects, setProjects ] = useState<Array<ProjectType>>();
 
-  // const [ projects, setProjects ] = useState<Array<ProjectType>>(projectsData ? projectsData : []);
+  useEffect(() => {
+    if (projectsData) {
+      setProjects(projectsData)
+    }
+  }, [projectsData]);
 
   // FOLDERS FUNCTIONS
   async function getFolders() {

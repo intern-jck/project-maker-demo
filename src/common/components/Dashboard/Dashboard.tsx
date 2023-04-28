@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 
 import { TextInput, FolderSelect } from "@/common/components/Inputs";
 import { CgAddR, CgTrash } from "react-icons/cg";
@@ -6,8 +7,6 @@ import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 import type { FolderType } from "@/common/types";
 import styles from "@/styles/components/Dashboard.module.scss";
-
-// import { getProjects } from '@/modules/utils';
 
 type Props = {
   currentFolder: FolderType;
@@ -66,10 +65,12 @@ export default function DashboardComponent({
     // create blob and download all projects
     try {
       // Get all the projects for the current collection,
-      const projects = await getProjects(currentFolder._id);
+      const response = await axios.get(`/api/projects?folderId=${currentFolder._id}`);
+      const _projects = await response.data;
+
       const collectionName = currentFolder.name;
       const projectData = {
-        [collectionName]: projects,
+        [collectionName]: _projects,
       };
 
       // then create the json file,
