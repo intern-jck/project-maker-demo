@@ -1,7 +1,7 @@
-type ReposType = {
+type RepoType = {
   key: string,
   name: string,
   url: string,
 };
 
-export type { ReposType };
+export type { RepoType };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput } from '@/common/components/Inputs';
+import { TextInput, TextArea, FolderSelect, DateInput, PhotoInput, TagInput, RepoInput } from '@/common/components/Inputs';
 import { MdSave, MdDelete, MdClose } from "react-icons/md";
-import type { ProjectType, FolderType, DateType, PhotoType, TechType, ReposType } from '@/common/types';
+import type { ProjectType, FolderType, DateType, PhotoType, TechType, RepoType } from '@/common/types';
 import styles from './ProjectForm.module.scss';
 
 type Props = {
@@ -23,6 +23,7 @@ export default function ProjectForm({
   const [formData, setFormData] = useState<ProjectType>();
   const [newPhoto, setNewPhoto] = useState<string>('');
   const [newTag, setNewTag] = useState<string>('');
+  const [newRepo, setNewRepo] = useState<string>('');
 
   useEffect(() => {
     if (project) {
@@ -180,11 +181,57 @@ export default function ProjectForm({
 
     if (index) {
       if (tech) {
-        tech.splice(parseInt(index), 1); // lookup error
+        tech.splice(parseInt(index), 1);
       }
       setFormData((formData) => ({
         ...formData,
         tech: tech,
+      }) as ProjectType)
+    };
+  };
+
+  // Could probably be merged with updateTextInput?
+  function updateRepo(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const { value } = event.currentTarget;
+    setNewRepo(value);
+  };
+
+  function addRepo(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+
+    const _repos = formData ? formData.repos : undefined;
+
+    if (newRepo && _repos) {
+
+      const _tag = {
+        key: newRepo.toLowerCase().split(' ').join('-'),
+        name: newRepo,
+        url: '',
+      };
+
+      _repos.push(_tag);
+
+      setNewRepo('');
+      setFormData((formData) => ({
+        ...formData,
+        repos: _repos,
+      }) as ProjectType)
+    }
+  };
+
+  function deleteRepo(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const index = event.currentTarget.getAttribute('data-repo-index');
+    const _repos = formData ? formData.repos : undefined;
+
+    if (index) {
+      if (_repos) {
+        _repos.splice(parseInt(index), 1);
+      }
+      setFormData((formData) => ({
+        ...formData,
+        repos: _repos,
       }) as ProjectType)
     };
   };
@@ -282,6 +329,15 @@ export default function ProjectForm({
                 changeHandler={updateTag}
                 addHandler={addTag}
                 deleteHandler={deleteTag}
+              />
+              <RepoInput
+                className={styles.repoInput}
+                inputName={'repos'}
+                value={newRepo}
+                repos={formData.repos}
+                changeHandler={updateRepo}
+                addHandler={addRepo}
+                deleteHandler={deleteRepo}
               />
             </div>
 

@@ -3,7 +3,7 @@ import type { FolderType } from './FolderType';
 import type { DateType } from './DateType';
 import type { PhotoType } from './PhotoType';
 import type { TechType } from './TechType';
-import type { ReposType } from './ReposType';
+import type { RepoType } from './RepoType';
 
 export type { 
   ProjectType, 
@@ -11,5 +11,5 @@ export type {
   DateType,
   PhotoType,
   TechType,
-  ReposType,
+  RepoType,
 };
