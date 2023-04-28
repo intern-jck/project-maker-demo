@@ -3,6 +3,7 @@ import TextArea from './TextArea';
 import DateInput from './DateInput';
 import PhotoInput from './PhotoInput';
 import TagInput from './TagInput';
+import RepoInput from './RepoInput';
 import SelectInput from './SelectInput';
 import FolderSelect from './FolderSelect';
 
@@ -14,4 +15,5 @@ export {
   TagInput, 
   SelectInput,
   FolderSelect,
+  RepoInput,
 };

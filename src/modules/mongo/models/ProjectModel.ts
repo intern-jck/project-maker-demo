@@ -5,21 +5,37 @@ import type { ProjectType } from '@/common/types';
 const ProjectSchema = new Schema<ProjectType>({
   folder_id: { type: String, default: '' },
   folder_name: { type: String, default: '' },
+
+  slug: { type: String, default: '' },
   name: { type: String, default: '' },
-  github_url: { type: String, default: '' },
-  link: { type: String, default: '' },
+  url: { type: String, default: '' },
+
   client: { type: String, default: '' },
   client_url: { type: String, default: '' },
+
+  short: { type: String, default: '' },
+  info: { type: String, default: '' },
   date: {
     start_month: { type: String, default: '' },
     start_year: { type: String, default: '' },
     end_month: { type: String, default: '' },
     end_year: { type: String, default: '' },
   },
-  short: { type: String, default: '' },
-  info: { type: String, default: '' },
-  tech: [],
-  photos: [],
+
+  photos: [{
+      slug: { type: String, defualt: ''},
+      url: { type: String, defualt: ''}, 
+  }],
+  tech: [{
+    key: { type: String, defualt: ''},
+    name: { type: String, defualt: ''},
+    url: { type: String, defualt: ''},
+  }],
+  repos: [{
+    key: { type: String, defualt: ''},
+    name: { type: String, defualt: ''},
+    url: { type: String, defualt: ''},
+  }],
 });
 
 // Create a model using document type and schema

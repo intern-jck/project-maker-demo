@@ -1,20 +1,21 @@
-import { useState } from 'react';
-import { TextInput, FolderSelect } from '@/common/components/Inputs';
-import { CgAddR, CgTrash } from 'react-icons/cg';
-import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
-import type { FolderType } from '@/common/types';
-import styles from '@/styles/components/Dashboard.module.scss';
+import { useState } from "react";
+import axios from 'axios';
 
-import { getProjects } from '@/common/modules/utils';
+import { TextInput, FolderSelect } from "@/common/components/Inputs";
+import { CgAddR, CgTrash } from "react-icons/cg";
+import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
+
+import type { FolderType } from "@/common/types";
+import styles from "@/styles/components/Dashboard.module.scss";
 
 type Props = {
-  currentFolder: FolderType,
-  folders: FolderType[],
-  createFolder: Function,
-  selectFolder: Function,
-  createProject: Function,
-  deleteFolder: Function,
-}
+  currentFolder: FolderType;
+  folders: FolderType[];
+  createFolder: Function;
+  selectFolder: Function;
+  createProject: Function;
+  deleteFolder: Function;
+};
 
 export default function DashboardComponent({
   currentFolder,
@@ -25,11 +26,11 @@ export default function DashboardComponent({
   createProject,
 }: Props) {
 
-  const [ newFolder, setNewFolder ] = useState<string>('');
-  
+  const [newFolder, setNewFolder] = useState<string>("");
+
   function updateNewFolder(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    const {name, value} = event.currentTarget;
+    const { name, value } = event.currentTarget;
     console.log(name, value);
     setNewFolder(value);
   };
@@ -37,13 +38,12 @@ export default function DashboardComponent({
   function createFolderHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     createFolder(newFolder);
-    setNewFolder('');
+    setNewFolder("");
   };
 
   function selectFolderHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     event.preventDefault();
-    const {name, value} = event.currentTarget;
-    console.log('folder', name, value)
+    const { name, value } = event.currentTarget;
     selectFolder(value);
   };
 
@@ -54,36 +54,40 @@ export default function DashboardComponent({
 
   function createProjectHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log('create project');
+    console.log("create project");
     createProject();
   };
 
   async function downloadProjects(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
-    console.log('download projects');
+    console.log("download projects");
     // call to api
     // create blob and download all projects
-      try {
+    try {
       // Get all the projects for the current collection,
-      const projects = await getProjects(currentFolder._id);
+      const response = await axios.get(`/api/projects?folderId=${currentFolder._id}`);
+      const _projects = await response.data;
+
       const collectionName = currentFolder.name;
       const projectData = {
-        [collectionName]: projects,
+        [collectionName]: _projects,
       };
 
       // then create the json file,
-      const filename = `project-maker-${collectionName ? collectionName : 'all'}`;
+      const filename = `project-maker-${
+        collectionName ? collectionName : "all"
+      }`;
       const json = JSON.stringify(projectData, null, 2);
 
       // then create blob to download from json file,
-      const blob = new Blob([json], { type: 'application/json' })
+      const blob = new Blob([json], { type: "application/json" });
       const href: string = URL.createObjectURL(blob);
 
-      // then create anchor link with href and click to download, 
+      // then create anchor link with href and click to download,
       // then remove link from DOM.
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = href;
-      link.download = filename + '.json';
+      link.download = filename + ".json";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -97,35 +101,40 @@ export default function DashboardComponent({
   return (
     <div className={styles.dashboard}>
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
-        <TextInput 
-            inputName={'new-folder'}
-            value={newFolder} 
-            changeHandler={updateNewFolder}
+        <TextInput
+          inputName={"new-folder"}
+          value={newFolder}
+          changeHandler={updateNewFolder}
         />
-        <button type={'submit'}>
+        <button type={"submit"}>
           <CgAddR />
         </button>
       </form>
       <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
         <FolderSelect
-          inputName={'folders'}
+          inputName={"folders"}
           value={currentFolder._id}
           options={folders}
           changeHandler={selectFolderHandler}
         />
-        <button type={'submit'}>
+        <button type={"submit"}>
           <CgTrash />
         </button>
       </form>
-      <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
-        <h1>FOLDER: <span>{currentFolder.name}</span></h1>
-        <button type={'submit'}>
+      <form
+        className={styles.createProjectForm}
+        onSubmit={createProjectHandler}
+      >
+        <h1>
+          FOLDER: <span>{currentFolder.name}</span>
+        </h1>
+        <button type={"submit"}>
           <GoFileMedia />
         </button>
-        <button name='download-projects' onClick={downloadProjects}>
+        <button name="download-projects" onClick={downloadProjects}>
           <GoDesktopDownload />
         </button>
       </form>
     </div>
   );
-};
+}

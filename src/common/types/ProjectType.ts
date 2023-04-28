@@ -1,22 +1,25 @@
+import type { DateType, PhotoType, TechType, ReposType } from '@/common/types';
+
 type ProjectType = {
-  _id?: string,
-  link?: string,
+  _id: string,
+
   folder_id: string,
   folder_name: string,
+
+  slug: string,
   name: string,
-  short: string,
-  info: string,
-  date: {
-    start_month: string,
-    start_year: string,
-    end_month: string,
-    end_year: string,
-  },
+  url: string,
+
   client: string,
   client_url: string,
-  github_url: string,
-  photos: string[],
-  tech: string[],
+
+  short: string,
+  info: string,
+  date: DateType,
+
+  photos: PhotoType[],
+  tech: TechType[],
+  repos: ReposType[],
 };
 
-export default ProjectType;
+export type { ProjectType };

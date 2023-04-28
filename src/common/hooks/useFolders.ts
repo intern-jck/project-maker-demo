@@ -1,15 +1,17 @@
-import {fetcher} from '@/common/modules/utils';
-import useSWR from 'swr';
-import {FolderType} from '@/common/types';
+import { fetcher } from "@/modules/utils";
+import useSWR from "swr";
+import { FolderType } from "@/common/types";
 
 export default function useFolders() {
-
-  const { data, error, isLoading, mutate } = useSWR<FolderType[]>('/api/folders', fetcher);
+  const { data, error, isLoading, mutate } = useSWR<FolderType[]>(
+    "/api/folders",
+    fetcher
+  );
 
   return {
-    folders: data,
+    folderData: data,
     foldersLoading: isLoading,
     foldersError: error,
-    mutateFolders: mutate
-  }
-};
+    mutateFolders: mutate,
+  };
+}

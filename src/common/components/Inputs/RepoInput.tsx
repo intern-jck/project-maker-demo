@@ -1,22 +1,22 @@
 import TextInput from './TextInput';
 import { CgAddR, CgCloseR } from 'react-icons/cg';
-import type { TechType } from '@/common/types';
+import type { RepoType } from '@/common/types';
 
 type Props = {
   className: string,
   inputName: string,
   value: string,
-  tags: TechType[],
+  repos: RepoType[],
   changeHandler: React.ChangeEventHandler,
   addHandler: React.MouseEventHandler,
   deleteHandler: React.MouseEventHandler,
 };
 
-export default function TagInput({ className, inputName, value, tags, changeHandler, addHandler, deleteHandler }: Props) {
+export default function RepoInput({ className, inputName, value, repos, changeHandler, addHandler, deleteHandler }: Props) {
   return (
     <div className={className}>
 
-      <div className='tagName'>
+      <div className='repoName'>
         <TextInput
           inputName={inputName}
           value={value}
@@ -27,14 +27,14 @@ export default function TagInput({ className, inputName, value, tags, changeHand
         </button>
       </div>
 
-      <div className='tagList'>
+      <div className='repoList'>
         {
-          tags ?
-            tags.map((tag, i) => {
+          repos ?
+            repos.map((repo, i) => {
               return (
-                <div key={i} className='tag'>
-                  { tag.name }
-                  <button onClick={deleteHandler} data-tag-index={i}>
+                <div key={i} className='repo'>
+                  { repo.name }
+                  <button onClick={deleteHandler} data-repo-index={i}>
                     <CgCloseR />
                   </button>
                 </div>

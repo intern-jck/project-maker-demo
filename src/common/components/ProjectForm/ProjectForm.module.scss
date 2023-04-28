@@ -1,4 +1,6 @@
 .projectForm {
+  border: $border-thin;
+  padding: $padding-stock;
   display: flex;
   flex-direction: column;
   gap: $gap-thick;
@@ -38,6 +40,24 @@
   textarea:focus {
     border: $border-input-focus;
     outline: none;
+  }
+
+  .dateInput {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      gap: $gap-stock;
+
+      label {
+        display: none;
+      }
+
+      select {
+        width: 8rem;
+      }
+    }
   }
 
   .formMenu {
@@ -85,36 +105,12 @@
     gap: $gap-stock;
   }
 
-  .stats {
+  .formCol {
     border: $border-thin;
     padding: $padding-stock;
-    width: 25rem;
     display: flex;
     flex-direction: column;
-
-    input,
-    select {
-      margin-bottom: $margin-thick;
-    }
-
-    .dateInput {
-      display: flex;
-      flex-direction: column;
-
-      div {
-        display: flex;
-        gap: $gap-stock;
-
-        label {
-          display: none;
-        }
-
-        select {
-          width: 8rem;
-        }
-      }
-    }
-
+    gap: $gap-stock;
   }
 
   .description {
@@ -135,12 +131,12 @@
   }
 
   .photoInput {
-    width: 30rem;
+    border: $border-thin;
+    padding: $padding-stock;
     display: flex;
     flex-direction: column;
 
     [class~="photoURL"] {
-      border: $border-thin;
       padding: $padding-stock;
       display: flex;
       align-items: center;
@@ -150,15 +146,12 @@
         border: none;
         font-size: $font-size-xxlarge;
       }
-
-      input {
-        width: 20rem;
-      }
     }
 
     [class~="photoList"] {
       border: $border-thin;
       padding: $padding-stock;
+      max-height: 16rem;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
@@ -201,12 +194,13 @@
   }
 
   .tagInput {
-    width: 30rem;
+    border: $border-thin;
+      padding: $padding-stock;
+    // width: 30rem;
     display: flex;
     flex-direction: column;
 
     [class~="tagName"] {
-      border: $border-thin;
       padding: $padding-stock;
       display: flex;
       align-items: center;
@@ -221,6 +215,7 @@
     [class="tagList"] {
       border: $border-thin;
       padding: $padding-stock;
+      max-height: 16rem;
       overflow-y: scroll;
       display: flex;
       flex-direction: row;
@@ -229,6 +224,65 @@
       gap: $gap-stock;
 
       [class~="tag"] {
+        border: $border-thin;
+        border-radius: $border-radius-stock;
+        position: relative;
+        display: flex;
+        padding-left: $padding-thick;
+        padding-right: $padding-thick;
+        font-size: $font-size-large;
+        font-weight: bold;
+
+        button {
+          color: red;
+          padding: 0;
+          position: absolute;
+          right: 2px;
+          top: 2px;
+
+          svg {
+            stroke-width: 0.02rem;
+          }
+        }
+       
+        button:hover {
+          scale: 150%;
+        }
+      }
+    }
+  }
+  
+  .repoInput {
+    border: $border-thin;
+    padding: $padding-stock;
+    // width: 30rem;
+    display: flex;
+    flex-direction: column;
+
+    [class~="repoName"] {
+      padding: $padding-stock;
+      display: flex;
+      align-items: center;
+      gap: $gap-stock;
+
+      button {
+        border: none;
+        font-size: $font-size-xxlarge;
+      }
+    }
+
+    [class="repoList"] {
+      border: $border-thin;
+      padding: $padding-stock;
+      max-height: 16rem;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: $gap-stock;
+
+      [class~="repo"] {
         border: $border-thin;
         border-radius: $border-radius-stock;
         position: relative;
