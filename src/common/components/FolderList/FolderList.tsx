@@ -99,7 +99,7 @@ export default function FolderListComponent({
   };
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.folderList}>
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
         <TextInput
           inputName={"new-folder"}

@@ -44,21 +44,48 @@ select:hover {
   cursor: pointer;
 }
 
-.side-panel {
+.dashboard {
   background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
-  width: 25rem;
+
+  // position: fixed;
+  // width: 100%;
+  // top: 0;
+  // left: 0;
+  // width: 25rem;
+
   display: flex;
   flex-direction: column;
   gap: $gap-thin;
+}
+
+.ham-button {
+  button {
+    border: $border-stock;
+    background: none;
+    font-size: $font-size-xxxlarge;
+    display: flex;
+  }
+}
+
+.dashboard-content {
+  display: none;
+  flex-direction: column;
+}
+
+.show-dashboard {
+  display: flex;
+  flex-direction: column;
+  // margin-top: $margin-xlarge;
+  // gap: $gap-stock;
 }
 
 .project-panel {
   background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
-  width: 75rem;
+  // width: 75rem;
   display: flex;
   flex-direction: column;
 }

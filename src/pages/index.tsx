@@ -9,8 +9,6 @@ import { useFolders, useProjects } from '@/common/hooks';
 
 import { CgChevronRight } from  'react-icons/cg';
 
-import styles from '@/common/components/SidePanel/SidePanel.module.scss';
-
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
 
@@ -21,6 +19,9 @@ export default function Home({}) {
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
+
+  const [ showDashboard, setShowDashboard ] = useState<Boolean>(false);
+
   const [ projects, setProjects ] = useState<Array<ProjectType>>();
 
   useEffect(() => {
@@ -28,6 +29,8 @@ export default function Home({}) {
       setProjects(projectsData)
     }
   }, [projectsData]);
+
+  // Dashboard
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
@@ -151,6 +154,24 @@ export default function Home({}) {
     }
   };
 
+  function toggleDashboard(event: React.MouseEvent<HTMLButtonElement>) {
+    // const navMenu = document.getElementById('dashboard');
+    // navMenu ?  navMenu.classList.toggle('show-dashboard') : null;
+
+    setShowDashboard(!showDashboard);
+    console.log(showDashboard)
+
+  };
+
+  // function closeDashboard(event: React.MouseEvent<HTMLAnchorElement>) {
+  //   const navMenu = document.getElementById('dashboard');
+  //   navMenu ?  navMenu.classList.remove('show-dashboard') : null;
+  // };
+
+
+  // Project Form
+
+  // PROJECT FORM FUNCTIONS
   async function saveProject(projectData: ProjectType) {
     try {
       const response = await axios.put('/api/projects', { doc: projectData });
@@ -180,16 +201,6 @@ export default function Home({}) {
     setCurrentProject(undefined);
   };
 
-  // function toggelSidePanel(event: React.MouseEvent<HTMLButtonElement>) {
-  //   const navMenu = document.getElementById(styles.sidePanel);
-  //   navMenu ?  navMenu.classList.toggle(styles.showSidePanel) : null;
-  // };
-
-  // function closeSidePanel(event: React.MouseEvent<HTMLAnchorElement>) {
-  //   const navMenu = document.getElementById(styles.sidePanel);
-  //   navMenu ?  navMenu.classList.remove(styles.showSidePanel) : null;
-  // };
-
   if (foldersError) return <div>Failed to fetch folders.</div>
   if (projectsError) return <div>Failed to fetch projjects.</div>
   if (foldersLoading) return <h2>Loading folders...</h2>
@@ -197,41 +208,46 @@ export default function Home({}) {
 
   return (
     <>
-      <div className={"side-panel"}>
-        
-        {/* <div className={styles.hamMenu}>
-          <button onClick={toggleMenu}>
-          <CgChevronRight />
-          </button>
-        </div> */}
+      <div className={`dashboard`} >
 
-        {
-          folderData ? (
-            <FolderList
-              currentFolder={currentFolder}
-              folders={folderData}
-              createFolder={createFolder}
-              selectFolder={selectFolder}
-              deleteFolder={deleteFolder}
-              createProject={createProject}
-            />
-          ) : (
-            <></>
-          )
-        }
-        {
-          projects ? (
-            <ProjectList
-              projects={projects}
-              selectProject={selectProject}
-            />
-          ) : (
-            <></>
-          )
-        }
+        <div className={'ham-button'}>
+          <button onClick={toggleDashboard}>
+            <CgChevronRight />
+          </button>
+        </div>
+
+        <div id={'dashboard-content'} className={`dashboard-content  ${showDashboard ? 'show-dashboard' : ''}`}>
+          {
+            folderData ? (
+              <FolderList
+                currentFolder={currentFolder}
+                folders={folderData}
+
+                createFolder={createFolder}
+                selectFolder={selectFolder}
+                deleteFolder={deleteFolder}
+                createProject={createProject}
+              />
+            ) : (
+              <></>
+            )
+          }
+
+          {
+            projects ? (
+              <ProjectList
+                projects={projects}
+
+                selectProject={selectProject}
+              />
+            ) : (
+              <></>
+            )
+          }
+        </div>
       </div>
 
-      <div className={"project-panel"}>
+      <div className={'project-panel'}>
         {
           currentProject ?
           <ProjectForm 

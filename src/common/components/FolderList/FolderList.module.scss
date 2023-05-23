@@ -1,4 +1,4 @@
-.dashboard {
+.folderList {
   border: $border-thin;
   padding: $padding-stock;
   display: flex;
@@ -20,7 +20,7 @@
     h1 {
       margin: 0;
       font-size: $font-size-xlarge;
-      width: 100%;
+      // width: 100%;
       span {
         font-size: $font-size-large;
       }
@@ -37,7 +37,7 @@
     select {
       border: $border-input;  
       border-radius: $border-radius-stock;
-      width: 100%;
+      // width: 100%;
       font-size: $font-size-large;
     }
 
