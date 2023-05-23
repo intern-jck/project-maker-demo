@@ -121,10 +121,7 @@ export default function FolderListComponent({
           <CgTrash />
         </button>
       </form>
-      <form
-        className={styles.createProjectForm}
-        onSubmit={createProjectHandler}
-      >
+      <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
         <h1>
           FOLDER: <span>{currentFolder.name}</span>
         </h1>

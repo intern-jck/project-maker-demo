@@ -155,18 +155,8 @@ export default function Home({}) {
   };
 
   function toggleDashboard(event: React.MouseEvent<HTMLButtonElement>) {
-    // const navMenu = document.getElementById('dashboard');
-    // navMenu ?  navMenu.classList.toggle('show-dashboard') : null;
-
     setShowDashboard(!showDashboard);
-    console.log(showDashboard)
-
   };
-
-  // function closeDashboard(event: React.MouseEvent<HTMLAnchorElement>) {
-  //   const navMenu = document.getElementById('dashboard');
-  //   navMenu ?  navMenu.classList.remove('show-dashboard') : null;
-  // };
 
 
   // Project Form
@@ -210,7 +200,7 @@ export default function Home({}) {
     <>
       <div className={`dashboard`} >
 
-        <div className={'ham-button'}>
+        <div className={`ham-button ${showDashboard ? 'button-open' : 'button-closed'}`}>
           <button onClick={toggleDashboard}>
             <CgChevronRight />
           </button>

@@ -23,9 +23,11 @@ body {
 
 main {
   background-color: $color-background;
+  // width: 100%;
   height: 100%;
-  padding: 10px;
+  // padding: 10px;
   display: flex;
+  flex-direction: column;
   gap: $gap-stock;
 }
 
@@ -44,16 +46,15 @@ select:hover {
   cursor: pointer;
 }
 
+// Dashboard
+
 .dashboard {
   background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
 
-  // position: fixed;
-  // width: 100%;
-  // top: 0;
-  // left: 0;
-  // width: 25rem;
+  position: absolute;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -61,12 +62,24 @@ select:hover {
 }
 
 .ham-button {
+  
+  border: $border-stock;
+  width: fit-content;
+
   button {
     border: $border-stock;
     background: none;
     font-size: $font-size-xxxlarge;
     display: flex;
   }
+}
+
+.button-open {
+  transform: rotate(270deg);
+}
+
+.button-closed {
+  transform: rotate(90deg);
 }
 
 .dashboard-content {
@@ -85,7 +98,8 @@ select:hover {
   background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
-  // width: 75rem;
+  margin-top: 10vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -93,6 +107,7 @@ select:hover {
 @media screen and (max-width: $screen-break-large) {
   main {
     background-color: red;
+    flex-direction: column;
   }
 }
 
@@ -106,5 +121,6 @@ select:hover {
 @media screen and (max-width: $screen-break-small) {
   main {
     background-color: blue;
+    flex-direction: column;
   }
 }
