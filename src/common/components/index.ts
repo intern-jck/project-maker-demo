@@ -1,9 +1,9 @@
-import { Dashboard } from './Dashboard';
+import { FolderList } from './FolderList';
 import { ProjectForm } from './ProjectForm';
 import { ProjectList } from './ProjectList';
 
 export {
-  Dashboard,
+  FolderList,
   ProjectList,
   ProjectForm,
 };

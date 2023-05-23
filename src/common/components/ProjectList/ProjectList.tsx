@@ -1,6 +1,6 @@
 import ProjectButton from './ProjectButton';
 import type { ProjectType } from '@/common/types';
-import styles from '@/styles/components/Projects.module.scss';
+import styles from './ProjectList.module.scss';
 
 type Props = {
   projects: ProjectType[],

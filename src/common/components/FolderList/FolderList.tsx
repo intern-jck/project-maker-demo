@@ -6,7 +6,7 @@ import { CgAddR, CgTrash } from "react-icons/cg";
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 import type { FolderType } from "@/common/types";
-import styles from "@/styles/components/Dashboard.module.scss";
+import styles from "./FolderList.module.scss";
 
 type Props = {
   currentFolder: FolderType;
@@ -17,7 +17,7 @@ type Props = {
   deleteFolder: Function;
 };
 
-export default function DashboardComponent({
+export default function FolderListComponent({
   currentFolder,
   folders,
   createFolder,

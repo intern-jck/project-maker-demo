@@ -63,8 +63,21 @@ select:hover {
   flex-direction: column;
 }
 
-@media screen and (max-width: $screen-break-l) {
-
+@media screen and (max-width: $screen-break-large) {
+  main {
+    background-color: red;
+  }
 }
 
-@media screen and (orientation:portrait) {}
+@media screen and (max-width: $screen-break-medium) {
+  main {
+    background-color: green;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: $screen-break-small) {
+  main {
+    background-color: blue;
+  }
+}

@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Dashboard, ProjectList, ProjectForm } from '@/common/components';
+import { FolderList, ProjectList, ProjectForm } from '@/common/components';
 
 import { FolderType, ProjectType } from '@/common/types';
 import { defaultFolder } from '@/common/defaults';
 import { useFolders, useProjects } from '@/common/hooks';
+
+import { CgChevronRight } from  'react-icons/cg';
+
+import styles from '@/common/components/SidePanel/SidePanel.module.scss';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
@@ -176,6 +180,16 @@ export default function Home({}) {
     setCurrentProject(undefined);
   };
 
+  // function toggelSidePanel(event: React.MouseEvent<HTMLButtonElement>) {
+  //   const navMenu = document.getElementById(styles.sidePanel);
+  //   navMenu ?  navMenu.classList.toggle(styles.showSidePanel) : null;
+  // };
+
+  // function closeSidePanel(event: React.MouseEvent<HTMLAnchorElement>) {
+  //   const navMenu = document.getElementById(styles.sidePanel);
+  //   navMenu ?  navMenu.classList.remove(styles.showSidePanel) : null;
+  // };
+
   if (foldersError) return <div>Failed to fetch folders.</div>
   if (projectsError) return <div>Failed to fetch projjects.</div>
   if (foldersLoading) return <h2>Loading folders...</h2>
@@ -184,9 +198,16 @@ export default function Home({}) {
   return (
     <>
       <div className={"side-panel"}>
+        
+        {/* <div className={styles.hamMenu}>
+          <button onClick={toggleMenu}>
+          <CgChevronRight />
+          </button>
+        </div> */}
+
         {
           folderData ? (
-            <Dashboard
+            <FolderList
               currentFolder={currentFolder}
               folders={folderData}
               createFolder={createFolder}
@@ -209,6 +230,7 @@ export default function Home({}) {
           )
         }
       </div>
+
       <div className={"project-panel"}>
         {
           currentProject ?
