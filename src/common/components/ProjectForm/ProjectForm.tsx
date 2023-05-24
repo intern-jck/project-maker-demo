@@ -244,7 +244,7 @@ export default function ProjectForm({
 
             <div className={styles.formMenu}>
               <h2 className={styles.formName}>NAME: <span>{formData.name}</span></h2>
-              <h2 className={styles.formCollection}>COLLECTION: <span>{formData.folder_name}</span></h2>
+              <h2 className={styles.formCollection}>FOLDER: <span>{formData.folder_name}</span></h2>
 
               <button type='submit'>
                 <MdSave />
@@ -258,57 +258,56 @@ export default function ProjectForm({
             </div>
 
             <div className={styles.formRow}>
+              <TextInput
+                inputName={'name'}
+                value={formData.name}
+                changeHandler={updateTextInput}
+              />
+              <FolderSelect
+                inputName={'folder'}
+                value={formData.folder_id}
+                options={folders}
+                changeHandler={updateFolder}
+              />
+              <TextInput
+                inputName={'url'}
+                value={formData.url}
+                changeHandler={updateTextInput}
+              />
+            </div>
 
-              <div className={styles.formCol}>
-                <TextInput
-                  inputName={'name'}
-                  value={formData.name}
-                  changeHandler={updateTextInput}
-                />
-                <FolderSelect
-                  inputName={'folder'}
-                  value={formData.folder_id}
-                  options={folders}
-                  changeHandler={updateFolder}
-                />
-                <DateInput
-                  className={styles.dateInput}
-                  date={formData.date}
-                  changeHandler={updateDate}
-                />
-              </div>
+            <div className={styles.formRow}>
+              <DateInput
+                className={styles.dateInput}
+                date={formData.date}
+                changeHandler={updateDate}
+              />
+            </div>
 
-              <div className={styles.formCol}>
-                <TextInput
-                  inputName={'client'}
-                  value={formData.client}
-                  changeHandler={updateTextInput}
-                />
-                <TextInput
-                  inputName={'client_url'}
-                  value={formData.client_url}
-                  changeHandler={updateTextInput}
-                />
-                <TextInput
-                  inputName={'url'}
-                  value={formData.url}
-                  changeHandler={updateTextInput}
-                />
-              </div>
+            <div className={styles.formRow}>
+              <TextInput
+                inputName={'client'}
+                value={formData.client}
+                changeHandler={updateTextInput}
+              />
+              <TextInput
+                inputName={'client_url'}
+                value={formData.client_url}
+                changeHandler={updateTextInput}
+              />
+            </div>
 
-              <div className={styles.description}>
-                <TextInput
-                  inputName={'short'}
-                  value={formData.short}
-                  changeHandler={updateTextInput}
-                />
-                <TextArea
-                  inputName={'info'}
-                  value={formData.info}
-                  changeHandler={updateTextInput}
-                />
-              </div>
-
+            <div className={styles.formRow}>
+              <TextInput
+                inputName={'short'}
+                value={formData.short}
+                changeHandler={updateTextInput}
+              />
+              <TextArea
+                inputName={'info'}
+                value={formData.info}
+                changeHandler={updateTextInput}
+              />
             </div>
 
             <div className={styles.formRow}>

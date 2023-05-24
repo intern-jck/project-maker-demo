@@ -100,6 +100,7 @@ export default function FolderListComponent({
 
   return (
     <div className={styles.folderList}>
+      
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
         <TextInput
           inputName={"new-folder"}
@@ -110,6 +111,7 @@ export default function FolderListComponent({
           <CgAddR />
         </button>
       </form>
+
       <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
         <FolderSelect
           inputName={"folders"}
@@ -121,6 +123,7 @@ export default function FolderListComponent({
           <CgTrash />
         </button>
       </form>
+
       <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
         <h1>
           FOLDER: <span>{currentFolder.name}</span>

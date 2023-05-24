@@ -147,6 +147,7 @@ export default function Home({}) {
       const response = await axios.get(`/api/projects/${projectId}`);
       const _project = await response.data;
       setCurrentProject(_project);
+      setShowDashboard(false);
       return true;
     } catch (error) {
       console.error(error)
@@ -212,7 +213,6 @@ export default function Home({}) {
               <FolderList
                 currentFolder={currentFolder}
                 folders={folderData}
-
                 createFolder={createFolder}
                 selectFolder={selectFolder}
                 deleteFolder={deleteFolder}
@@ -227,7 +227,6 @@ export default function Home({}) {
             projects ? (
               <ProjectList
                 projects={projects}
-
                 selectProject={selectProject}
               />
             ) : (

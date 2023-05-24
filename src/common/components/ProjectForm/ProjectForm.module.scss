@@ -1,5 +1,5 @@
 .projectForm {
-  border: $border-thin;
+  border: $border-stock;
   padding: $padding-stock;
   display: flex;
   flex-direction: column;
@@ -55,7 +55,7 @@
       }
 
       select {
-        width: 8rem;
+        width: 10rem;
       }
     }
   }
@@ -100,6 +100,7 @@
   }
 
   .formRow {
+    border: $border-thin;
     display: flex;
     flex-wrap: wrap;
     gap: $gap-stock;
@@ -116,7 +117,7 @@
   .description {
     border: $border-thin;
     padding: $padding-stock;
-    width: 40rem;
+    width: 50%;
     display: flex;
     flex-direction: column;
 
@@ -312,6 +313,24 @@
   }
 }
 
-@media screen and (orientation:landscape) and (max-width: 1024px) {}
+@media screen and (max-width: $screen-break-large) {
+  .formRow {
+    flex-direction: column;
+  }
 
-@media screen and (orientation:portrait) {}
+  .description {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $screen-break-medium) {
+  .formRow {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: $screen-break-small) {
+  .formRow {
+    flex-direction: column;
+  }
+}

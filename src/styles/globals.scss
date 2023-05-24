@@ -96,8 +96,8 @@ select:hover {
 
 .project-panel {
   background-color: $color-panel-background;
-  border: $border-stock;
-  padding: $padding-thin;
+  // border: $border-stock;
+  // padding: $padding-thin;
   margin-top: 10vh;
   width: 100%;
   display: flex;
@@ -106,21 +106,18 @@ select:hover {
 
 @media screen and (max-width: $screen-break-large) {
   main {
-    background-color: red;
     flex-direction: column;
   }
 }
 
 @media screen and (max-width: $screen-break-medium) {
   main {
-    background-color: green;
     flex-direction: column;
   }
 }
 
 @media screen and (max-width: $screen-break-small) {
   main {
-    background-color: blue;
     flex-direction: column;
   }
 }
