@@ -23,9 +23,7 @@ body {
 
 main {
   background-color: $color-background;
-  // width: 100%;
   height: 100%;
-  // padding: 10px;
   display: flex;
   flex-direction: column;
   gap: $gap-stock;
@@ -92,15 +90,10 @@ select:hover {
 .show-dashboard {
   display: flex;
   flex-direction: column;
-  // margin-top: $margin-xlarge;
-  // gap: $gap-stock;
 }
 
 .project-panel {
   background-color: $color-panel-background;
-  // border: $border-stock;
-  // padding: $padding-thin;
-  // margin-top: 10vh;
   width: 100%;
   display: flex;
   flex-direction: column;
