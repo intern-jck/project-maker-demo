@@ -257,26 +257,44 @@ export default function ProjectForm({
               </button>
             </div>
 
-            <div className={styles.formRow}>
+            <div className={styles.formBlock}>
               <TextInput
                 inputName={'name'}
+                className={styles.name}
                 value={formData.name}
                 changeHandler={updateTextInput}
               />
               <FolderSelect
                 inputName={'folder'}
+                className={styles.folder}
                 value={formData.folder_id}
                 options={folders}
                 changeHandler={updateFolder}
               />
               <TextInput
                 inputName={'url'}
+                className={styles.url}
                 value={formData.url}
                 changeHandler={updateTextInput}
               />
             </div>
 
-            <div className={styles.formRow}>
+            <div className={styles.formBlock}>
+              <TextInput
+                inputName={'client'}
+                className={styles.client}
+                value={formData.client}
+                changeHandler={updateTextInput}
+              />
+              <TextInput
+                inputName={'client_url'}
+                className={styles.clientUrl}
+                value={formData.client_url}
+                changeHandler={updateTextInput}
+              />
+            </div>
+
+            <div className={styles.formBlock}>
               <DateInput
                 className={styles.dateInput}
                 date={formData.date}
@@ -284,36 +302,25 @@ export default function ProjectForm({
               />
             </div>
 
-            <div className={styles.formRow}>
-              <TextInput
-                inputName={'client'}
-                value={formData.client}
-                changeHandler={updateTextInput}
-              />
-              <TextInput
-                inputName={'client_url'}
-                value={formData.client_url}
-                changeHandler={updateTextInput}
-              />
-            </div>
-
-            <div className={styles.formRow}>
+            <div className={styles.formBlock}>
               <TextInput
                 inputName={'short'}
+                className={styles.short}
                 value={formData.short}
                 changeHandler={updateTextInput}
               />
               <TextArea
                 inputName={'info'}
+                className={styles.info}
                 value={formData.info}
                 changeHandler={updateTextInput}
               />
             </div>
 
-            <div className={styles.formRow}>
+            <div className={styles.formBlock}>
               <PhotoInput
-                className={styles.photoInput}
                 inputName={'photos'}
+                className={styles.photoInput}
                 value={newPhoto}
                 photos={formData.photos}
                 changeHandler={updatePhoto}
@@ -321,8 +328,8 @@ export default function ProjectForm({
                 deleteHandler={deletePhoto}
               />
               <TagInput
-                className={styles.tagInput}
                 inputName={'tags'}
+                className={styles.tagInput}
                 value={newTag}
                 tags={formData.tech}
                 changeHandler={updateTag}
@@ -330,8 +337,8 @@ export default function ProjectForm({
                 deleteHandler={deleteTag}
               />
               <RepoInput
-                className={styles.repoInput}
                 inputName={'repos'}
+                className={styles.repoInput}
                 value={newRepo}
                 repos={formData.repos}
                 changeHandler={updateRepo}
