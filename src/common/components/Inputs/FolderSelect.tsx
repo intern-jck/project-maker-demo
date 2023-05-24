@@ -2,20 +2,22 @@ import { FolderType } from '@/common/types';
 
 type Props = {
   inputName: string,
+  className: string,
   value: string,
   options: FolderType[],
   changeHandler: React.ChangeEventHandler,
 };
 
 export default function Select({ 
-  inputName, 
-  value, 
-  options, 
-  changeHandler 
+  inputName,
+  className,
+  value,
+  options,
+  changeHandler
 }: Props) {
 
   return (
-    <>
+    <div className={className}>
       <label htmlFor={inputName}>
         {inputName ? inputName.toUpperCase() : ''}
       </label>
@@ -31,6 +33,6 @@ export default function Select({
           ))
         }
       </select>
-    </>
+    </div>
   );
 };

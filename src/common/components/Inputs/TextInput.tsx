@@ -1,16 +1,18 @@
 type Props = {
   inputName?: string,
+  className?: string,
   value: string,
   changeHandler: React.ChangeEventHandler,
 };
 
 export default function TextInput({ 
-  inputName, 
+  inputName,
+  className,
   value, 
   changeHandler 
 }: Props) {
   return (
-    <>
+    <div className={className}>
       <label htmlFor={inputName}>
         {inputName ? inputName.toUpperCase() : ''}
       </label>
@@ -21,6 +23,6 @@ export default function TextInput({
         placeholder={inputName}
         onChange={changeHandler}
       />
-    </>
+    </div>
   );
 };

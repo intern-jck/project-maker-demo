@@ -23,9 +23,11 @@ body {
 
 main {
   background-color: $color-background;
+  // width: 100%;
   height: 100%;
-  padding: 10px;
+  // padding: 10px;
   display: flex;
+  flex-direction: column;
   gap: $gap-stock;
 }
 
@@ -33,6 +35,7 @@ button {
   border: none;
   padding: 0;
   display: flex;
+  background: none;
 
   svg {
     pointer-events: none;
@@ -42,29 +45,81 @@ button {
 button:hover,
 select:hover {
   cursor: pointer;
+  color: $color-active;
 }
 
-.side-panel {
+// Dashboard
+
+.dashboard {
   background-color: $color-panel-background;
   border: $border-stock;
   padding: $padding-thin;
-  width: 25rem;
+
+  position: absolute;
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   gap: $gap-thin;
 }
 
+.ham-button {
+  
+  border: $border-stock;
+  width: fit-content;
+
+  button {
+    border: $border-stock;
+    background: none;
+    font-size: $font-size-xxxlarge;
+    display: flex;
+  }
+}
+
+.button-open {
+  transform: rotate(270deg);
+}
+
+.button-closed {
+  transform: rotate(90deg);
+}
+
+.dashboard-content {
+  display: none;
+  flex-direction: column;
+}
+
+.show-dashboard {
+  display: flex;
+  flex-direction: column;
+  // margin-top: $margin-xlarge;
+  // gap: $gap-stock;
+}
+
 .project-panel {
   background-color: $color-panel-background;
-  border: $border-stock;
-  padding: $padding-thin;
-  width: 75rem;
+  // border: $border-stock;
+  // padding: $padding-thin;
+  // margin-top: 10vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-@media screen and (max-width: $screen-break-l) {
-
+@media screen and (max-width: $screen-break-large) {
+  main {
+    flex-direction: column;
+  }
 }
 
-@media screen and (orientation:portrait) {}
+@media screen and (max-width: $screen-break-medium) {
+  main {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: $screen-break-small) {
+  main {
+    flex-direction: column;
+  }
+}

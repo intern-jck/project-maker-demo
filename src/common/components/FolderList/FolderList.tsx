@@ -6,7 +6,7 @@ import { CgAddR, CgTrash } from "react-icons/cg";
 import { GoFileMedia, GoDesktopDownload } from "react-icons/go";
 
 import type { FolderType } from "@/common/types";
-import styles from "@/styles/components/Dashboard.module.scss";
+import styles from "./FolderList.module.scss";
 
 type Props = {
   currentFolder: FolderType;
@@ -17,7 +17,7 @@ type Props = {
   deleteFolder: Function;
 };
 
-export default function DashboardComponent({
+export default function FolderListComponent({
   currentFolder,
   folders,
   createFolder,
@@ -99,7 +99,8 @@ export default function DashboardComponent({
   };
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.folderList}>
+      
       <form className={styles.newFolderForm} onSubmit={createFolderHandler}>
         <TextInput
           inputName={"new-folder"}
@@ -110,6 +111,7 @@ export default function DashboardComponent({
           <CgAddR />
         </button>
       </form>
+
       <form className={styles.selectFolderForm} onSubmit={deleteFolderHandler}>
         <FolderSelect
           inputName={"folders"}
@@ -121,10 +123,8 @@ export default function DashboardComponent({
           <CgTrash />
         </button>
       </form>
-      <form
-        className={styles.createProjectForm}
-        onSubmit={createProjectHandler}
-      >
+
+      <form className={styles.createProjectForm} onSubmit={createProjectHandler}>
         <h1>
           FOLDER: <span>{currentFolder.name}</span>
         </h1>

@@ -1,13 +1,13 @@
 type Props = {
-  className?: string,
   inputName?: string,
+  className?: string,
   value: string,
   changeHandler: React.ChangeEventHandler,
 };
 
 export default function TextArea({ className, inputName, value, changeHandler }: Props) {
   return (
-    <label className={className}>
+    <div className={className}>
       <label htmlFor={inputName}>
         {inputName ? inputName.toUpperCase() : ''}
       </label>
@@ -16,6 +16,6 @@ export default function TextArea({ className, inputName, value, changeHandler }:
         value={value}
         onChange={changeHandler}
       />
-    </label>
+    </div>
   );
 };

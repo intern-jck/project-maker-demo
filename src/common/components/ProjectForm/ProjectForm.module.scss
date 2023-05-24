@@ -1,24 +1,15 @@
 .projectForm {
-  border: $border-thin;
+  border: $border-stock;
   padding: $padding-stock;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: $gap-thick;
   overflow-y: scroll;
 
   label {
     font-size: $font-size-large;
-    display: flex;
     font-weight: bold;
-    flex-direction: column;
-  }
-
-  button {
-    background: none;
-  }
-
-  button:hover {
-    color: $color-active;
   }
 
   input,
@@ -42,27 +33,10 @@
     outline: none;
   }
 
-  .dateInput {
-    display: flex;
-    flex-direction: column;
-
-    div {
-      display: flex;
-      gap: $gap-stock;
-
-      label {
-        display: none;
-      }
-
-      select {
-        width: 8rem;
-      }
-    }
-  }
-
   .formMenu {
     border: $border-thin;
     padding: $padding-thin;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -99,31 +73,53 @@
 
   }
 
-  .formRow {
+  
+  .formBlock {
     display: flex;
     flex-wrap: wrap;
     gap: $gap-stock;
   }
 
-  .formCol {
-    border: $border-thin;
-    padding: $padding-stock;
+  // Inputs
+  .name,
+  .folder,
+  .url,
+  .client,
+  .clientUrl {
+    display: flex;
+    flex-direction: column;
+    min-width: 20rem;
+  }
+
+  .dateInput {
     display: flex;
     flex-direction: column;
     gap: $gap-stock;
+
+    div {
+      display: flex;
+      gap: $gap-stock;
+
+      label {
+        display: none;
+      }
+
+      select {
+        width: 10rem;
+      }
+    }
   }
 
-  .description {
-    border: $border-thin;
-    padding: $padding-stock;
-    width: 40rem;
+  .short {
     display: flex;
     flex-direction: column;
 
-    input {
-      width: 100%;
-      margin-bottom: $margin-thick;
-    }
+  }
+
+  .info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
     textarea {
       height: 16rem;
@@ -312,6 +308,45 @@
   }
 }
 
-@media screen and (orientation:landscape) and (max-width: 1024px) {}
+@media screen and (max-width: $screen-break-large) {
+  .formRow {
+    flex-direction: column;
+    width: 100%;
+  }
 
-@media screen and (orientation:portrait) {}
+  .info, .short {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $screen-break-medium) {
+  .formRow {
+    flex-direction: column;
+    width: 100%;
+  }
+  .info, .short {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $screen-break-small) {
+  .formRow {
+    flex-direction: column;
+    width: 100%;
+  }
+  .info, .short {
+    width: 100%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .projectForm {
+    margin-top: 10vh;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .projectForm {
+    margin-top: 10vh;
+  }
+}

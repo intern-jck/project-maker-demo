@@ -4,7 +4,9 @@
   height: 100%;
   overflow-y: scroll;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
   align-items: center;
   gap: $gap-thin;
 
@@ -25,7 +27,7 @@
     border-radius: $border-radius-stock;
     padding: $padding-thin;
     padding-left: $padding-thin;
-    width: 90%;
+    width: 20rem;
     font-size: $font-size-large;
     
     span {

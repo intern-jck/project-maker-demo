@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Dashboard, ProjectList, ProjectForm } from '@/common/components';
+import { FolderList, ProjectList, ProjectForm } from '@/common/components';
 
 import { FolderType, ProjectType } from '@/common/types';
 import { defaultFolder } from '@/common/defaults';
 import { useFolders, useProjects } from '@/common/hooks';
+
+import { CgChevronRight } from  'react-icons/cg';
 
 const FOLDER_LIMIT = 5;
 const PROJECT_LIMIT = 20;
@@ -17,6 +19,9 @@ export default function Home({}) {
 
   const [ currentFolder, setCurrentFolder ] = useState<FolderType>(defaultFolder);
   const [ currentProject, setCurrentProject ] = useState<ProjectType | undefined>();
+
+  const [ showDashboard, setShowDashboard ] = useState<Boolean>(false);
+
   const [ projects, setProjects ] = useState<Array<ProjectType>>();
 
   useEffect(() => {
@@ -24,6 +29,8 @@ export default function Home({}) {
       setProjects(projectsData)
     }
   }, [projectsData]);
+
+  // Dashboard
 
   // FOLDERS FUNCTIONS
   async function getFolders() {
@@ -140,6 +147,7 @@ export default function Home({}) {
       const response = await axios.get(`/api/projects/${projectId}`);
       const _project = await response.data;
       setCurrentProject(_project);
+      setShowDashboard(false);
       return true;
     } catch (error) {
       console.error(error)
@@ -147,6 +155,14 @@ export default function Home({}) {
     }
   };
 
+  function toggleDashboard(event: React.MouseEvent<HTMLButtonElement>) {
+    setShowDashboard(!showDashboard);
+  };
+
+
+  // Project Form
+
+  // PROJECT FORM FUNCTIONS
   async function saveProject(projectData: ProjectType) {
     try {
       const response = await axios.put('/api/projects', { doc: projectData });
@@ -183,33 +199,44 @@ export default function Home({}) {
 
   return (
     <>
-      <div className={"side-panel"}>
-        {
-          folderData ? (
-            <Dashboard
-              currentFolder={currentFolder}
-              folders={folderData}
-              createFolder={createFolder}
-              selectFolder={selectFolder}
-              deleteFolder={deleteFolder}
-              createProject={createProject}
-            />
-          ) : (
-            <></>
-          )
-        }
-        {
-          projects ? (
-            <ProjectList
-              projects={projects}
-              selectProject={selectProject}
-            />
-          ) : (
-            <></>
-          )
-        }
+      <div className={`dashboard`} >
+
+        <div className={`ham-button ${showDashboard ? 'button-open' : 'button-closed'}`}>
+          <button onClick={toggleDashboard}>
+            <CgChevronRight />
+          </button>
+        </div>
+
+        <div id={'dashboard-content'} className={`dashboard-content  ${showDashboard ? 'show-dashboard' : ''}`}>
+          {
+            folderData ? (
+              <FolderList
+                currentFolder={currentFolder}
+                folders={folderData}
+                createFolder={createFolder}
+                selectFolder={selectFolder}
+                deleteFolder={deleteFolder}
+                createProject={createProject}
+              />
+            ) : (
+              <></>
+            )
+          }
+
+          {
+            projects ? (
+              <ProjectList
+                projects={projects}
+                selectProject={selectProject}
+              />
+            ) : (
+              <></>
+            )
+          }
+        </div>
       </div>
-      <div className={"project-panel"}>
+
+      <div className={'project-panel'}>
         {
           currentProject ?
           <ProjectForm 
